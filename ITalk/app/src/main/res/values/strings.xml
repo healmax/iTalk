@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ITalk</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_add_friend">AddFriendActivity</string>
+    <string name="my_id">我的id</string>
+    <string name="login">登入</string>
+    <string name="register">註冊</string>
+    <string name="login_id">id</string>
+    <string name="login_name">name</string>
+    <string name="title_activity_login">LoginActivity</string>
+</resources>
