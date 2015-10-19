@@ -10,4 +10,8 @@
     <string name="login_id">id</string>
     <string name="login_name">name</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_test">Test</string>
+
+    <string name="main_friendsfragment_friend">好友</string>
+    <string name="main_talkfragment_talk">聊天</string>
 </resources>

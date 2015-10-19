@@ -36,7 +36,7 @@ public class ITalkUtil {
 
             String id = params[0];
             String pw = params[1];
-            result = ITalkAPI.register(id, pw);
+            result = ITalkAPI.signIn(id, pw);
             return null;
         }
 
