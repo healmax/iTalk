@@ -7,8 +7,8 @@
     <string name="my_id">我的id</string>
     <string name="login">登入</string>
     <string name="register">註冊</string>
-    <string name="login_id">id</string>
-    <string name="login_name">name</string>
+    <string name="login_id">id : </string>
+    <string name="login_name">pw : </string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_test">Test</string>
 
