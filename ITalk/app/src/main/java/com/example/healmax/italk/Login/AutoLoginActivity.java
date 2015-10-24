@@ -36,10 +36,8 @@ public class AutoLoginActivity extends AppCompatActivity implements LoginInfoInt
     };
 
     private void autoLogin() {
-        ITalkUtil.UserLoginAsyncTask loginAsyncTask = new ITalkUtil().new UserLoginAsyncTask(getApplicationContext(), this);
-        String id = "jh193";
-        String pw = "1234333";
-        loginAsyncTask.execute(id, pw);
+        ITalkUtil.LoginAsyncTask loginAsyncTask = new ITalkUtil().new LoginAsyncTask(getApplicationContext(), this, true);
+        loginAsyncTask.execute();
     }
 
 
@@ -51,7 +49,7 @@ public class AutoLoginActivity extends AppCompatActivity implements LoginInfoInt
     }
 
     @Override
-    public void showLoginError() {
+    public void showLoginError(String Message) {
         Intent intent = new Intent();
         intent.setClass(AutoLoginActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

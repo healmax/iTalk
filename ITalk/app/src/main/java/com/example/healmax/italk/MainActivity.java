@@ -1,7 +1,9 @@
 package com.example.healmax.italk;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.healmax.italk.API.ITalkAPI;
+import com.example.healmax.italk.DataBase.ITalkDB;
+import com.example.healmax.italk.DataBase.ITalkProvider;
 import com.example.healmax.italk.Fragment.MainFriendsFragment;
 import com.example.healmax.italk.Fragment.MainTalkFragment;
 
@@ -48,8 +52,17 @@ public class MainActivity extends AppCompatActivity {
                 ,MainFriendsFragment.class,null);
 
         mTabHost.addTab(mTabHost.newTabSpec("two")
-                .setIndicator(getResources().getString(R.string.main_talkfragment_talk),null)
-                ,MainTalkFragment.class,null);
+                .setIndicator(getResources().getString(R.string.main_talkfragment_talk), null)
+                , MainTalkFragment.class, null);
+
+        ContentValues values = new ContentValues();
+        values.put(ITalkDB.FIELD_f_id, "zzzzz");
+        values.put(ITalkDB.FIELD_f_name, "fffff");
+
+        getContentResolver().insert(ITalkProvider.uriFriend, values);
+        Cursor cursor = getContentResolver().query(ITalkProvider.uriFriend, null, null, null, null);
+        if (cursor.getCount() > 0) {
+        }
     }
 
     @Override

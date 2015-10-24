@@ -5,6 +5,6 @@ package com.example.healmax.italk.Util;
  */
 public interface LoginInfoInterface {
     void loginSuccess(String test);
-    void showLoginError();
+    void showLoginError(String message);
 
 }

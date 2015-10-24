@@ -116,7 +116,7 @@ public class ITalkAPI {
 
             // get response
             conn.connect();
-            String response = "";
+//            String response = "";
             InputStream is = conn.getInputStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String line;
