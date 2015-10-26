@@ -34,6 +34,10 @@ public class ITalkUtil {
 
     private static String token;
 
+    static public String getToken() {
+        return token;
+    }
+
     public class LoginAsyncTask extends AsyncTask<String, Void, Void> {
 
         String result;
@@ -104,15 +108,15 @@ public class ITalkUtil {
     public class RegisterAsyncTask extends AsyncTask<String, Void, Void> {
 
         String result;
-        LoginInfoInterface loginInfoInterface;
+        RegisterInfoInterface registerInfoInterface;
         Context context;
 
         String id;
         String pw;
 
-        public RegisterAsyncTask(Context context, LoginInfoInterface loginInfoInterface, String id, String pw) {
+        public RegisterAsyncTask(Context context, RegisterInfoInterface registerInfoInterface, String id, String pw) {
             this.context = context;
-            this.loginInfoInterface = loginInfoInterface;
+            this.registerInfoInterface = registerInfoInterface;
             this.id = id;
             this.pw = pw;
         }
@@ -149,12 +153,12 @@ public class ITalkUtil {
 
                 if(success.toLowerCase().equals("true")) {
                     ITalkUtil.saveUserInfo(this.context, id, pw);
-                    this.loginInfoInterface.loginSuccess("test");
+                    this.registerInfoInterface.registerSuccess("test");
                 } else {
-                    loginInfoInterface.showLoginError(message);
+                    registerInfoInterface.showRegisterError(message);
                 }
             } else {
-                loginInfoInterface.showLoginError(message);
+                registerInfoInterface.showRegisterError(message);
             }
         }
     }
@@ -182,5 +186,35 @@ public class ITalkUtil {
         }
 
         return userInfo;
+    }
+
+    public class CheckFriendAsyncTask extends AsyncTask<String, Void, Void> {
+
+        String result;
+        Context context;
+
+        public CheckFriendAsyncTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            String id;
+            id = params[0];
+
+            result = ITalkAPI.checkFriend(id);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+        }
     }
 }

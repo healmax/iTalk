@@ -55,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
                 .setIndicator(getResources().getString(R.string.main_talkfragment_talk), null)
                 , MainTalkFragment.class, null);
 
-        ContentValues values = new ContentValues();
-        values.put(ITalkDB.FIELD_f_id, "zzzzz");
-        values.put(ITalkDB.FIELD_f_name, "fffff");
-
-        getContentResolver().insert(ITalkProvider.uriFriend, values);
-        Cursor cursor = getContentResolver().query(ITalkProvider.uriFriend, null, null, null, null);
-        if (cursor.getCount() > 0) {
-        }
+//        ContentValues values = new ContentValues();
+//        values.put(ITalkDB.FIELD_f_id, "zzzzz");
+//        values.put(ITalkDB.FIELD_f_name, "fffff");
+//
+//        getContentResolver().insert(ITalkProvider.uriFriend, values);
+//        Cursor cursor = getContentResolver().query(ITalkProvider.uriFriend, null, null, null, null);
+//        if (cursor.getCount() > 0) {
+//        }
     }
 
     @Override

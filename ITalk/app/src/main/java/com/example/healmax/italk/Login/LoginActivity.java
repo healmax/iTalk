@@ -13,8 +13,9 @@ import com.example.healmax.italk.MainActivity;
 import com.example.healmax.italk.R;
 import com.example.healmax.italk.Util.ITalkUtil;
 import com.example.healmax.italk.Util.LoginInfoInterface;
+import com.example.healmax.italk.Util.RegisterInfoInterface;
 
-public class LoginActivity extends AppCompatActivity implements LoginInfoInterface{
+public class LoginActivity extends AppCompatActivity implements LoginInfoInterface, RegisterInfoInterface{
 
     EditText editId;
     EditText editName;
@@ -69,6 +70,17 @@ public class LoginActivity extends AppCompatActivity implements LoginInfoInterfa
 
     @Override
     public void showLoginError(String message) {
+
+    }
+
+    @Override
+    public void registerSuccess(String test) {
+        ITalkUtil.LoginAsyncTask loginAsyncTask = new ITalkUtil(). new LoginAsyncTask(getApplicationContext(), LoginActivity.this, true);
+        loginAsyncTask.execute();
+    }
+
+    @Override
+    public void showRegisterError(String message) {
 
     }
 }

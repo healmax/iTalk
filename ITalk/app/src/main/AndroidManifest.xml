@@ -37,7 +37,7 @@
         </activity>
 
         <provider
-            android:name="com.example.healmax.italk.DataBase.ITalkProvider"
+            android:name=".DataBase.ITalkProvider"
             android:authorities="com.example.healmax.italk" >
             android:enabled="true"
             android:exported="true"
@@ -45,6 +45,7 @@
             android:screenOrientation="portrait" >
             <grant-uri-permission android:pathPattern="/Friend/" />
         </provider>
+
     </application>
 
 </manifest>
