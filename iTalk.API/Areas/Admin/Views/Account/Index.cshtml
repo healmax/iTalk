@@ -1,0 +1,22 @@
+﻿@using iTalk.DAO
+@model IEnumerable<iTalkUser>
+
+@{
+    ViewBag.Title = "所有使用者";
+}
+
+<table>
+    <thead>
+        <tr>
+            <td>使用者</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (iTalkUser user in this.Model) {
+            <tr>
+                <td>@user.UserName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

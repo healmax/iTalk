@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "首頁";
+}
+
+<div class="full" style="border-right: 1px solid #ddd; padding-right: 10px; min-width: 150px; max-width: 300px; overflow: auto">
+    <div class="input-group">
+        <input id="friendToAdd" class="form-control" placeholder="名稱" />
+        <span class="input-group-btn">
+            <input id="addFriend" class="btn btn-default" type="submit" value="加入" />
+        </span>
+    </div>
+    <br />
+    <ul id="friend-list" class="nav nav-pills nav-stacked"></ul>
+</div>
+<div class="">
+    <div>
+        <ol id="content-list"></ol>
+    </div>
+    <div class="affix">
+        <div class="container">
+            <form class="input-group">
+                <input id="input" class="form-control" />
+                <span class="input-group-btn">
+                    <input id="addFriend" type="submit" class="btn btn-primary" value="送出" />
+                </span>
+            </form>
+        </div>
+    </div>
+</div>
+@*<div id="addFriendModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">加入好友</h4>
+                </div>
+                <div class="modal-body" style="min-height: 500px">
+                    <div class="form-inline">
+                        <div class="input-group">
+                            <input id="searchString" class="form-control" placeholder="朋友名稱" />
+                            <span class="input-group-btn">
+                                <input id="searchUser" type="submit" class="btn btn-primary" value="搜尋" style="margin-left: 5px" />
+                            </span>
+                        </div>
+                        <ul id="user-list" class="list-unstyled"></ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->*@
+@section scripts{
+    <script type="text/javascript">
+        $.getJSON("/Relationship")
+            .success(function (friends) {
+                $.each(friends, function (i, firendName) {
+                    $("#friend-list").append("<li><a href='javascript:;'>" + firendName + "</a></li>");
+                });
+            });
+
+        $("#addFriend").click(function (e) {
+            //e.preventDefault();
+            var username = $("#friendToAdd").val();
+
+            if (!username) {
+                return;
+            }
+
+            $.post("/Relationship", { "friendName": username })
+            .success(function (result) {
+                if (result.success) {
+                    $("#friend-list").append("<li><a href='javascript:;'>" + username + "</a></li>");
+                }
+                else {
+                    alert(result.message);
+                }
+            })
+            .fail(function (msg) {
+                alert(msg.responseText);
+            });
+        });
+
+        //$("#searchUser").click(function () {
+        //    $.getJSON("/Relationship")
+        //        .success(function (users) {
+        //            $.each(users, function (i, u) {
+        //                $("#user-list").append($("<li>")
+        //                    .append($("<label>").val(u.username))
+        //                    .append($("<a>").attr("href", "javascript:;")));
+        //            });
+        //        })
+        //        .fail(function () {
+        //            alert("有問題...");
+        //        })
+        //});
+
+        function afterSend() {
+            $("content-list").append($("<li>").val($("#input").val()));
+            $("#input").val("");
+            alert("success");
+        }
+    </script>
+}
+
