@@ -10,7 +10,7 @@ public class ReturnMessage<T> {
     private T date;
 
     public ReturnMessage() {
-
+        super();
     }
 
     public ReturnMessage(Integer status, String message) {

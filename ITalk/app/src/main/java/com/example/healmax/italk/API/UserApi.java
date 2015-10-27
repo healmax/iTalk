@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.example.healmax.italk.Model.HttpResponseResult;
 import com.example.healmax.italk.Model.ReturnMessage;
+import com.example.healmax.italk.Model.User;
 import com.example.healmax.italk.Util.HttpUtil;
 
 import org.json.JSONObject;
@@ -33,8 +34,9 @@ public class UserApi extends BaseApi{
     public  static final String HAS_BEEN_LOGIN    = "hasBeenLogin";
 
 
-    public ReturnMessage login(String id, String pw) {
+    public ReturnMessage<User> login(String id, String pw) {
         ContentValues values = new ContentValues();
+        values.put("grant_type", "password");
         values.put("username", id);
         values.put("password", pw);
 
@@ -44,11 +46,17 @@ public class UserApi extends BaseApi{
             return new ReturnMessage(-1, result.getContent());
         }
 
-        ReturnMessage message = new ReturnMessage();
-        
+        ReturnMessage<User> message = null;
+
         try {
+            User user = new User();
             JSONObject jsonObject = new JSONObject(result.getContent());
-            message = prepareRespone(jsonObject);
+            message = prepareResponeFromLogin(jsonObject);
+            if (message.getStatus() == 0) {
+                user.setId(jsonObject.optString("id"));
+                user.setToken(jsonObject.optString("access_token"));
+                message.setDate(user);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             return new ReturnMessage(new Integer(-1), ex.getMessage());
@@ -57,7 +65,7 @@ public class UserApi extends BaseApi{
         return message;
     }
 
-    public ReturnMessage autoLogin(Context context) {
+    public ReturnMessage<User> autoLogin(Context context) {
 
         Map<String, String> userInfo = UserApi.getUserInfo(context);
         String id;
@@ -66,6 +74,7 @@ public class UserApi extends BaseApi{
         pw = userInfo.get(UserApi.USER_PW);
 
         ContentValues values = new ContentValues();
+        values.put("grant_type", "password");
         values.put("username", id);
         values.put("password", pw);
 
@@ -78,8 +87,14 @@ public class UserApi extends BaseApi{
         ReturnMessage message = new ReturnMessage();
 
         try {
+            User user = new User();
             JSONObject jsonObject = new JSONObject(result.getContent());
-            message = prepareRespone(jsonObject);
+            message = prepareResponeFromLogin(jsonObject);
+            if (message.getStatus() == 0) {
+                user.setId(jsonObject.optString("id"));
+                user.setToken(jsonObject.optString("access_token"));
+                message.setDate(user);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             return new ReturnMessage(new Integer(-1), ex.getMessage());
@@ -106,7 +121,7 @@ public class UserApi extends BaseApi{
 
             message = prepareRespone(jsonObject);
 
-            if (message.getStatus() == 200) {
+            if (message.getStatus() == 0) {
                 UserApi.saveUserInfo(context, id, pw);
             }
         } catch (Exception ex) {
@@ -124,8 +139,8 @@ public class UserApi extends BaseApi{
 
         boolean hasBeenLoing = loginPrefs.getBoolean(UserApi.HAS_BEEN_LOGIN, false);
         if(hasBeenLoing) {
-            userInfo.put(UserApi.USER_ID, loginPrefs.getString(UserApi.USER_ID, null));
-            userInfo.put(UserApi.USER_PW, loginPrefs.getString(UserApi.USER_PW, null));
+            userInfo.put(UserApi.USER_ID, loginPrefs.getString(UserApi.USER_ID, ""));
+            userInfo.put(UserApi.USER_PW, loginPrefs.getString(UserApi.USER_PW, ""));
         }
 
         return userInfo;

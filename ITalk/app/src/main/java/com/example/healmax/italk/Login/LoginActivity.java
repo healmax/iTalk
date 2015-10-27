@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.example.healmax.italk.MainActivity;
 import com.example.healmax.italk.R;
+import com.example.healmax.italk.Service.LoginService;
 import com.example.healmax.italk.Util.ITalkUtil;
 import com.example.healmax.italk.Util.LoginInfoInterface;
 import com.example.healmax.italk.Util.RegisterInfoInterface;
@@ -45,8 +46,8 @@ public class LoginActivity extends AppCompatActivity implements LoginInfoInterfa
             public void onClick(View v) {
                 String id = LoginActivity.this.editId.getText().toString();
                 String pw = LoginActivity.this.editName.getText().toString();
-                ITalkUtil.LoginAsyncTask loginAsyncTask = new ITalkUtil(). new LoginAsyncTask(getApplicationContext(), LoginActivity.this, false);
-                loginAsyncTask.execute(id, pw);
+                LoginService.LoginAsyncTask autoLoginAsyncTask = LoginService.getInstance(). new LoginAsyncTask(LoginActivity.this);
+                autoLoginAsyncTask.execute(id, pw);
             }
         });
 
@@ -55,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInfoInterfa
             public void onClick(View v) {
                 String id = LoginActivity.this.editId.getText().toString();
                 String pw = LoginActivity.this.editName.getText().toString();
-                ITalkUtil.RegisterAsyncTask registerAsyncTask = new ITalkUtil(). new RegisterAsyncTask(getApplicationContext(), LoginActivity.this, id, pw);
+                LoginService.RegisterAsyncTask registerAsyncTask = LoginService.getInstance(). new RegisterAsyncTask(getApplicationContext(), LoginActivity.this);
                 registerAsyncTask.execute(id, pw);
             }
         });

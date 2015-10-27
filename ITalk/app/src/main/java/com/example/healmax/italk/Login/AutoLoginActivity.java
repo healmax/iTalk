@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.example.healmax.italk.MainActivity;
 import com.example.healmax.italk.R;
+import com.example.healmax.italk.Service.LoginService;
 import com.example.healmax.italk.Util.ITalkUtil;
 import com.example.healmax.italk.Util.LoginInfoInterface;
 
@@ -36,8 +37,10 @@ public class AutoLoginActivity extends AppCompatActivity implements LoginInfoInt
     };
 
     private void autoLogin() {
-        ITalkUtil.LoginAsyncTask loginAsyncTask = new ITalkUtil().new LoginAsyncTask(getApplicationContext(), this, true);
-        loginAsyncTask.execute();
+//        ITalkUtil.LoginAsyncTask loginAsyncTask = new ITalkUtil().new LoginAsyncTask(getApplicationContext(), this, true);
+//        loginAsyncTask.execute();
+        LoginService.AutoLoginAsyncTask autoLoginAsyncTask = LoginService.getInstance(). new AutoLoginAsyncTask(getApplicationContext(), this);
+        autoLoginAsyncTask.execute();
     }
 
 

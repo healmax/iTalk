@@ -13,8 +13,25 @@ public class BaseApi {
 
         ReturnMessage<T> message = new ReturnMessage<>();
         try {
-            message.setStatus(obj.getInt("status"));
-            message.setMessage(obj.getString("Message"));
+            message.setMessage(obj.optString("Message"));
+            if (obj.optString("Success").toLowerCase().equals("true")) {
+                message.setStatus(0);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            message.setStatus(new Integer(-1));
+            message.setMessage(ex.getMessage());
+        }
+        return message;
+    }
+
+    protected <T> ReturnMessage<T> prepareResponeFromLogin(JSONObject obj) {
+
+        ReturnMessage<T> message = new ReturnMessage<>();
+        try {
+            if (obj.has("access_token")) {
+                message.setStatus(0);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             message.setStatus(new Integer(-1));
