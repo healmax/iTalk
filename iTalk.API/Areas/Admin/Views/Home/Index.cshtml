@@ -54,8 +54,8 @@
 @section scripts{
     <script type="text/javascript">
         $.getJSON("/Relationship")
-            .success(function (friends) {
-                $.each(friends, function (i, firendName) {
+            .success(function (data) {
+                $.each(data.friends, function (i, firendName) {
                     $("#friend-list").append("<li><a href='javascript:;'>" + firendName + "</a></li>");
                 });
             });

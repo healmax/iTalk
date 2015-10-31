@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 
 namespace iTalk.API.Controllers {
     /// <summary>
@@ -23,11 +24,11 @@ namespace iTalk.API.Controllers {
             string id = this.User.Identity.GetUserId();
 
             try {
-                string[] friends = await this.DbContext.Relationships
-                    .Where(rs => rs.UserId == id)
-                    .OrderBy(rs => rs.UserId)
-                    .Select(rs => rs.Invitee.UserName)
-                    .ToArrayAsync();
+                List<string> friends = (await this.DbContext.Relationships
+                    .Where(rs => rs.UserId == id || rs.InviteeId == id)
+                    .Select(rs => rs.UserId == id ? rs.Invitee.UserName : rs.User.UserName)
+                    .ToListAsync());
+                friends.Sort();
 
                 return this.Request.CreateResponse(new FriendResult(friends));
             }

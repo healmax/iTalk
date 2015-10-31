@@ -5,6 +5,7 @@ using System;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace iTalk.API.Controllers {
     /// <summary>
@@ -16,6 +17,7 @@ namespace iTalk.API.Controllers {
         /// </summary>
         /// <param name="userName">使用者名稱</param>
         /// <returns>使用者資訊</returns>
+        [Authorize]
         public async Task<UserResult> Get(string userName) {
             if (string.IsNullOrEmpty(userName)) {
                 throw this.CreateResponseException(HttpStatusCode.Forbidden, "未指定使用者名稱");
