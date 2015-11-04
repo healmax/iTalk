@@ -37,7 +37,6 @@ namespace iTalk.DAO {
         /// 取得 發送者 Id
         /// </summary>
         [Required]
-        [Index("ChatIndex", IsUnique = true, Order = 0)]
         public string SenderId { get; private set; }
 
         /// <summary>
@@ -51,7 +50,6 @@ namespace iTalk.DAO {
         /// 取得 接收者 Id
         /// </summary>
         [Required]
-        [Index("ChatIndex", IsUnique = true, Order = 1)]
         public string ReceiverId { get; private set; }
 
         /// <summary>

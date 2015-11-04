@@ -1,11 +1,11 @@
-﻿using iTalk.API.Models;
+﻿using iTalk.API.Properties;
 using iTalk.DAO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace iTalk.API.Areas.Admin.Controllers {
     /// <summary>
-    /// 後台帳戶管理控制器
+    /// 帳戶控制器
     /// </summary>
     public class AccountController : Controller {
         /// <summary>
@@ -16,13 +16,18 @@ namespace iTalk.API.Areas.Admin.Controllers {
             return this.View(await Task.FromResult(new iTalkDbContext().Users));
         }
 
+        /// <summary>
+        /// 登入
+        /// </summary>
+        /// <param name="returnUrl">Return URL</param>
+        /// <returns>登入頁面</returns>
         public ActionResult Login(string returnUrl = "/Admin/Home/Index") {
             if (this.User.Identity.IsAuthenticated) {
                 return this.Redirect(returnUrl);
             }
 
             this.ViewBag.ReturnUrl = returnUrl;
-            this.ViewBag.Title = "登入";
+            this.ViewBag.Title = Resources.Login;
 
             return this.View();
         }

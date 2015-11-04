@@ -1,15 +1,15 @@
 ﻿using iTalk.API.Models;
 using iTalk.DAO;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.AspNet.Identity;
-using System.Text;
-using System.Linq;
 
 namespace iTalk.API.Controllers {
     /// <summary>
@@ -76,7 +76,8 @@ namespace iTalk.API.Controllers {
             //    .Query()
             //    .AnyAsync(rs => rs.UserId == id);
             bool isFriend = await this.DbContext.Relationships
-                .AnyAsync(rs => rs.UserId == id && rs.InviteeId == invitee.Id);
+                .AnyAsync(rs => (rs.UserId == id && rs.InviteeId == invitee.Id) ||
+                    (rs.UserId == invitee.Id && rs.InviteeId == id));
 
             if (!isFriend) {
                 if (throwIfNotFriend) {

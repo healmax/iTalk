@@ -21,10 +21,20 @@ namespace iTalk.API {
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/font-awesome.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/unobtrusive").Include(
                       "~/Scripts/jquery.unobtrusive-ajax.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                     "~/Scripts/angular.js",
+                     "~/js/index.js",
+                     "~/js/signalRHubProxy.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
+                    "~/Scripts/jquery.signalR-{version}.js",
+                    "~/signalr/hubs"));
         }
     }
 }

@@ -1,22 +1,82 @@
 ﻿body {
-    padding-top: 70px;
-    /*padding-bottom: 100px;*/
+    padding-top: 50px;
+    background-color: #D3DAE2;
+    /*padding-bottom: 50px;*/
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    /*padding-left: 15px;
+    padding-right: 15px;*/
 }
 
-/*.full, html, body {
-    height: calc(100vh - 150px);
-}*/
+.content-height {
+    height: calc(100vh - 121px);
+}
+
+.tab-height {
+    height: calc(100vh - 170px);
+}
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+input !#input,
 select,
 textarea {
     max-width: 280px;
 }
 
+.container {
+    max-width: 750px !important;
+}
+
+.tab {
+    width: 200px;
+    padding: 10px;
+    overflow: auto;
+}
+
+/*.area {
+    border: 1px solid #ddd;
+}*/
+
+.workarea {
+    background-color: white;
+}
+
+#toolbar {
+    background-color: #3F4663;
+    color: white;
+}
+
+.main-content {
+    padding-left: 0px;
+}
+
+.chat-input {
+    width: calc(100vw - 70px);
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .main-content {
+        padding-left: 200px;
+    }
+
+    .chat-input {
+        width: 92%;
+        float: left;
+    }
+}
+
+.chat-input-area {
+    padding: 15px 5px 0px 5px;
+    height: 50px;
+}
+
+.chat-input-buttons {
+    padding: 5px 0px 0px 5px;
+}
+
+#content {
+    padding-top: 50px;
+}

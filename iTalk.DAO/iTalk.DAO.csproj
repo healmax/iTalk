@@ -56,9 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat.cs" />
-    <Compile Include="Migrations\201510240226219_init.cs" />
-    <Compile Include="Migrations\201510240226219_init.Designer.cs">
-      <DependentUpon>201510240226219_init.cs</DependentUpon>
+    <Compile Include="Migrations\201511032018490_init.cs" />
+    <Compile Include="Migrations\201511032018490_init.Designer.cs">
+      <DependentUpon>201511032018490_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Relationship.cs" />
     <Compile Include="IdentityRole.cs" />
@@ -74,8 +74,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201510240226219_init.resx">
-      <DependentUpon>201510240226219_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511032018490_init.resx">
+      <DependentUpon>201511032018490_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
