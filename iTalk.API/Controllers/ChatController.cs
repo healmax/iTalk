@@ -77,7 +77,7 @@ namespace iTalk.API.Controllers {
 
             // 暫放 Hub
             var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            hub.Clients.User(friendId).receiveChat(new ChatResult.ChatDetail(chat.Content, chat.Date, this.User.Identity.Name));
+            hub.Clients.User(model.FriendName).receiveChat(new ChatResult.ChatDetail(chat.Content, chat.Date, this.User.Identity.Name));
 
             return new ExecuteResult(true);
         }

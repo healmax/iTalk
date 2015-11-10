@@ -29,6 +29,8 @@ namespace iTalk.API {
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                      "~/Scripts/angular.js",
+                     "~/Scripts/angular-ui/ui-bootstrap.js",
+                     "~/Scripts/matchmedia-ng.js",
                      "~/js/index.js",
                      "~/js/signalRHubProxy.js"));
 

@@ -1,5 +1,9 @@
-﻿var iTalkApp = angular.module('iTalkApp', ['SignalR'])
-    .controller('indexController', ['$scope', '$http', 'Hub', function ($scope, $http, Hub) {
+﻿var iTalkApp = angular.module('iTalkApp', ['SignalR', 'matchmedia-ng', 'ui.bootstrap'])
+    .controller('indexController', ['$scope', '$http', 'Hub', 'matchmedia', function ($scope, $http, Hub, matchmedia) {
+        matchmedia.onPhone(function (mediaQueryList) {
+            $scope.isPhone = mediaQueryList.matches;
+        });
+
         $scope.friends = [];
         $scope.currentFriend = '';
 
@@ -29,6 +33,10 @@
             };
         };
 
+        $scope.isSender = function (chat) {
+            return chat.sender === $scope.myName;
+        };
+
         $scope.send = function () {
             var chat = {
                 friendname: $scope.currentFriend.userName,
@@ -49,41 +57,54 @@
             });
         };
 
-        $scope.tab = 2;
+        $scope.tabIndex = 2;
 
         $scope.setTabIndex = function (index) {
-            $scope.tab = index;
+            $scope.tabIndex = index;
         };
 
         $scope.isCurrentTab = function (index) {
-            return $scope.tab === index;
+            return $scope.tabIndex === index;
         };
 
-        $scope.searchStatus = -1;
+        $scope.user = {
+            name: '',
+            status: -1,
+            found: {}
+        };
 
         $scope.searchUser = function () {
-            $http.get('/account?username=' + $scope.userToSearch)
+            if ($scope.user.name === $scope.myName) {
+                $scope.user.status = 1;
+                $scope.user.found = {
+                    userName: $scope.myName,
+                    isFriend: false
+                };
+                return;
+            }
+
+            $http.get('/account?username=' + $scope.user.name)
                 .then(function (response) {
-                    $scope.searchStatus = 1;
-                    $scope.foundUser = response.data;
+                    $scope.user.status = 1;
+                    $scope.user.found = response.data;
                 }, function () {
-                    $scope.searchStatus = 0;
-                    $scope.foundUser = null;
+                    $scope.user.status = 0;
+                    $scope.user.found = null;
                 });
         };
 
         $scope.addFriend = function () {
             $http.post('/relationship', {
-                friendname: $scope.foundUser.userName
+                friendname: $scope.user.found.userName
             })
             .then(function (response) {
                 if (response.data.success) {
                     $scope.friends.push({
-                        userName: $scope.foundUser.userName,
+                        userName: $scope.user.found.userName,
                         init: false
                     });
 
-                    alert('已經將用戶' + $scope.foundUser.userName + '加為好友');
+                    alert('已經將用戶' + $scope.user.found.userName + '加為好友');
                     $scope.endAddFriend();
                 }
                 else {
@@ -94,14 +115,14 @@
             });
         };
 
+        $scope.endAddFriend = function () {
+            $scope.user.name = '';
+            $scope.user.status = -1;
+        }
+
         function showError(result) {
             alert(result.statusCode + ' : ' + result.message);
         };
-
-        $scope.endAddFriend = function () {
-            $scope.searchStatus = -1;
-            $scope.userToSearch = '';
-        }
 
         // SignalR
         var hub = new Hub("chatHub", {

@@ -11,15 +11,17 @@
 }
 
 .content-height {
-    height: calc(100vh - 121px);
+    height: calc(100vh - 135px);
+    overflow: auto;
 }
 
 .tab-height {
-    height: calc(100vh - 170px);
+    height: calc(100vh - 185px);
+    border: 1px solid white;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input !#input,
+input,
 select,
 textarea {
     max-width: 280px;
@@ -30,7 +32,7 @@ textarea {
 }
 
 .tab {
-    width: 200px;
+    width: 210px;
     padding: 10px;
     overflow: auto;
 }
@@ -53,8 +55,13 @@ textarea {
 }
 
 .chat-input {
-    width: calc(100vw - 70px);
+    max-width: calc(100vw - 50px);
     float: left;
+}
+
+#sidebar {
+    float: left;
+    position: relative;
 }
 
 @media (min-width: 768px) {
@@ -63,9 +70,16 @@ textarea {
     }
 
     .chat-input {
-        width: 92%;
-        float: left;
+        /*max-width: initial;
+        float:left;*/
+        display: block;
+        max-width: calc(100% - 260px);
+        box-sizing: border-box; /*Makes inputs behave like true block-level elements;*/  
     }
+}
+
+.sidebar {
+    position: fixed;
 }
 
 .chat-input-area {
@@ -79,4 +93,209 @@ textarea {
 
 #content {
     padding-top: 50px;
+}
+
+/*
+loading angular at the bottom of the page, it's taking time to load. So the css required for the ng-cloak is not available yet.
+Either move the js to the tag or load the specific CSS code to your CSS to make it work.*/
+/*[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {*/
+[ng-cloak] {
+    display: none !important;
+}
+
+.chat-bubble {
+    margin: 10px 30px 10px 30px;
+    display: inline-block;
+    position: relative;
+    Max-width: 240px;
+    height: auto;
+    background-color: #C2F5A8;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.border {
+    border: 8px solid #666;
+}
+
+.round {
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+.tri-right.border.left-in:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -40px;
+    right: auto;
+    top: 30px;
+    bottom: auto;
+    border: 20px solid;
+    border-color: #666 #666 transparent transparent;
+}
+
+.tri-right.left-in:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -20px;
+    right: auto;
+    top: 8px;
+    bottom: auto;
+    border: 12px solid;
+    border-color: #C2F5A8 #C2F5A8 transparent transparent;
+}
+
+.tri-right.border.btm-left:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -8px;
+    right: auto;
+    top: auto;
+    bottom: -40px;
+    border: 32px solid;
+    border-color: transparent transparent transparent #666;
+}
+
+.tri-right.btm-left:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 0px;
+    right: auto;
+    top: auto;
+    bottom: -20px;
+    border: 22px solid;
+    border-color: transparent transparent transparent #C2F5A8;
+}
+
+.tri-right.border.btm-left-in:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 30px;
+    right: auto;
+    top: auto;
+    bottom: -40px;
+    border: 20px solid;
+    border-color: #666 transparent transparent #666;
+}
+
+.tri-right.btm-left-in:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 38px;
+    right: auto;
+    top: auto;
+    bottom: -20px;
+    border: 12px solid;
+    border-color: #C2F5A8 transparent transparent #C2F5A8;
+}
+
+.tri-right.border.btm-right-in:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: 30px;
+    bottom: -40px;
+    border: 20px solid;
+    border-color: #666 #666 transparent transparent;
+}
+
+.tri-right.btm-right-in:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: 38px;
+    bottom: -20px;
+    border: 12px solid;
+    border-color: #C2F5A8 #C2F5A8 transparent transparent;
+}
+
+.tri-right.border.btm-right:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -8px;
+    bottom: -40px;
+    border: 20px solid;
+    border-color: #666 #666 transparent transparent;
+}
+
+.tri-right.btm-right:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: 0px;
+    bottom: -20px;
+    border: 12px solid;
+    border-color: #C2F5A8 #C2F5A8 transparent transparent;
+}
+
+.tri-right.border.right-in:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -40px;
+    top: 30px;
+    bottom: auto;
+    border: 20px solid;
+    border-color: #666 transparent transparent #666;
+}
+
+.tri-right.right-in:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -20px;
+    top: 8px;
+    bottom: auto;
+    border: 12px solid;
+    border-color: #C2F5A8 transparent transparent #C2F5A8;
+}
+
+.chat-content {
+    padding: 1em;
+    text-align: left;
+    line-height: 1.5em;
+}
+
+    .chat-content p {
+        -webkit-margin-before: 0em;
+        -webkit-margin-after: 0em;
+        margin: 0px;
+    }
+
+.sender-date {
+    right: -25px;
+}
+
+.receiver-date {
+    left: -25px;
+}
+
+.sender-date, .receiver-date {
+    bottom: -1em;
 }

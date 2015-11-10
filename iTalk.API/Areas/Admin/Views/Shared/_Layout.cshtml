@@ -2,39 +2,18 @@
 <html ng-app="iTalkApp">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - iTalk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body class="body-content">
-    <div id="toolbar" class="navbar navbar-fixed-top">
-        <div class="container">
-            @*<div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>*@
-            <span class="navbar-brand">iTalk</span>
-            @if (User.Identity.IsAuthenticated) {
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="navbar-text navbar-right">使用者 @User.Identity.Name 已登入</li>
-                </ul>
-            }
-            @*@Html.ActionLink("所有使用者", "Index", "Account", new { area = "admin" }, new { @class = "navbar-brand" })*@
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav"></ul>
-        </div>
-    </div>
-    <div class="container">
-        @RenderBody()
-    </div>
+    @RenderBody()
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/unobtrusive")
-    @RenderSection("scripts", required: false)
+
+    @RenderSection("scripts", false)
+    @RenderSection("desktop", false)
 </body>
 </html>

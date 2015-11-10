@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>帳戶</value>
+  </data>
   <data name="Add" xml:space="preserve">
     <value>加入</value>
   </data>
@@ -130,10 +133,19 @@
     <value>取消</value>
   </data>
   <data name="CannotFindUser" xml:space="preserve">
-    <value />
+    <value>無法找到該用戶</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>確定</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>建立帳戶</value>
+  </data>
+  <data name="DesktopVersion" xml:space="preserve">
+    <value>桌面版</value>
+  </data>
+  <data name="DonotHaveAccount" xml:space="preserve">
+    <value>沒有iTalk帳戶？</value>
   </data>
   <data name="Friend" xml:space="preserve">
     <value>好友</value>
@@ -141,14 +153,32 @@
   <data name="HomePage" xml:space="preserve">
     <value>首頁</value>
   </data>
+  <data name="iTalk" xml:space="preserve">
+    <value>iTalk</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>登入</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>登出</value>
+  </data>
+  <data name="MobileVersion" xml:space="preserve">
+    <value>行動版</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>名稱</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>密碼</value>
+  </data>
+  <data name="PasswordConfirm" xml:space="preserve">
+    <value>再次輸入密碼</value>
+  </data>
+  <data name="PleaseInputMessage" xml:space="preserve">
+    <value>請輸入訊息。</value>
+  </data>
+  <data name="RegisterNow" xml:space="preserve">
+    <value>立即註冊</value>
   </data>
   <data name="SearchByName" xml:space="preserve">
     <value>以姓名搜尋</value>
@@ -158,6 +188,12 @@
   </data>
   <data name="UserName" xml:space="preserve">
     <value>使用者名稱</value>
+  </data>
+  <data name="UserNameOrPasswordFormatError" xml:space="preserve">
+    <value>必須至少有 3 個，最多 10 個英文、數字、@或底線</value>
+  </data>
+  <data name="UserNameTooltip" xml:space="preserve">
+    <value>會向您的朋友、同事、家人和所有使用 iTalk 的其他人顯示您的名稱。</value>
   </data>
   <data name="Yourself" xml:space="preserve">
     <value>這不是你自己嗎？</value>

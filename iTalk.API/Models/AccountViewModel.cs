@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using iTalk.API.Properties;
+using System.ComponentModel.DataAnnotations;
 
 namespace iTalk.API.Models {
     /// <summary>
@@ -9,16 +10,16 @@ namespace iTalk.API.Models {
         /// 取得/設定 使用者名稱
         /// </summary>
         [Required]
-        [StringLength(10, MinimumLength = 3)]
-        [RegularExpression("[A-Za-z0-@_]{3,10}")]
+        [Display(ResourceType = typeof(Resources), Name = "UserName")]
+        [RegularExpression("[A-Za-z0-@_]{3,10}", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "UserNameOrPasswordFormatError")]
         public string UserName { get; set; }
 
         /// <summary>
         /// 取得/設定 密碼
         /// </summary>
         [Required]
-        [StringLength(10, MinimumLength = 3)]
-        [RegularExpression("[A-Za-z0-@_]{3,10}")]
+        [Display(ResourceType = typeof(Resources), Name = "Password")]
+        [RegularExpression("[A-Za-z0-@_]{3,10}", ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "UserNameOrPasswordFormatError")]
         public string Password { get; set; }
     }
 }

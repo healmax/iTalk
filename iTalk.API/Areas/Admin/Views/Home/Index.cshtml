@@ -1,58 +1,43 @@
 ﻿@{
-    ViewBag.Title = "首頁";
+    Layout = "~/Areas/Admin/Views/Shared/_ToolbarLayout.cshtml";
 }
 <div class="row workarea"
      ng-controller="indexController"
      ng-model="myName"
-     ng-init="myName = '@User.Identity.Name'">
-    <div class="hidden-xs affix">
-        <div id="function-tabs">
-            @Html.Partial("_FunctionTabs")
-        </div>
-        <!--功能按鈕列-->
-        <div id="function-buttons" class="area">
-            <ul class="nav nav-pills">
-                <li class="disabled" ng-click="setTabIndex(-1)" ng-class="{ active: isCurrentTab(1) }">
-                    <a href="#"><span class="fa fa-comment-o fa-lg"></span></a>
-                </li>
-                <li ng-click="setTabIndex(2)" ng-class="{ active: isCurrentTab(2) }">
-                    <a href=" #"><span class="fa fa-user fa-lg"></span></a>
-                </li>
-                <li class="disabled" ng-click="setTabIndex(-3)" ng-class="{ active: isCurrentTab(3) }">
-                    <a href=" #"><span class="fa fa-users fa-lg"></span></a>
-                </li>
-                <li ng-click="setTabIndex(4)" ng-class="{ active: isCurrentTab(4) }">
-                    <a href=" #"><span class="fa fa-user-plus fa-lg"></span></a>
-                </li>
-            </ul>
-        </div>
+     ng-init="myName = '@User.Identity.Name'"
+     ng-cloak>
+    <div id="sidebar" ng-if="!isPhone">
+        @Html.Partial("_Sidebar")
     </div>
-    <div class="main-content">
-        <!--聊天內容區塊-->
-        <div class="area">
-            <label class="input-lg affix">{{currentFriend.userName}}</label>
-            <ul id="content" class="list-unstyled content-height">
-                <li ng-class="{'text-right': chat.sender === '@User.Identity.Name'}"
-                    ng-switch="chat.sender === '@User.Identity.Name'"
-                    ng-repeat="chat in currentFriend.chats">
-                    <div ng-switch-when="true">
-                        <sub>{{chat.date | date:"HH:mm:ss":"UTC +08:00"}}</sub>
-                        <code>{{chat.content}}</code>
-                    </div>
-                    <div ng-switch-default>
-                        <code>{{chat.content}}</code>
-                        <sub>{{chat.date | date:"HH:mm:ss":"UTC +08:00"}}</sub>
-                    </div>
-                </li>
-            </ul>
+    <div>
+        <div class="main-content">
+            <!--聊天內容區塊-->
+            <div class="area">
+                <label class="input-lg affix" ng-bind="currentFriend.userName"></label>
+                <ul id="content" class="content-height list-unstyled">
+                    <li ng-switch="isSender(chat)"
+                        ng-repeat="chat in currentFriend.chats">
+                        <div ng-class="{'text-right':isSender(chat)}">
+                            <sub ng-switch-when="true" ng-bind="chat.date | date:'hh:mm:ss':'utc +08:00'" class="sender-date"></sub>
+                            <div class="chat-bubble tri-right round"
+                                 ng-class="{'right-in':isSender(chat), 'left-in':!isSender(chat)}">
+                                <div class="chat-content">
+                                    <p ng-bind=" chat.content" style="vertical-align:central"></p>
+                                </div>
+                            </div>
+                            <sub ng-switch-when="false" ng-bind="chat.date | date:'hh:mm:ss':'utc +08:00'" class="receiver-date"></sub>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
         <!--輸入區塊-->
         <div class="chat-input-area">
-            <input id="input"
-                   ng-disabled="!currentFriend.userName"
+            <input ng-disabled="!currentFriend.userName"
                    ng-model="currentFriend.input"
                    ng-keydown="$event.which === 13 && send()"
-                   class="chat-input form-control input-sm" />
+                   class="chat-input form-control input-sm"
+                   placeholder=@Resources.PleaseInputMessage />
             <div class="btn-group chat-input-buttons">
                 <a href="javascript:;"><span class="fa fa-smile-o fa-lg"></span></a>
                 <a href="javascript:;"><span class="fa fa-paperclip fa-lg"></span></a>
@@ -60,6 +45,10 @@
         </div>
     </div>
 </div>
+<div id="sidebar" ng-if="isPhone">
+    @Html.Partial("_Sidebar")
+</div>
+
 @section scripts{
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/signalR")

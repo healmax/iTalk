@@ -1,0 +1,69 @@
+﻿@model iTalk.API.Areas.Admin.Models.RegisterViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_ToolbarLayout.cshtml";
+}
+<h4>@Resources.CreateAccount</h4>
+<form method="post" action="/Admin/Account/Register">
+    @Html.ValidationMessage("", null, new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "text-danger" })
+        @Html.TextBoxFor(m => m.UserName, new {
+       @class = "form-control",
+       placeholder = @Resources.UserName,
+       id = "username",
+       data_toggle = "popover",
+       data_placement = "right",
+       data_content = @Resources.UserNameTooltip,
+       autofocus = true
+   })
+    </div>
+    <div class="form-group">
+        @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+        @Html.PasswordFor(m => m.Password, new {
+       @class = "form-control",
+       placeholder = @Resources.Password,
+       id = "password",
+       data_toggle = "popover",
+       data_placement = "right",
+       data_content = @Resources.Password + @Resources.UserNameOrPasswordFormatError
+   })
+    </div>
+    <div class="form-group">
+        @Html.ValidationMessageFor(m => m.PasswordConfirm, null, new { @class = "text-danger" })
+        @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "form-control", placeholder = @Resources.PasswordConfirm, id = "passwordconfirm" })
+    </div>
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">@Resources.CreateAccount</button>
+        @*<button id="cancel" class="btn btn-default">@Resources.Cancel</button>*@
+    </div>
+</form>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $('[data-toggle="popover"]').popover({ trigger: 'focus' })
+
+        //$('form').submit(function (e) {
+        //    e.preventDefault();
+
+        //    if (!$('form').validate()) {
+        //        return;
+        //    }
+
+        //    var data = $(e.target).serialize();
+
+        //    $.post('/Account', data)
+        //        .success(function (data) {
+        //            window.location = '/Admin/Home/Index';
+        //        })
+        //        .fail(function (xhr, status, err) {
+        //            $("[data-valmsg-for='']").text(xhr.responseJSON.message);
+        //        })
+        //});
+
+        @*$("#cancel").click(function () {
+            window.location = @ViewBag.ReturnUrl ?? '/Home/Index';
+        });*@
+    </script>
+}

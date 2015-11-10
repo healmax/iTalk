@@ -61,6 +61,15 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 帳戶 的當地語系化字串。
+        /// </summary>
+        public static string Account {
+            get {
+                return ResourceManager.GetString("Account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 加入 的當地語系化字串。
         /// </summary>
         public static string Add {
@@ -97,7 +106,7 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
-        ///   查詢類似  的當地語系化字串。
+        ///   查詢類似 無法找到該用戶 的當地語系化字串。
         /// </summary>
         public static string CannotFindUser {
             get {
@@ -111,6 +120,33 @@ namespace iTalk.API.Properties {
         public static string Confirm {
             get {
                 return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 建立帳戶 的當地語系化字串。
+        /// </summary>
+        public static string CreateAccount {
+            get {
+                return ResourceManager.GetString("CreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 桌面版 的當地語系化字串。
+        /// </summary>
+        public static string DesktopVersion {
+            get {
+                return ResourceManager.GetString("DesktopVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 沒有iTalk帳戶？ 的當地語系化字串。
+        /// </summary>
+        public static string DonotHaveAccount {
+            get {
+                return ResourceManager.GetString("DonotHaveAccount", resourceCulture);
             }
         }
         
@@ -133,11 +169,38 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 iTalk 的當地語系化字串。
+        /// </summary>
+        public static string iTalk {
+            get {
+                return ResourceManager.GetString("iTalk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 登入 的當地語系化字串。
         /// </summary>
         public static string Login {
             get {
                 return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 登出 的當地語系化字串。
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 行動版 的當地語系化字串。
+        /// </summary>
+        public static string MobileVersion {
+            get {
+                return ResourceManager.GetString("MobileVersion", resourceCulture);
             }
         }
         
@@ -156,6 +219,33 @@ namespace iTalk.API.Properties {
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 再次輸入密碼 的當地語系化字串。
+        /// </summary>
+        public static string PasswordConfirm {
+            get {
+                return ResourceManager.GetString("PasswordConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 請輸入訊息。 的當地語系化字串。
+        /// </summary>
+        public static string PleaseInputMessage {
+            get {
+                return ResourceManager.GetString("PleaseInputMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 立即註冊 的當地語系化字串。
+        /// </summary>
+        public static string RegisterNow {
+            get {
+                return ResourceManager.GetString("RegisterNow", resourceCulture);
             }
         }
         
@@ -183,6 +273,24 @@ namespace iTalk.API.Properties {
         public static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 必須至少有 3 個，最多 10 個英文、數字、@或底線 的當地語系化字串。
+        /// </summary>
+        public static string UserNameOrPasswordFormatError {
+            get {
+                return ResourceManager.GetString("UserNameOrPasswordFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 會向您的朋友、同事、家人和所有使用 iTalk 的其他人顯示您的名稱。 的當地語系化字串。
+        /// </summary>
+        public static string UserNameTooltip {
+            get {
+                return ResourceManager.GetString("UserNameTooltip", resourceCulture);
             }
         }
         
