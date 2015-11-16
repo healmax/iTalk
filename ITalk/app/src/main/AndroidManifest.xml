@@ -46,6 +46,12 @@
             <grant-uri-permission android:pathPattern="/Friend/" />
         </provider>
 
+        <service android:name=".sync.SyncService">
+            <intent-filter>
+                <action android:name="com.example.healmax.italk.START_SYNC" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

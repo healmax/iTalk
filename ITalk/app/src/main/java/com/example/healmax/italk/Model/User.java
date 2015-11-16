@@ -6,6 +6,9 @@ package com.example.healmax.italk.Model;
 public class User {
     String id;
     String token;
+    String name;
+    boolean isFriend;
+
 
     public String getId() {
         return id;
@@ -21,5 +24,21 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isFriend() {
+        return isFriend;
+    }
+
+    public void setIsFriend(boolean isFriend) {
+        this.isFriend = isFriend;
     }
 }

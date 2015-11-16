@@ -22,8 +22,8 @@
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
+            android:visibility="gone">
+        </FrameLayout>
 
         <!-- 標籤內容顯示區塊 -->
         <FrameLayout

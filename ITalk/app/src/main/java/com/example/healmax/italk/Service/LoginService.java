@@ -1,22 +1,13 @@
 package com.example.healmax.italk.Service;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import com.example.healmax.italk.API.ITalkAPI;
 import com.example.healmax.italk.API.UserApi;
-import com.example.healmax.italk.Login.LoginActivity;
 import com.example.healmax.italk.Model.ReturnMessage;
 import com.example.healmax.italk.Model.User;
-import com.example.healmax.italk.Util.LoginInfoInterface;
-import com.example.healmax.italk.Util.RegisterInfoInterface;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.example.healmax.italk.Interface.LoginInfoInterface;
+import com.example.healmax.italk.Interface.RegisterInfoInterface;
 
 /**
  * Created by healmax on 15/10/27.
@@ -29,6 +20,10 @@ public class LoginService {
 
     private LoginService() {
         super();
+    }
+
+    public User getLoginUser() {
+        return loginUser;
     }
 
     public static LoginService getInstance() {

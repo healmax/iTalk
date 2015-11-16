@@ -30,6 +30,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/searchRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
@@ -55,6 +56,33 @@
             android:layout_marginLeft="15dp"
             android:background="@android:color/transparent"
             android:layout_toLeftOf="@+id/imgBtn_search" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/searchRelativeLayout"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/text_searchFriend_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="test"/>
+
+        <Button
+            android:id="@+id/btn_addFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/text_searchFriend_message"
+            android:visibility="invisible"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

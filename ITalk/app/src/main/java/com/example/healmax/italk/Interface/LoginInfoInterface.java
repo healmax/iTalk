@@ -1,4 +1,4 @@
-package com.example.healmax.italk.Util;
+package com.example.healmax.italk.Interface;
 
 /**
  * Created by healmax on 15/10/17.

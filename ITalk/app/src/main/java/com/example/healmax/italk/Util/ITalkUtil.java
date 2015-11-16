@@ -4,17 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.healmax.italk.API.ITalkAPI;
+import com.example.healmax.italk.Interface.LoginInfoInterface;
+import com.example.healmax.italk.Interface.RegisterInfoInterface;
 import com.example.healmax.italk.Login.LoginActivity;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

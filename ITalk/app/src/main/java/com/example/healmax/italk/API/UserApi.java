@@ -40,7 +40,7 @@ public class UserApi extends BaseApi{
         values.put("username", id);
         values.put("password", pw);
 
-        HttpResponseResult result = HttpUtil.doPost(loginApi, values);
+        HttpResponseResult result = HttpUtil.doPost(loginApi, values, null);
 
         if (result.getStatus() == -2) {
             return new ReturnMessage(-1, result.getContent());
@@ -53,7 +53,7 @@ public class UserApi extends BaseApi{
             JSONObject jsonObject = new JSONObject(result.getContent());
             message = prepareResponeFromLogin(jsonObject);
             if (message.getStatus() == 0) {
-                user.setId(jsonObject.optString("id"));
+                user.setId(jsonObject.optString("userName"));
                 user.setToken(jsonObject.optString("access_token"));
                 message.setDate(user);
             }
@@ -78,13 +78,13 @@ public class UserApi extends BaseApi{
         values.put("username", id);
         values.put("password", pw);
 
-        HttpResponseResult result = HttpUtil.doPost(loginApi, values);
+        HttpResponseResult result = HttpUtil.doPost(loginApi, values, null);
 
         if (result.getStatus() == -2) {
             return new ReturnMessage(-1, result.getContent());
         }
 
-        ReturnMessage message = new ReturnMessage();
+        ReturnMessage<User> message = new ReturnMessage<User>();
 
         try {
             User user = new User();
@@ -94,7 +94,7 @@ public class UserApi extends BaseApi{
                 user.setId(jsonObject.optString("id"));
                 user.setToken(jsonObject.optString("access_token"));
                 message.setDate(user);
-            }
+        }
         } catch (Exception ex) {
             ex.printStackTrace();
             return new ReturnMessage(new Integer(-1), ex.getMessage());
@@ -107,7 +107,7 @@ public class UserApi extends BaseApi{
         ContentValues values = new ContentValues();
         values.put("username", id);
         values.put("password", pw);
-        HttpResponseResult result = HttpUtil.doPost(registerApi, values);
+        HttpResponseResult result = HttpUtil.doPost(registerApi, values, null);
 
         if (result.getStatus() == -2) {
             return new ReturnMessage(-1, result.getContent());

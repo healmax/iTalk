@@ -9,8 +9,8 @@ import android.os.Handler;
 import com.example.healmax.italk.MainActivity;
 import com.example.healmax.italk.R;
 import com.example.healmax.italk.Service.LoginService;
-import com.example.healmax.italk.Util.ITalkUtil;
-import com.example.healmax.italk.Util.LoginInfoInterface;
+import com.example.healmax.italk.Interface.LoginInfoInterface;
+import com.example.healmax.italk.sync.SyncService;
 
 
 public class AutoLoginActivity extends AppCompatActivity implements LoginInfoInterface {
@@ -19,6 +19,10 @@ public class AutoLoginActivity extends AppCompatActivity implements LoginInfoInt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autologin);
+
+        //start SYNC service
+        Intent srevice_intent = new Intent(this.getApplicationContext(), SyncService.class);
+        startService(srevice_intent);
 
         new Thread(new Runnable() {
             @Override

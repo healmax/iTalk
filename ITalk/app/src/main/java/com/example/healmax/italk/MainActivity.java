@@ -28,6 +28,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ListView friendListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,22 +49,14 @@ public class MainActivity extends AppCompatActivity {
         //建立一個Tab，這個Tab的Tag設定為one，
         //並設定Tab上顯示的文字為第一堂課與icon圖片，Tab連結切換至
         //LessonOneFragment class，無夾帶Bundle資訊。
-        mTabHost.addTab(mTabHost.newTabSpec("one")
+        mTabHost.addTab(mTabHost.newTabSpec("friend")
                 .setIndicator(getResources().getString(R.string.main_friendsfragment_friend),null)
                 ,MainFriendsFragment.class,null);
 
-        mTabHost.addTab(mTabHost.newTabSpec("two")
+        mTabHost.addTab(mTabHost.newTabSpec("chat")
                 .setIndicator(getResources().getString(R.string.main_talkfragment_talk), null)
                 , MainTalkFragment.class, null);
 
-//        ContentValues values = new ContentValues();
-//        values.put(ITalkDB.FIELD_f_id, "zzzzz");
-//        values.put(ITalkDB.FIELD_f_name, "fffff");
-//
-//        getContentResolver().insert(ITalkProvider.uriFriend, values);
-//        Cursor cursor = getContentResolver().query(ITalkProvider.uriFriend, null, null, null, null);
-//        if (cursor.getCount() > 0) {
-//        }
     }
 
     @Override

@@ -32,8 +32,8 @@ public class MainTalkFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //取得TextView元件並帶入text字串
-        TextView mText = (TextView) getView().findViewById(R.id.text);
-        mText.setText(text);
+//        //取得TextView元件並帶入text字串
+//        TextView mText = (TextView) getView().findViewById(R.id.text);
+//        mText.setText(text);
     }
 }

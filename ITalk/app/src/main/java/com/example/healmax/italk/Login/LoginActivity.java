@@ -3,8 +3,6 @@ package com.example.healmax.italk.Login;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +11,10 @@ import com.example.healmax.italk.MainActivity;
 import com.example.healmax.italk.R;
 import com.example.healmax.italk.Service.LoginService;
 import com.example.healmax.italk.Util.ITalkUtil;
-import com.example.healmax.italk.Util.LoginInfoInterface;
-import com.example.healmax.italk.Util.RegisterInfoInterface;
+import com.example.healmax.italk.Interface.LoginInfoInterface;
+import com.example.healmax.italk.Interface.RegisterInfoInterface;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements LoginInfoInterface, RegisterInfoInterface{
 
