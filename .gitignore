@@ -33,3 +33,7 @@ proguard/
 
 # Recommenders
 .recommenders/
+/packages
+/iTalk.Client
+/iTalk.API/obj/Debug
+/iTalk.API/transports.log.txt

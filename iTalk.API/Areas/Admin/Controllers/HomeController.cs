@@ -1,9 +1,5 @@
-﻿using iTalk.API.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using iTalk.API.Properties;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace iTalk.API.Areas.Admin.Controllers {
@@ -16,7 +12,8 @@ namespace iTalk.API.Areas.Admin.Controllers {
         /// 首頁
         /// </summary>
         /// <returns>首頁</returns>        
-        public async Task<ActionResult> Index() {
+        public ActionResult Index() {
+            this.ViewBag.Title = Resources.HomePage;
             return this.View();
         }
     }

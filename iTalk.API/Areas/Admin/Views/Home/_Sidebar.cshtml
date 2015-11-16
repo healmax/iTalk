@@ -1,0 +1,68 @@
+﻿<div id="function-tabs" ng-switch="tabIndex">
+    <div id="chat-tab" ng-switch-when="1"></div>
+    <div id="friend-tab" class="tab" ng-switch-when="2">
+        <div class="has-feedback">
+            <input class="form-control input-sm" placeholder=@Resources.SearchByName disabled />
+            <span class="fa fa-search form-control-feedback"></span>
+        </div>
+        <small class="text-muted">@Resources.Friend {{friends.length}}</small>
+        <ul id="friend-list" class="nav nav-pills nav-stacked tab-height">
+            <li ng-class="{'active': currentFriend.userName === friend.userName}" ng-click="setCurrentFriend(friend)" ng-repeat="friend in friends">
+                <a href="javascript:;" ng-bind="friend.userName"></a>
+            </li>
+        </ul>
+    </div>
+    <div id="group-tab" ng-switch-when="3"></div>
+    <div id="add-friend-tab" class="tab" ng-switch-when="4">
+        <div class=" has-feedback">
+            <input class="form-control input-sm"
+                   placeholder=@Resources.SearchByName
+                   ng-model="user.name"
+                   ng-keydown="$event.which === 13 && searchUser()" />
+            <span class="fa fa-search form-control-feedback"></span>
+        </div>
+        <small class="text-muted">@Resources.UserName @User.Identity.Name</small>
+        <div class="text-center tab-height">
+            <div ng-if="user.status === 1">
+                <img src="~/Img/portrait.png" />
+                <p><strong ng-bind="user.found.userName"></strong></p>
+                <p ng-bind="user.found.description"></p>
+                <span ng-if="user.found.isFriend">
+                    <span ng-bind="user.found.userName"></span> @Resources.AlreadyYourFriend
+                </span>
+                <p ng-if="user.found.userName === '@User.Identity.Name'">@Resources.Yourself</p>
+                <div class="form-inline">
+                    <div class="input-group">
+                        <button class="btn btn-default" ng-click="endAddFriend()">@Resources.Cancel</button>
+                        <button class="btn btn-success"
+                                ng-disabled="user.found.isFriend || user.found.userName === '@User.Identity.Name'"
+                                ng-click="addFriend()">
+                            @Resources.Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="user.status === 0">
+                <p>@Resources.CannotFindUser</p>
+                <button class="btn btn-success" ng-click="endAddFriend()">@Resources.Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--功能按鈕列-->
+<div id="function-buttons" class="area">
+    <ul class="nav nav-pills">
+        <li class="disabled" ng-click="setTabIndex(-1)" ng-class="{ active: isCurrentTab(1) }">
+            <a href="#"><span class="fa fa-comment-o fa-lg"></span></a>
+        </li>
+        <li ng-click="setTabIndex(2)" ng-class="{ active: isCurrentTab(2) }">
+            <a href=" #"><span class="fa fa-user fa-lg"></span></a>
+        </li>
+        <li class="disabled" ng-click="setTabIndex(-3)" ng-class="{ active: isCurrentTab(3) }">
+            <a href=" #"><span class="fa fa-users fa-lg"></span></a>
+        </li>
+        <li ng-click="setTabIndex(4)" ng-class="{ active: isCurrentTab(4) }">
+            <a href=" #"><span class="fa fa-user-plus fa-lg"></span></a>
+        </li>
+    </ul>
+</div>

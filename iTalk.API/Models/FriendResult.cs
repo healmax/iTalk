@@ -1,4 +1,5 @@
-﻿namespace iTalk.API.Models {
+﻿using System.Collections.Generic;
+namespace iTalk.API.Models {
     /// <summary>
     /// 取得朋友的結果
     /// </summary>
@@ -7,13 +8,13 @@
         /// 建構函數
         /// </summary>
         /// <param name="friends">朋友名稱集合</param>
-        public FriendResult(string[] friends) {
-            this.Friend = friends;
+        public FriendResult(IEnumerable<string> friends) {
+            this.Friends = friends;
         }
 
         /// <summary>
         /// 取得 朋友集合
         /// </summary>
-        public string[] Friend { get; private set; }
+        public IEnumerable<string> Friends { get; private set; }
     }
 }

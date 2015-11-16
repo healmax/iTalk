@@ -75,6 +75,10 @@ namespace iTalk.API.Controllers {
                 throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
             }
 
+            // 暫放 Hub
+            var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            hub.Clients.User(model.FriendName).receiveChat(new ChatResult.ChatDetail(chat.Content, chat.Date, this.User.Identity.Name));
+
             return new ExecuteResult(true);
         }
     }

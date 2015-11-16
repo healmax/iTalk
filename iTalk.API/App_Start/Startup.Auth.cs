@@ -7,12 +7,26 @@ using Owin;
 using System;
 
 namespace iTalk.API {
+    /// <summary>
+    /// 啟動程序
+    /// </summary>
     public partial class Startup {
+        /// <summary>
+        /// OAuth 驗證選項
+        /// </summary>
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
+        /// <summary>
+        /// 不明
+        /// </summary>
         public static string PublicClientId { get; private set; }
 
+        
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+        /// <summary>
+        /// 設置同時使用 Cookie 和 Bearer Toekn 驗證
+        /// </summary>
+        /// <param name="app">IAppBuilder</param>
         public void ConfigureAuth(IAppBuilder app) {
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(iTalkDbContext.Create);
@@ -21,7 +35,7 @@ namespace iTalk.API {
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             app.UseCookieAuthentication(new CookieAuthenticationOptions() {
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/Admin/Account/Login")
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 

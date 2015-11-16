@@ -9,8 +9,10 @@ namespace iTalk.API
     {
         protected void Application_Start()
         {
+            DeviceDetectionConfig.Config();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            BundleMobileConfig.RegisterBundles(BundleTable.Bundles);
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
