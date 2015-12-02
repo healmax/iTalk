@@ -1,23 +1,41 @@
 ﻿<div id="function-tabs" ng-switch="tabIndex">
     <div id="chat-tab" ng-switch-when="1"></div>
     <div id="friend-tab" class="tab" ng-switch-when="2">
-        <div class="has-feedback">
-            <input class="form-control input-sm" placeholder=@Resources.SearchByName disabled />
-            <span class="fa fa-search form-control-feedback"></span>
-        </div>
+        <md-content layout-padding class="autoScroll">
+            <md-input-container md-no-float>
+                <md-icon class="fa fa-search"></md-icon>
+                <input type="text" placeholder=@Resources.SearchByName ng-model="search.alias" />
+            </md-input-container>
+        </md-content>
         <small class="text-muted">@Resources.Friend {{friends.length}}</small>
         <ul id="friend-list" class="nav nav-pills nav-stacked tab-height">
-            <li ng-class="{'active': currentFriend.userName === friend.userName}" ng-click="setCurrentFriend(friend)" ng-repeat="friend in friends">
-                <a href="javascript:;" ng-bind="friend.userName"></a>
+            <li ng-class="{'active': currentFriend.id === friend.id}" ng-click="setCurrentFriend(friend)" ng-repeat="friend in friends | filter:search">
+                <a href="javascript:;" ng-bind="friend.alias"></a>
             </li>
         </ul>
     </div>
-    <div id="group-tab" ng-switch-when="3"></div>
+    <div id="group-tab" class="tab" ng-switch-when="3">
+        <md-content layout-padding class="autoScroll">
+            <md-input-container md-no-float>
+                <md-icon class="fa fa-search"></md-icon>
+                <input type="text" placeholder="@Resources.SearchByName" ng-model="search.name" />
+            </md-input-container>
+        </md-content>
+        <small class="text-muted">@Resources.Group {{groups.length}}</small>
+        <md-button class="md-icon-button" ng-click="showCreateGroupDialog($event)" aria-label="createGroup">
+            <span class="fa fa-plus"></span>
+        </md-button>
+        <ul id="friend-list" class="nav nav-pills nav-stacked tab-height">
+            <li ng-class="{'active': currentGroup.id === group.id}" ng-click="setCurrentGroup(group)" ng-repeat="group in groups | filter:search">
+                <a href="javascript:;" ng-bind="group.name"></a>
+            </li>
+        </ul>
+    </div>
     <div id="add-friend-tab" class="tab" ng-switch-when="4">
         <div class=" has-feedback">
             <input class="form-control input-sm"
                    placeholder=@Resources.SearchByName
-                   ng-model="user.name"
+                   ng-model="user.input"
                    ng-keydown="$event.which === 13 && searchUser()" />
             <span class="fa fa-search form-control-feedback"></span>
         </div>
@@ -25,10 +43,10 @@
         <div class="text-center tab-height">
             <div ng-if="user.status === 1">
                 <img src="~/Img/portrait.png" />
-                <p><strong ng-bind="user.found.userName"></strong></p>
+                <p><strong ng-bind="user.found.alias"></strong></p>
                 <p ng-bind="user.found.description"></p>
                 <span ng-if="user.found.isFriend">
-                    <span ng-bind="user.found.userName"></span> @Resources.AlreadyYourFriend
+                    <span ng-bind="user.found.alias"></span> @Resources.AlreadyYourFriend
                 </span>
                 <p ng-if="user.found.userName === '@User.Identity.Name'">@Resources.Yourself</p>
                 <div class="form-inline">
@@ -58,7 +76,7 @@
         <li ng-click="setTabIndex(2)" ng-class="{ active: isCurrentTab(2) }">
             <a href=" #"><span class="fa fa-user fa-lg"></span></a>
         </li>
-        <li class="disabled" ng-click="setTabIndex(-3)" ng-class="{ active: isCurrentTab(3) }">
+        <li ng-click="setTabIndex(3)" ng-class="{ active: isCurrentTab(3) }">
             <a href=" #"><span class="fa fa-users fa-lg"></span></a>
         </li>
         <li ng-click="setTabIndex(4)" ng-class="{ active: isCurrentTab(4) }">

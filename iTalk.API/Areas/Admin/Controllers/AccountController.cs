@@ -3,16 +3,14 @@ using iTalk.API.Models;
 using iTalk.API.Properties;
 using iTalk.DAO;
 using Microsoft.Owin.Security.Cookies;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Http.Controllers;
-using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
-using System.Linq;
-using Newtonsoft.Json.Linq;
 
 namespace iTalk.API.Areas.Admin.Controllers {
     /// <summary>
@@ -65,6 +63,7 @@ namespace iTalk.API.Areas.Admin.Controllers {
         /// <summary>
         /// 登入
         /// </summary>
+        /// <param name="model">帳戶 View Model</param>
         /// <param name="returnUrl">Return URL</param>
         /// <returns>登入結果</returns>
         [HttpPost]
@@ -119,15 +118,13 @@ namespace iTalk.API.Areas.Admin.Controllers {
         /// 註冊
         /// </summary>
         /// <param name="model">註冊資料</param>
+        /// <param name="returnUrl">Return Url</param>
         /// <returns>註冊結果</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model, string returnUrl = "/Account/Home/Index") {
             if (this.ModelState.IsValid) {
-                HttpClient client = new HttpClient() {
-                    BaseAddress = new Uri(string.Format("http://{0}", this.Request.Url.Authority))
-                };
-                var response = await client.PostAsJsonAsync("Account", model);
+                var response = await this.Client.PostAsJsonAsync("Account", model);
                 var result = await response.Content.ReadAsAsync<ExecuteResult>();
 
                 if (result.Success) {

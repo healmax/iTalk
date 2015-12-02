@@ -1,11 +1,9 @@
 ﻿using iTalk.API.Models;
 using iTalk.DAO;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -13,73 +11,72 @@ namespace iTalk.API.Controllers {
     /// <summary>
     /// 對話控制器
     /// </summary>
-    [Authorize]
-    public class ChatController : DefaultApiController {
+    [RoutePrefix("Chat")]
+    public class ChatController : ChatControllerBase {
+        /// <summary>
+        /// 檢查朋友關係
+        /// </summary>
+        /// <param name="friendId">朋友 Id</param>
+        protected override async Task ValidateRelationship(long friendId) {
+            await this.ValidateFriendship(friendId);
+        }
+
         /// <summary>
         /// 取得對話
         /// </summary>
-        /// <param name="userName">朋友名稱</param>
-        /// <param name="startTime">對話開始時間(可選)</param>
+        /// <param name="friendId">朋友 Id</param>
         /// <returns>對話</returns>
-        public async Task<ChatResult> Get(string userName, DateTime? startTime = null) {
-            if (string.IsNullOrEmpty(userName)) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, "未指定朋友名稱");
-            }
-
-            if (userName.ToUpper() == this.User.Identity.Name.ToUpper()) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, "不能自言自語喔");
-            }
-
-            await this.ValidateRelationship(userName);
-            string userId = this.User.Identity.GetUserId();
-
-            try {
-                IEnumerable<Chat> chats = await this.DbContext.Chats
-                    .Where(c => (c.SenderId == userId && c.Receiver.UserName == userName) ||
-                        (c.Sender.UserName == userName && c.ReceiverId == userId))
-                        .Where(c => startTime.HasValue ? c.Date > startTime.Value : true)
-                    .OrderBy(c => c.Date)
-                    .ToArrayAsync();
-
-                return new ChatResult(chats);
-            }
-            catch (Exception ex) {
-                throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
-            }
+        protected override IQueryable<Chat> GetChats(long friendId) {
+            return this.DbContext.Friendships
+                .Where(rs => (rs.UserId == this.UserId && rs.InviteeId == friendId) ||
+                    (rs.UserId == friendId && rs.InviteeId == this.UserId))
+                .SelectMany(rs => rs.Chats);
         }
 
         /// <summary>
         /// 傳送對話
         /// </summary>
-        /// <param name="friendName">朋友名稱</param>
+        /// <param name="model">對話</param>
         /// <returns>傳送結果</returns>
-        public async Task<ExecuteResult> Post(SendChatViewModel model) {
-            if (model == null) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, "沒有提供對話的必要資訊");
-            }
+        [Route("Dialog")]
+        public async Task<ExecuteResult> Dialog(DialogViewModel model) {
+            this.CheckModelState(model);
+            long friendId = model.TargetId;
 
-            if (!this.ModelState.IsValid) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
-            }
+            // 檢查有無此人、是否為好友
+            await this.ValidateFriendship(friendId);
 
-            await this.ValidateRelationship(model.FriendName);
+            // 理論上檢查失敗的話是跑不到這裡的...
+            long friendshipId = (await this.DbContext.Friendships
+                .Where(fs => fs.UserId == this.UserId && fs.InviteeId == model.TargetId)
+                .FirstOrDefaultAsync()).Id;
 
-            string friendId = (await this.UserManager.FindByNameAsync(model.FriendName)).Id;
-            Chat chat = new Chat(this.User.Identity.GetUserId(), friendId, model.Content, model.Date);
-            this.DbContext.Chats.Add(chat);
+            Dialog dialog = new Dialog(friendshipId, this.UserId, model.Date, model.Content);
 
-            try {
-                await this.DbContext.SaveChangesAsync();
-            }
-            catch (Exception ex) {
-                throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
-            }
+            return await this.Chat(model, dialog);
+        }
 
-            // 暫放 Hub
-            var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            hub.Clients.User(model.FriendName).receiveChat(new ChatResult.ChatDetail(chat.Content, chat.Date, this.User.Identity.Name));
+        /// <summary>
+        /// 傳送檔案(尚未實作)
+        /// </summary>
+        /// <param name="fileMessage">檔案訊息</param>
+        /// <returns>執行結果</returns>
+        [Route("File")]
+        public Task<ExecuteResult> File(FileMessageViewModel fileMessage) {
+            throw new NotImplementedException();
+        }
 
-            return new ExecuteResult(true);
+        /// <summary>
+        /// 推送對話到特定朋友的客戶端
+        /// </summary>
+        /// <param name="hub">SignalR Hub</param>
+        /// <param name="model">對話</param>
+        protected override async Task PushChatToClient(IHubContext hub, ChatViewModel model) {
+            string friendId = model.TargetId.ToString();
+            model.TargetId = this.UserId;
+            hub.Clients.User(friendId).receiveChat(model);
+
+            await Task.FromResult<object>(null);
         }
     }
 }

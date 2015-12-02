@@ -299,3 +299,7 @@ Either move the js to the tag or load the specific CSS code to your CSS to make 
 .sender-date, .receiver-date {
     bottom: -1em;
 }
+
+md-input-container {
+    padding-bottom: 2px !important;
+}

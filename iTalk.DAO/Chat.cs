@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace iTalk.DAO {
     /// <summary>
-    /// 對話
+    /// 聊天抽象基類
     /// </summary>
-    public class Chat {
+    public abstract class Chat : EntityBase {
         /// <summary>
         /// 建構函數 for EF
         /// </summary>
@@ -15,61 +16,45 @@ namespace iTalk.DAO {
         /// <summary>
         /// 建構函數
         /// </summary>
-        /// <param name="senderId">發送者</param>
-        /// <param name="receiverId">接收者</param>
-        /// <param name="content">內容</param>
+        /// <param name="relationshipId">關係 Id</param>
+        /// <param name="senderId">發送者 Id</param>
         /// <param name="date">對話日期</param>
-        public Chat(string senderId, string receiverId, string content, DateTime date) {
+        public Chat(long relationshipId, long senderId, DateTime date)
+            : base(date) {
+            //if (string.IsNullOrEmpty(senderId)) {
+            //    throw new ArgumentNullException("senderId");
+            //}
+
+            this.RelationshipId = relationshipId;
             this.SenderId = senderId;
-            this.ReceiverId = receiverId;
-            this.Content = content;
-            this.Date = date;
         }
 
         /// <summary>
-        /// 取得 主鍵
+        /// 取得 Relationship Id
         /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; private set; }
+        [Required]
+        [JsonIgnore]
+        public long RelationshipId { get; private set; }
+
+        /// <summary>
+        /// 取得 Relationship
+        /// </summary>
+        [JsonIgnore]
+        [ForeignKey("RelationshipId")]
+        public virtual Relationship Relationship { get; private set; }
 
         /// <summary>
         /// 取得 發送者 Id
         /// </summary>
         [Required]
-        public string SenderId { get; private set; }
+        public long SenderId { get; set; }
 
         /// <summary>
         /// 取得 發送者
         /// </summary>
+        [JsonIgnore]
         [ForeignKey("SenderId")]
-        [InverseProperty("SendedChats")]
+        //[InverseProperty("SendedChats")]
         public virtual iTalkUser Sender { get; private set; }
-
-        /// <summary>
-        /// 取得 接收者 Id
-        /// </summary>
-        [Required]
-        public string ReceiverId { get; private set; }
-
-        /// <summary>
-        /// 取得 接收者
-        /// </summary>
-        [ForeignKey("ReceiverId")]
-        [InverseProperty("ReceivedChats")]
-        public iTalkUser Receiver { get; private set; }
-
-        /// <summary>
-        /// 取得 對話內容
-        /// </summary>
-        [Required]
-        [StringLength(255, MinimumLength = 0)]
-        public string Content { get; private set; }
-
-        /// <summary>
-        /// 取得 對話時間
-        /// </summary>
-        [Required]
-        public DateTime Date { get; private set; }
     }
 }

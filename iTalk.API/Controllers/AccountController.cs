@@ -1,4 +1,5 @@
 ﻿using iTalk.API.Models;
+using iTalk.API.Properties;
 using iTalk.DAO;
 using Microsoft.AspNet.Identity;
 using System;
@@ -17,23 +18,44 @@ namespace iTalk.API.Controllers {
         /// </summary>
         /// <param name="userName">使用者名稱</param>
         /// <returns>使用者資訊</returns>
-        [Authorize]
         public async Task<UserResult> Get(string userName) {
             if (string.IsNullOrEmpty(userName)) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, "未指定使用者名稱");
+                throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideUserName);
             }
 
-            iTalkUser user = await this.UserManager.FindByNameAsync(userName);
+            iTalkUser target = await this.UserManager.FindByNameAsync(userName);
 
-            if (user == null) {
-                throw this.CreateResponseException(HttpStatusCode.NotFound, "查無此人");
+            if (target == null) {
+                throw this.CreateResponseException(HttpStatusCode.NotFound, Resources.UserNotExist);
             }
 
-            string myId = this.User.Identity.GetUserId();
-            bool isFriend = await this.DbContext.Relationships
-                .AnyAsync(rs => rs.UserId == myId && rs.InviteeId == user.Id);
+            bool isFriend = await this.DbContext.Friendships
+                .AnyAsync(rs => rs.UserId == this.UserId && rs.InviteeId == target.Id);
 
-            return new UserResult(user.UserName, isFriend);
+            return new UserResult(target.Id, target.UserName, target.Alias, target.PersonalSign, isFriend);
+        }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <returns>更新結果</returns>
+        public async Task<ExecuteResult> Put(UserViewModel model) {
+            if (model == null) {
+                throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideUserInfo);
+            }
+
+            iTalkUser user = await this.UserManager.FindByNameAsync(this.User.Identity.Name);
+            user.PersonalSign = model.PersonnalSign;
+
+            // TODO : 更新個人圖片
+            try {
+                this.DbContext.SaveChanges();
+            }
+            catch (Exception ex) {
+                throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
+            }
+
+            return new ExecuteResult(true);
         }
 
         /// <summary>
@@ -41,16 +63,22 @@ namespace iTalk.API.Controllers {
         /// </summary>
         /// <param name="model">帳戶 View Model</param>
         /// <returns>註冊結果</returns>
-        public async Task<ExecuteResult> Register(AccountViewModel model) {
+        [AllowAnonymous]
+        [AutoAddTestFriendFilter]
+        public async Task<ExecuteResult> Post(AccountViewModel model) {
             if (model == null) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, "需要使用者名稱與密碼");
+                throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NeedUserNameAndPassword);
             }
 
             if (!this.ModelState.IsValid) {
                 throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
             }
 
-            iTalkUser user = new iTalkUser() { UserName = model.UserName };
+            iTalkUser user = new iTalkUser() {
+                UserName = model.UserName,
+                Alias = model.Alias,
+                PersonalSign = model.PersonnalSign
+            };
             IdentityResult result;
 
             try {

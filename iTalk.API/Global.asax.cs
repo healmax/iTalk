@@ -14,7 +14,7 @@ namespace iTalk.API
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             BundleMobileConfig.RegisterBundles(BundleTable.Bundles);
             AreaRegistration.RegisterAllAreas();
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            //RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
     }
 }

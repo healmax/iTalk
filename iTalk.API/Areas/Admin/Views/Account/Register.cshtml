@@ -10,7 +10,6 @@
         @Html.TextBoxFor(m => m.UserName, new {
        @class = "form-control",
        placeholder = @Resources.UserName,
-       id = "username",
        data_toggle = "popover",
        data_placement = "right",
        data_content = @Resources.UserNameTooltip,
@@ -22,7 +21,6 @@
         @Html.PasswordFor(m => m.Password, new {
        @class = "form-control",
        placeholder = @Resources.Password,
-       id = "password",
        data_toggle = "popover",
        data_placement = "right",
        data_content = @Resources.Password + @Resources.UserNameOrPasswordFormatError
@@ -30,7 +28,25 @@
     </div>
     <div class="form-group">
         @Html.ValidationMessageFor(m => m.PasswordConfirm, null, new { @class = "text-danger" })
-        @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "form-control", placeholder = @Resources.PasswordConfirm, id = "passwordconfirm" })
+        @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "form-control", placeholder = @Resources.PasswordConfirm })
+    </div>
+    <span>@Resources.OptionalItem:</span>
+    <div class="form-group">
+        @Html.ValidationMessageFor(m => m.Alias, null, new { @class = "text-danger" })
+        @Html.TextBoxFor(m => m.Alias, new {
+       @class = "form-control",
+       placeholder = @Resources.Alias,
+       data_toggle = "popover",
+       data_placement = "right",
+       data_content = @Resources.AliasTooltip
+   })
+    </div>
+    <div class="form-group">
+        @Html.ValidationMessageFor(m => m.PersonnalSign, null, new { @class = "text-danger" })
+        @Html.TextBoxFor(m => m.PersonnalSign, new {
+       @class = "form-control",
+       placeholder = @Resources.PersonalSign,
+   })
     </div>
     @Html.AntiForgeryToken()
     <div class="form-group">

@@ -1,10 +1,11 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     Layout = "~/Areas/Admin/Views/Shared/_ToolbarLayout.cshtml";
 }
 <div class="row workarea"
      ng-controller="indexController"
-     ng-model="myName"
-     ng-init="myName = '@User.Identity.Name'"
+     ng-model="me"
+     ng-init="me = { id: @(User.Identity.GetUserId<long>()), userName: '@User.Identity.Name' }"
      ng-cloak>
     <div id="sidebar" ng-if="!isPhone">
         @Html.Partial("_Sidebar")
@@ -13,7 +14,7 @@
         <div class="main-content">
             <!--聊天內容區塊-->
             <div class="area">
-                <label class="input-lg affix" ng-bind="currentFriend.userName"></label>
+                <label class="input-lg affix" ng-bind="currentFriend.alias"></label>
                 <ul id="content" class="content-height list-unstyled">
                     <li ng-switch="isSender(chat)"
                         ng-repeat="chat in currentFriend.chats">
@@ -33,7 +34,7 @@
         </div>
         <!--輸入區塊-->
         <div class="chat-input-area">
-            <input ng-disabled="!currentFriend.userName"
+            <input ng-disabled="!currentFriend"
                    ng-model="currentFriend.input"
                    ng-keydown="$event.which === 13 && send()"
                    class="chat-input form-control input-sm"
@@ -49,8 +50,15 @@
     @Html.Partial("_Sidebar")
 </div>
 
+@section style{
+    @Styles.Render("~/Content/angular")
+}
+
 @section scripts{
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/signalR")
+    <script type="text/ng-template" id="createGroupView">
+        @Html.Partial("_CreateGroup")
+    </script>
 }
 

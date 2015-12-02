@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="iTalk.DAO.Dialog">
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iTalk.DAO.Chat">
+    <Position X="1.75" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAABAAAIAAA=</HashCode>
+      <FileName>Chat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iTalk.DAO.EntityBase">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAACAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>EntityBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iTalk.DAO.FileMessage">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAQAAAAACAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>FileMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iTalk.DAO.Friendship">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAABAAAEAAAAQAAAAAAAAAgAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Friendship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iTalk.DAO.Group">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAgAAACAAAACAQAAAAAAAAAEAAEAAAAAAA=</HashCode>
+      <FileName>Group.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Members" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="iTalk.DAO.GroupMember">
+    <Position X="9.5" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAABAEAEAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GroupMember.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iTalk.DAO.Relationship">
+    <Position X="6.25" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Relationship.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Chats" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="微軟正黑體" Size="9" />
+</ClassDiagram>

@@ -23,6 +23,9 @@ namespace iTalk.API {
             var serializer = JsonSerializer.Create(settings);
             GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer);
 
+            // 使用 User Id 來存取 SignalR Hub
+            GlobalHost.DependencyResolver.Register(typeof(IUserIdProvider), () => new UserIdProvider());
+
             app.MapSignalR();
         }
     }

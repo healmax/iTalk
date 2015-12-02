@@ -79,6 +79,24 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 暱稱 的當地語系化字串。
+        /// </summary>
+        public static string Alias {
+            get {
+                return ResourceManager.GetString("Alias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 會向您的朋友、同事、家人和所有使用 iTalk 的其他人顯示您的暱稱。 的當地語系化字串。
+        /// </summary>
+        public static string AliasTooltip {
+            get {
+                return ResourceManager.GetString("AliasTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 所有使用者 的當地語系化字串。
         /// </summary>
         public static string AllUser {
@@ -106,11 +124,29 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 不能加自己為好友喔 的當地語系化字串。
+        /// </summary>
+        public static string CannotAddSelfAsFriend {
+            get {
+                return ResourceManager.GetString("CannotAddSelfAsFriend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 無法找到該用戶 的當地語系化字串。
         /// </summary>
         public static string CannotFindUser {
             get {
                 return ResourceManager.GetString("CannotFindUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 不能自言自語喔 的當地語系化字串。
+        /// </summary>
+        public static string CannotTalkToSelf {
+            get {
+                return ResourceManager.GetString("CannotTalkToSelf", resourceCulture);
             }
         }
         
@@ -160,6 +196,15 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 群組 的當地語系化字串。
+        /// </summary>
+        public static string Group {
+            get {
+                return ResourceManager.GetString("Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 首頁 的當地語系化字串。
         /// </summary>
         public static string HomePage {
@@ -196,6 +241,15 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 成員 的當地語系化字串。
+        /// </summary>
+        public static string Member {
+            get {
+                return ResourceManager.GetString("Member", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 行動版 的當地語系化字串。
         /// </summary>
         public static string MobileVersion {
@@ -210,6 +264,105 @@ namespace iTalk.API.Properties {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 需要提供欲加為好友的使用者名稱 的當地語系化字串。
+        /// </summary>
+        public static string NeedProvideUserNameToAdd {
+            get {
+                return ResourceManager.GetString("NeedProvideUserNameToAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 需要使用者名稱與密碼 的當地語系化字串。
+        /// </summary>
+        public static string NeedUserNameAndPassword {
+            get {
+                return ResourceManager.GetString("NeedUserNameAndPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 不是 的當地語系化字串。
+        /// </summary>
+        public static string Not {
+            get {
+                return ResourceManager.GetString("Not", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 不存在 的當地語系化字串。
+        /// </summary>
+        public static string NotExist {
+            get {
+                return ResourceManager.GetString("NotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 沒有提供對話的必要資訊 的當地語系化字串。
+        /// </summary>
+        public static string NotProvideChatInfo {
+            get {
+                return ResourceManager.GetString("NotProvideChatInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 沒有提供必要的資訊 的當地語系化字串。
+        /// </summary>
+        public static string NotProvideNessaryInfo {
+            get {
+                return ResourceManager.GetString("NotProvideNessaryInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 沒有提供要更新的使用者資訊 的當地語系化字串。
+        /// </summary>
+        public static string NotProvideUserInfo {
+            get {
+                return ResourceManager.GetString("NotProvideUserInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 未指定朋友名稱 的當地語系化字串。
+        /// </summary>
+        public static string NotProvideUserName {
+            get {
+                return ResourceManager.GetString("NotProvideUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 未指定朋友或群組名稱 的當地語系化字串。
+        /// </summary>
+        public static string NotProvideUserNameOrGroupName {
+            get {
+                return ResourceManager.GetString("NotProvideUserNameOrGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 不是你的朋友 的當地語系化字串。
+        /// </summary>
+        public static string NotYourFriend {
+            get {
+                return ResourceManager.GetString("NotYourFriend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 選填項目 的當地語系化字串。
+        /// </summary>
+        public static string OptionalItem {
+            get {
+                return ResourceManager.GetString("OptionalItem", resourceCulture);
             }
         }
         
@@ -232,6 +385,15 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
+        ///   查詢類似 個性簽名 的當地語系化字串。
+        /// </summary>
+        public static string PersonalSign {
+            get {
+                return ResourceManager.GetString("PersonalSign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 請輸入訊息。 的當地語系化字串。
         /// </summary>
         public static string PleaseInputMessage {
@@ -250,11 +412,29 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
+        ///   查詢類似  關係 的當地語系化字串。
+        /// </summary>
+        public static string Relationship {
+            get {
+                return ResourceManager.GetString("Relationship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 以姓名搜尋 的當地語系化字串。
         /// </summary>
         public static string SearchByName {
             get {
                 return ResourceManager.GetString("SearchByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 搜尋群組名稱 的當地語系化字串。
+        /// </summary>
+        public static string SearchGroupName {
+            get {
+                return ResourceManager.GetString("SearchGroupName", resourceCulture);
             }
         }
         
@@ -286,11 +466,38 @@ namespace iTalk.API.Properties {
         }
         
         /// <summary>
-        ///   查詢類似 會向您的朋友、同事、家人和所有使用 iTalk 的其他人顯示您的名稱。 的當地語系化字串。
+        ///   查詢類似 您的帳戶名稱 的當地語系化字串。
         /// </summary>
         public static string UserNameTooltip {
             get {
                 return ResourceManager.GetString("UserNameTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 查無此人 的當地語系化字串。
+        /// </summary>
+        public static string UserNotExist {
+            get {
+                return ResourceManager.GetString("UserNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 你 的當地語系化字串。
+        /// </summary>
+        public static string You {
+            get {
+                return ResourceManager.GetString("You", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 你沒有刪除群組的權限 的當地語系化字串。
+        /// </summary>
+        public static string YouDoNotHavePermissionDeleteGroup {
+            get {
+                return ResourceManager.GetString("YouDoNotHavePermissionDeleteGroup", resourceCulture);
             }
         }
         

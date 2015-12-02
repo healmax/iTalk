@@ -1,10 +1,6 @@
 ﻿using iTalk.API.Models;
 using iTalk.API.Properties;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace iTalk.API.Areas.Admin.Models {
     /// <summary>
@@ -12,7 +8,7 @@ namespace iTalk.API.Areas.Admin.Models {
     /// </summary>
     public class RegisterViewModel : AccountViewModel {
         /// <summary>
-        /// 密碼確認
+        /// 取得/設定 密碼確認
         /// </summary>
         [Required]
         [Compare("Password")]

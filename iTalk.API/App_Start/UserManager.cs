@@ -8,13 +8,12 @@ namespace iTalk.API {
     /// <summary>
     /// User Manager
     /// </summary>
-    public class UserManager : UserManager<iTalkUser> {
+    public class UserManager : UserManager<iTalkUser, long> {
         /// <summary>
         /// 建構函數
         /// </summary>
-        /// <param name="store"></param>
         UserManager()
-            : base(new UserStore<iTalkUser>(new iTalkDbContext())) { }
+            : base(new UserStore<iTalkUser, iTalkRole, long, iTalkUserLogin, iTalkUserRole, iTalkUserClaim>(new iTalkDbContext())) { }
 
         /// <summary>
         /// 建立User Manager委派，定義了帳密的格式與Token Provider
@@ -25,7 +24,7 @@ namespace iTalk.API {
         public static UserManager Create(IdentityFactoryOptions<UserManager> options, IOwinContext context) {
             var manager = new UserManager();
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<iTalkUser>(manager) {
+            manager.UserValidator = new UserValidator<iTalkUser, long>(manager) {
                 AllowOnlyAlphanumericUserNames = true,
                 //RequireUniqueEmail = true
             };
@@ -39,7 +38,7 @@ namespace iTalk.API {
             };
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null) {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<iTalkUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<iTalkUser, long>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
