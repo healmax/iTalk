@@ -13,7 +13,7 @@ namespace iTalk.DAO.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201511200923379_init"; }
+            get { return "201512091709174_init"; }
         }
         
         string IMigrationMetadata.Source

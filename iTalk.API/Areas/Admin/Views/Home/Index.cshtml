@@ -10,33 +10,83 @@
     <div id="sidebar" ng-if="!isPhone">
         @Html.Partial("_Sidebar")
     </div>
-    <div>
+    <md-content>
         <div class="main-content">
             <!--聊天內容區塊-->
             <div class="area">
-                <label class="input-lg affix" ng-bind="currentFriend.alias"></label>
-                <ul id="content" class="content-height list-unstyled">
-                    <li ng-switch="isSender(chat)"
-                        ng-repeat="chat in currentFriend.chats">
-                        <div ng-class="{'text-right':isSender(chat)}">
-                            <sub ng-switch-when="true" ng-bind="chat.date | date:'hh:mm:ss':'utc +08:00'" class="sender-date"></sub>
-                            <div class="chat-bubble tri-right round"
-                                 ng-class="{'right-in':isSender(chat), 'left-in':!isSender(chat)}">
-                                <div class="chat-content">
-                                    <p ng-bind=" chat.content" style="vertical-align:central"></p>
+                <div class="room-title">
+                    <a class="h4 affix" href="javascript:;" ng-click="showDetail('right')">
+                        <md-list-item ng-if="current" layout>
+                            <img ng-src="{{current.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
+                            <div ng-if="current.alias">{{current.alias}}</div>
+                            <div ng-if="current.name">{{current.name}}({{current.members.length}})</div>
+                        </md-list-item>
+                    </a>
+                </div>
+                <div class="below-navbar" ng-show="current.id == key" ng-repeat="(key, chat) in chats">
+                    @*<md-list>
+                            <md-list-item class="md-2-line" ng-switch="isSender(c)" ng-repeat="c in chat">
+                                <img ng-if="key <= 0" src="" class="img-circle portrait-xs" ng-click="showDetail('right')" />
+                                <div class="md-list-item-text" layout="column">
+                                    <span ng-if="key <= 0" ng-bind="users[c.senderId.toString()].alias"></span>
+                                    <div class="chat-bubble tri-right round"
+                                         ng-class="{'right-in':isSender(c), 'left-in':!isSender(c)}">
+                                        <div class="chat-content">
+                                            <span ng-bind="::c.content" style="vertical-align:central"></span>
+                                        </div>
+                                    </div>
                                 </div>
+                            </md-list-item>
+                        </md-list>*@
+                    <ul id="" class="list-unstyled">
+                        <li ng-switch="isSender(c)" ng-repeat="c in chat">
+                            <div layout ng-class="{'pull-right':isSender(c)}">
+                                <div layout layout-align="center center">
+                                    <sub ng-switch-when="true" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="sender-date"></sub>
+                                </div>
+                                <div ng-switch-when="false" ng-if="key <= 0" layout="column">
+                                    <img ng-src="{{users[c.senderId.toString()].thumnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
+                                    <p class="center-block" ng-bind="users[c.senderId.toString()].alias"></p>
+                                </div>
+                                <div>
+                                    <div class="chat-bubble tri-right round"
+                                         ng-class="{'right-in':isSender(c), 'left-in':!isSender(c)}">
+                                        <div class="chat-content">
+                                            <p ng-bind="::c.content" style="vertical-align:central"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div layout layout-align="center center">
+                                    <sub ng-switch-when="false" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="receiver-date"></sub>
+                                </div>
+                                @*<sub ng-switch-when="true" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="sender-date"></sub>
+                                    <div>
+                                        <div ng-switch-when="false" ng-if="key <= 0" layout="column">
+                                            <img src="" class="img-circle portrait-xs" ng-click="showDetail('right')" />
+                                            <span ng-bind="users[c.senderId.toString()].alias"></span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="chat-bubble tri-right round"
+                                             ng-class="{'right-in':isSender(c), 'left-in':!isSender(c)}">
+                                            <div class="chat-content">
+                                                <p ng-bind="::c.content" style="vertical-align:central"></p>
+                                            </div>
+                                        </div>
+                                        <sub ng-switch-when="false" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="receiver-date"></sub>
+                                    </div>*@
                             </div>
-                            <sub ng-switch-when="false" ng-bind="chat.date | date:'hh:mm:ss':'utc +08:00'" class="receiver-date"></sub>
-                        </div>
-                    </li>
-                </ul>
+                            <div class="clearfix"></div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <!--輸入區塊-->
-        <div class="chat-input-area">
-            <input ng-disabled="!currentFriend"
-                   ng-model="currentFriend.input"
-                   ng-keydown="$event.which === 13 && send()"
+        <div class="chat-input-area" ng-controller="chatController">
+            <input ng-disabled="!current"
+                   ng-model="current.input"
+                   ng-keydown="$event.which === 13 && sendDialog()"
                    class="chat-input form-control input-sm"
                    placeholder=@Resources.PleaseInputMessage />
             <div class="btn-group chat-input-buttons">
@@ -44,10 +94,11 @@
                 <a href="javascript:;"><span class="fa fa-paperclip fa-lg"></span></a>
             </div>
         </div>
-    </div>
-</div>
-<div id="sidebar" ng-if="isPhone">
-    @Html.Partial("_Sidebar")
+        @Html.Partial("_Detail")
+        <div id="sidebar" ng-if="isPhone">
+            @Html.Partial("_Sidebar")
+        </div>
+    </md-content>
 </div>
 
 @section style{

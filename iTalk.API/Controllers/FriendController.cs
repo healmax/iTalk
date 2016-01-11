@@ -17,7 +17,7 @@ namespace iTalk.API.Controllers {
         /// 取得所有朋友
         /// </summary>
         /// <returns>所有朋友</returns>
-        public async Task<FriendResult> Get() {
+        public async Task<ExecuteResult<UserInfo[]>> Get() {
             try {
                 var friends = await this.DbContext.Friendships
                     .Where(rs => rs.UserId == this.UserId)
@@ -31,7 +31,7 @@ namespace iTalk.API.Controllers {
                         UserName = user.UserName
                     }).ToArrayAsync();
 
-                return new FriendResult(friends);
+                return new ExecuteResult<UserInfo[]>(friends);
             }
             catch (Exception ex) {
                 throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);

@@ -1,0 +1,95 @@
+﻿@using iTalk.API.Areas.Admin.Models
+
+<md-dialog class="container">
+    <md-dialog-content>
+        <md-content layout-padding layout="row">
+            <div flex="initial">
+                @Html.Partial("_FriendList", new RenderFriendListOption(showLastChat: false))
+            </div>
+            <div ng-model="newGroup" ng-init="newGroup={members:[]}" flex>
+                <div layout-align="center center" layout="column">
+                    <img ng-src="{{newGroup.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-lg" />
+                    <form name="newgroupForm">
+                        <md-input-container md-no-float>
+                            <input name="name" minlength="3" md-maxlength="20" placeholder="請輸入群組名稱" ng-model="newGroup.name" />
+                            <div ng-messages="newgroupForm.name.$error">
+                                <div ng-message="minlength">群組名稱最少要3個字</div>
+                                <div ng-message="md-maxlength">群組名稱最多20個字</div>
+                            </div>
+                        </md-input-container>
+                    </form>
+                    @*<span>{{newGroup.members.length}}/20</span>*@
+                </div>
+                <md-content class="md-padding">
+                    <!--md-contacts="querySearch($query)"-->
+                    <md-contact-chips ng-model="newGroup.members"
+                                      md-contact-name="alias"
+                                      md-contact-image="thumbnail"
+                                      md-require-match="true"
+                                      md-highlight-flags="i">
+                    </md-contact-chips>
+                    @*<md-list class="fixedRows">
+                            <md-subheader class="md-no-sticky">@Resources.Friend</md-subheader>
+                            <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in newGro">
+                                <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+                                <div class="md-list-item-text compact">
+                                    <h3>{{contact.name}}</h3>
+                                    <p>{{contact.email}}</p>
+                                </div>
+                            </md-list-item>
+                            <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in ctrl.contacts">
+                                <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+                                <div class="md-list-item-text compact">
+                                    <h3>{{contact.name}}</h3>
+                                    <p>{{contact.email}}</p>
+                                </div>
+                            </md-list-item>
+                        </md-list>*@
+                </md-content>
+            </div>
+        </md-content>
+    </md-dialog-content>
+    <div class="md-actions" layout="row">
+        <md-button class="md-primary md-raised" ng-disabled="!newGroup.name" ng-click="create(newGroup)">儲存</md-button>
+        <md-button ng-click="cancel()">關閉</md-button>
+    </div>
+</md-dialog>
+
+@*<section layout="row" flex>
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+            <md-content layout-padding>
+                <div hide-md="" show-gt-md="">
+                    @Html.Partial("_FriendList", new RenderFriendListOption(showLastChat: false))
+                </div>
+            </md-content>
+        </md-sidenav>
+        <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+            <md-content layout-padding>
+                <div ng-model="newGroup" ng-init="newGroup={members:[]}">
+                    <div layout-align="center center" layout="column">
+                        <img src="~/Img/portrait.png" class="img-circle" />
+                        <md-input-container md-no-float>
+                            <input placeholder="請輸入群組名稱" />
+                        </md-input-container>
+                        <span>{{newGroup.members.length}}/20</span>
+                    </div>
+                    <md-content class="md-padding autocomplete" layout="column">
+                        <md-contact-chips ng-model="newGroup.members"
+                                          md-contacts="querySearch($query)"
+                                          md-contact-name="alias"
+                                          md-contact-image="imgUrl"
+                                          md-require-match="true"
+                                          md-highlight-flags="i"
+                                          filter-selected="true"
+                                          placeholder="加入群組">
+                        </md-contact-chips>
+                        <md-list class="fixedRows">
+                            <md-subheader class="md-no-sticky">@Resources.Friend</md-subheader>
+                        </md-list>
+                    </md-content>
+                </div>
+                <button type="button" class="btn btn-primary">儲存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            </md-content>
+        </md-sidenav>
+    </section>*@

@@ -11,7 +11,7 @@ namespace iTalk.API.Controllers {
     /// <summary>
     /// 群組對話控制器
     /// </summary>
-    [RoutePrefix("group_chat")]
+    [RoutePrefix("GroupChat")]
     public class GroupChatController : ChatControllerBase {
         /// <summary>
         /// 檢查群組
@@ -41,7 +41,7 @@ namespace iTalk.API.Controllers {
             await this.ValidateGroup(model.TargetId);
             Dialog dialog = new Dialog(model.TargetId, this.UserId, model.Date, model.Content);
 
-            return await this.Chat(model, dialog);
+            return await this.Chat(model.TargetId, dialog);
         }
 
         /// <summary>
@@ -58,20 +58,21 @@ namespace iTalk.API.Controllers {
         /// 推送對話到相關的客戶端
         /// </summary>
         /// <param name="hub">SignalR HubContext</param>
+        /// <param name="groupId">朋友或群組Id</param>
         /// <param name="model">對話</param>
-        protected override async Task PushChatToClient(IHubContext hub, ChatViewModel model) {
+        protected override async Task PushChatToClient(IHubContext hub, long groupId, Chat model) {
             var members = await this.DbContext.GroupMembers
-                .Where(m => m.GroupId == model.TargetId)
-                .Select(m => m.UserId)
+                .Where(m => m.GroupId == model.RelationshipId)
+                .Select(m => m.UserId.ToString())
                 .ToArrayAsync();
 
-            var users = members
-                .SkipWhile(id => id == this.UserId)
-                .Select(id => id.ToString())
-                .ToList();
+            //var users = members
+            //    .SkipWhile(id => id == this.UserId)
+            //    .Select(id => id.ToString())
+            //    .ToList();
 
-            model.TargetId = this.UserId;
-            hub.Clients.Users(users).receiveGroupChat(model);
+            //model.TargetId = this.UserId;
+            hub.Clients.Users(members).receiveGroupChat(groupId, model);
         }
     }
 }

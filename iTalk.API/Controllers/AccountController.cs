@@ -18,7 +18,7 @@ namespace iTalk.API.Controllers {
         /// </summary>
         /// <param name="userName">使用者名稱</param>
         /// <returns>使用者資訊</returns>
-        public async Task<UserResult> Get(string userName) {
+        public async Task<ExecuteResult<UserResult>> Get(string userName) {
             if (string.IsNullOrEmpty(userName)) {
                 throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideUserName);
             }
@@ -32,7 +32,7 @@ namespace iTalk.API.Controllers {
             bool isFriend = await this.DbContext.Friendships
                 .AnyAsync(rs => rs.UserId == this.UserId && rs.InviteeId == target.Id);
 
-            return new UserResult(target.Id, target.UserName, target.Alias, target.PersonalSign, isFriend);
+            return new ExecuteResult<UserResult>(new UserResult(target.Id, target.UserName, target.Alias, target.PersonalSign, isFriend));
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace iTalk.API.Controllers {
         /// <param name="model">帳戶 View Model</param>
         /// <returns>註冊結果</returns>
         [AllowAnonymous]
-        [AutoAddTestFriendFilter]
+        [DefaultTestFriendFilter]
         public async Task<ExecuteResult> Post(AccountViewModel model) {
             if (model == null) {
                 throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NeedUserNameAndPassword);

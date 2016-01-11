@@ -509,12 +509,12 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
-        <member name="T:iTalk.API.AutoAddTestFriendFilterAttribute">
+        <member name="T:iTalk.API.DefaultTestFriendFilterAttribute">
             <summary>
             新增使用者時，自動將測試用者者加為好友
             </summary>
         </member>
-        <member name="M:iTalk.API.AutoAddTestFriendFilterAttribute.OnActionExecutedAsync(System.Web.Http.Filters.HttpActionExecutedContext,System.Threading.CancellationToken)">
+        <member name="M:iTalk.API.DefaultTestFriendFilterAttribute.OnActionExecutedAsync(System.Web.Http.Filters.HttpActionExecutedContext,System.Threading.CancellationToken)">
             <summary>
             Action 執行後
             </summary>
@@ -778,11 +778,11 @@
             <param name="targetId">使用者或群組 Id</param>
             <returns>對話集合</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.ChatControllerBase.Chat(iTalk.API.Models.ChatViewModel,iTalk.DAO.Chat)">
+        <member name="M:iTalk.API.Controllers.ChatControllerBase.Chat(System.Int64,iTalk.DAO.Chat)">
             <summary>
             傳送對話
             </summary>
-            <param name="model">對話</param>
+            <param name="targetId">朋友或群組Id</param>
             <param name="chat">對話</param>
             <returns>執行結果</returns>
         </member>
@@ -792,11 +792,12 @@
             </summary>
             <param name="model">要檢查的 Model</param>
         </member>
-        <member name="M:iTalk.API.Controllers.ChatControllerBase.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,iTalk.API.Models.ChatViewModel)">
+        <member name="M:iTalk.API.Controllers.ChatControllerBase.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,System.Int64,iTalk.DAO.Chat)">
             <summary>
             推送對話到相關的客戶端
             </summary>
             <param name="hub">SignalR HubContext</param>
+            <param name="targetId">朋友或群組Id</param>
             <param name="model">對話</param>
         </member>
         <member name="T:iTalk.API.ControllerExtensions">
@@ -809,7 +810,7 @@
             檢查群組關係
             </summary>
             <param name="controller">控制器</param>
-            <param name="relationshipId">群組 Id</param>
+            <param name="groupId">群組 Id</param>
             <param name="throwIfNotExist">指定之群組不存在時是否拋出例外</param>
             <param name="throwIfNoRelationship">不是群組成員時是否拋出例外</param>
             <returns>朋友關聯狀態</returns>
@@ -883,11 +884,12 @@
             <param name="fileMessage">檔案訊息</param>
             <returns>執行結果</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.ChatController.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,iTalk.API.Models.ChatViewModel)">
+        <member name="M:iTalk.API.Controllers.ChatController.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,System.Int64,iTalk.DAO.Chat)">
             <summary>
-            推送對話到特定朋友的客戶端
+            推送對話到自己與特定朋友的客戶端
             </summary>
             <param name="hub">SignalR Hub</param>
+            <param name="friendId">朋友或群組Id</param>
             <param name="model">對話</param>
         </member>
         <member name="T:iTalk.API.Controllers.GroupChatController">
@@ -922,11 +924,12 @@
             <param name="fileMessage">檔案訊息</param>
             <returns>執行結果</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.GroupChatController.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,iTalk.API.Models.ChatViewModel)">
+        <member name="M:iTalk.API.Controllers.GroupChatController.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,System.Int64,iTalk.DAO.Chat)">
             <summary>
             推送對話到相關的客戶端
             </summary>
             <param name="hub">SignalR HubContext</param>
+            <param name="groupId">朋友或群組Id</param>
             <param name="model">對話</param>
         </member>
         <member name="T:iTalk.API.Controllers.GroupController">
@@ -939,6 +942,13 @@
             取得群組
             </summary>
             <returns>群組資訊</returns>
+        </member>
+        <member name="M:iTalk.API.Controllers.GroupController.Get(System.Int64)">
+            <summary>
+            取得群組
+            </summary>
+            <param name="groupId">群組Id</param>
+            <returns>群組</returns>
         </member>
         <member name="M:iTalk.API.Controllers.GroupController.Post(iTalk.API.Models.CreateGroupViewModel)">
             <summary>
@@ -1039,56 +1049,28 @@
              取得 訊息
             </summary>
         </member>
-        <member name="T:iTalk.API.Models.ChatResult">
+        <member name="T:iTalk.API.Models.ExecuteResult`1">
             <summary>
-            對話結果
+            執行API結果，含回傳資料
             </summary>
         </member>
-        <member name="M:iTalk.API.Models.ChatResult.#ctor(System.Collections.Generic.IEnumerable{iTalk.DAO.Chat})">
+        <member name="M:iTalk.API.Models.ExecuteResult`1.#ctor(`0,System.Boolean,System.Int32,System.String)">
             <summary>
             建構函數
             </summary>
+            <param name="result">結果</param>
+            <param name="success">是否成功</param>
+            <param name="statusCode">Http 狀態碼</param>
+            <param name="message">訊息</param>
         </member>
-        <member name="P:iTalk.API.Models.ChatResult.Chats">
+        <member name="P:iTalk.API.Models.ExecuteResult`1.Result">
             <summary>
-            取得 對話集合
-            </summary>
-        </member>
-        <member name="T:iTalk.API.Models.FriendResult">
-            <summary>
-            取得朋友的結果
-            </summary>
-        </member>
-        <member name="M:iTalk.API.Models.FriendResult.#ctor(System.Collections.Generic.IEnumerable{iTalk.API.Models.UserInfo})">
-            <summary>
-            建構函數
-            </summary>
-            <param name="friends">朋友名稱集合</param>
-        </member>
-        <member name="P:iTalk.API.Models.FriendResult.Friends">
-            <summary>
-            取得 朋友集合
+            要回傳的結果
             </summary>
         </member>
         <member name="T:iTalk.API.Models.GroupResult">
             <summary>
             群組結果
-            </summary>
-        </member>
-        <member name="M:iTalk.API.Models.GroupResult.#ctor(System.Collections.Generic.IEnumerable{iTalk.API.Models.GroupResult.GroupDetail})">
-            <summary>
-            建構函數
-            </summary>
-            <param name="groups">群組集合</param>
-        </member>
-        <member name="P:iTalk.API.Models.GroupResult.Group">
-            <summary>
-            取得 群組集合
-            </summary>
-        </member>
-        <member name="T:iTalk.API.Models.GroupResult.GroupDetail">
-            <summary>
-            回傳群組的詳細資料
             </summary>
         </member>
         <member name="T:iTalk.API.Models.GroupViewModel">
@@ -1104,6 +1086,11 @@
         <member name="M:iTalk.API.Models.CreateGroupViewModel.#ctor">
             <summary>
             建構函數
+            </summary>
+        </member>
+        <member name="F:iTalk.API.Models.CreateGroupViewModel._members">
+            <summary>
+            群組成員 Id 
             </summary>
         </member>
         <member name="P:iTalk.API.Models.CreateGroupViewModel.Name">
@@ -1126,12 +1113,12 @@
             取得/設定 群組 Id
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.GroupResult.GroupDetail.Thumbnail">
+        <member name="P:iTalk.API.Models.GroupResult.Thumbnail">
             <summary>
             取得/設定 縮圖
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.GroupResult.GroupDetail.ImageUrl">
+        <member name="P:iTalk.API.Models.GroupResult.ImageUrl">
             <summary>
             取得/設定 圖片網址
             </summary>
@@ -1201,6 +1188,11 @@
             使用者 View Model
             </summary>
         </member>
+        <member name="M:iTalk.API.Models.UserResult.#ctor">
+            <summary>
+            建構函數
+            </summary>
+        </member>
         <member name="M:iTalk.API.Models.UserResult.#ctor(System.Int64,System.String,System.String,System.String,System.Boolean)">
             <summary>
             建構函數
@@ -1214,6 +1206,11 @@
         <member name="F:iTalk.API.Models.UserResult._personalSign">
             <summary>
             個性簽名
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserResult.Id">
+            <summary>
+            取得/設定 Id
             </summary>
         </member>
         <member name="P:iTalk.API.Models.UserResult.UserName">

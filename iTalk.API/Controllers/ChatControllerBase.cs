@@ -22,7 +22,7 @@ namespace iTalk.API.Controllers {
         /// <param name="before">篩選某個時間點前的資料</param>
         /// <param name="after">篩選某個時間點後的資料</param>
         /// <returns>對話</returns>
-        public async Task<ChatResult> Get(long targetId, int? top = null, int? skip = null, DateTime? after = null, DateTime? before = null) {
+        public async Task<ExecuteResult<Chat[]>> Get(long targetId, int? top = null, int? skip = null, DateTime? after = null, DateTime? before = null) {
             await this.ValidateRelationship(targetId);
 
             var query = this.GetChats(targetId);
@@ -43,7 +43,7 @@ namespace iTalk.API.Controllers {
                 query = query.Where(c => c.Date <= before);
             }
 
-            return new ChatResult(await query.ToArrayAsync());
+            return new ExecuteResult<Chat[]>(await query.ToArrayAsync());
         }
 
         /// <summary>
@@ -62,10 +62,10 @@ namespace iTalk.API.Controllers {
         /// <summary>
         /// 傳送對話
         /// </summary>
-        /// <param name="model">對話</param>
+        /// <param name="targetId">朋友或群組Id</param>
         /// <param name="chat">對話</param>
         /// <returns>執行結果</returns>
-        protected async Task<ExecuteResult> Chat(ChatViewModel model, Chat chat) {
+        protected async Task<ExecuteResult> Chat(long targetId, Chat chat) {
             this.DbContext.Chats.Add(chat);
 
             try {
@@ -73,7 +73,7 @@ namespace iTalk.API.Controllers {
 
                 // 暫放 Hub
                 var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-                await this.PushChatToClient(hub, model);
+                await this.PushChatToClient(hub, targetId, chat);
             }
             catch (Exception ex) {
                 throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
@@ -100,7 +100,8 @@ namespace iTalk.API.Controllers {
         /// 推送對話到相關的客戶端
         /// </summary>
         /// <param name="hub">SignalR HubContext</param>
+        /// <param name="targetId">朋友或群組Id</param>
         /// <param name="model">對話</param>
-        protected abstract Task PushChatToClient(IHubContext hub, ChatViewModel model);
+        protected abstract Task PushChatToClient(IHubContext hub, long targetId, Chat model);
     }
 }

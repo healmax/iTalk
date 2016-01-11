@@ -2,6 +2,7 @@
 using iTalk.API.Properties;
 using iTalk.DAO;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -16,19 +17,41 @@ namespace iTalk.API.Controllers {
         /// 取得群組
         /// </summary>
         /// <returns>群組資訊</returns>
-        public async Task<GroupResult> Get() {
-            var groups = await this.DbContext.GroupMembers
-                .Where(gm => gm.UserId == this.UserId)
-                .Select(gm => new GroupResult.GroupDetail() {
-                    Description = gm.Group.Description,
-                    Id = gm.GroupId,
-                    ImageUrl = gm.Group.ImageUrl,
-                    Name = gm.Group.Name,
-                    Thumbnail = gm.Group.Thumbnail
+        public async Task<ExecuteResult<GroupResult[]>> Get() {
+            var groups = await this.DbContext.Groups
+                .Where(g => g.Members.Any(gm => gm.UserId == this.UserId))
+                .Select(g => new GroupResult() {
+                    Description = g.Description,
+                    Id = g.Id,
+                    ImageUrl = g.ImageUrl,
+                    Name = g.Name,
+                    Thumbnail = g.Thumbnail,
+                    Members = g.Members.Select(m => m.UserId)
                 })
                 .ToArrayAsync();
 
-            return new GroupResult(groups);
+            return new ExecuteResult<GroupResult[]>(groups);
+        }
+
+        /// <summary>
+        /// 取得群組
+        /// </summary>
+        /// <param name="groupId">群組Id</param>
+        /// <returns>群組</returns>
+        public async Task<ExecuteResult<UserResult[]>> Get(long groupId) {
+            await this.ValidateGroup(groupId);
+            var members = await this.DbContext.GroupMembers
+                .Where(gm => gm.GroupId == groupId)
+                .Select(gm => new UserResult() {
+                    Id = gm.UserId,
+                    UserName = gm.User.UserName,
+                    Alias = gm.User.Alias,
+                    PersonalSign = gm.User.PersonalSign,
+                    IsFriend = this.DbContext.Friendships.Any(fs => fs.UserId == this.UserId && fs.InviteeId == gm.UserId)
+                })
+                .ToArrayAsync();
+
+            return new ExecuteResult<UserResult[]>(members);
         }
 
         /// <summary>
@@ -44,25 +67,36 @@ namespace iTalk.API.Controllers {
                 throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
             }
 
-            // 檢查不存在或不是朋友的使用者
-            var invalidUser = await model.Members.AsQueryable()
-                .Except(this.DbContext.Friendships
-                .Where(fs => fs.InviteeId == this.UserId && !model.Members.Contains(fs.InviteeId))
-                .Select(u => u.Id))
-                .ToArrayAsync();
+            var memberIds = model.Members
+                .Distinct()
+                .SkipWhile(id => id == this.UserId)
+                .ToList();
 
-            if (invalidUser.Length != 0) {
-                throw this.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.User, string.Join(",", invalidUser), Resources.NotExist);
+            // 檢查不存在或不是朋友的使用者
+            long[] invalidUsers = null;
+            await Task.Run(() => invalidUsers = memberIds
+                .Except(this.DbContext.Friendships
+                    .Where(fs => fs.UserId == this.UserId /*&& !model.Members.Contains(fs.InviteeId)*/)
+                    .Select(u => u.InviteeId))
+                .ToArray());
+
+            if (invalidUsers.Length != 0) {
+                throw this.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.User, string.Join(",", invalidUsers), Resources.NotExist);
             }
 
-            Group group = new Group(model.Name, this.UserId, DateTime.Now) {
-                Name = model.Name,
+            DateTime createTime = DateTime.Now;
+            Group group = this.DbContext.Groups.Add(new Group(model.Name, this.UserId, createTime) {
                 Description = model.Description,
                 // TODO : 圖片
-            };
+            });
+
+            memberIds.Add(this.UserId);
+
+            foreach (long id in memberIds) {
+                this.DbContext.GroupMembers.Add(new GroupMember(id, group, RelationshipStatus.Pending, createTime));
+            }
 
             try {
-                this.DbContext.Groups.Add(group);
                 await this.DbContext.SaveChangesAsync();
             }
             catch (Exception ex) {

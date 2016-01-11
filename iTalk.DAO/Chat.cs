@@ -33,7 +33,6 @@ namespace iTalk.DAO {
         /// 取得 Relationship Id
         /// </summary>
         [Required]
-        [JsonIgnore]
         public long RelationshipId { get; private set; }
 
         /// <summary>

@@ -1,7 +1,11 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top:50px;
     background-color: #D3DAE2;
     /*padding-bottom: 50px;*/
+}
+
+.below-navbar {
+    padding-top: 75px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -28,11 +32,11 @@ textarea {
 }
 
 .container {
-    max-width: 750px !important;
+    max-width: 960px !important;
 }
 
 .tab {
-    width: 210px;
+    width: 300px;
     padding: 10px;
     overflow: auto;
 }
@@ -50,9 +54,9 @@ textarea {
     color: white;
 }
 
-.main-content {
+/*.main-content {
     padding-left: 0px;
-}
+}*/
 
 .chat-input {
     max-width: calc(100vw - 50px);
@@ -65,16 +69,16 @@ textarea {
 }
 
 @media (min-width: 768px) {
-    .main-content {
+    /*.main-content {
         padding-left: 200px;
-    }
+    }*/
 
     .chat-input {
         /*max-width: initial;
         float:left;*/
         display: block;
         max-width: calc(100% - 260px);
-        box-sizing: border-box; /*Makes inputs behave like true block-level elements;*/  
+        box-sizing: border-box; /*Makes inputs behave like true block-level elements;*/
     }
 }
 
@@ -89,10 +93,6 @@ textarea {
 
 .chat-input-buttons {
     padding: 5px 0px 0px 5px;
-}
-
-#content {
-    padding-top: 50px;
 }
 
 /*
@@ -302,4 +302,36 @@ Either move the js to the tag or load the specific CSS code to your CSS to make 
 
 md-input-container {
     padding-bottom: 2px !important;
+}
+
+.portrait-xs {
+    width: 35px;
+    height: 35px;
+}
+
+.portrait-md {
+    width: 50px;
+    height: 50px;
+}
+
+.portrait-lg {
+    width: 100px;
+    height: 100px;
+}
+
+.portrait-xs, .portrait-md, .portrait-lg {
+    margin: 10px;
+}
+
+md-input-container {
+    margin: 0px !important;
+}
+
+a:focus {
+    outline: inherit;
+    outline-offset: inherit;
+}
+
+.room-title {
+    z-index: 2000;
 }

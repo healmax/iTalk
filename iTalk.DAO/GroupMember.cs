@@ -16,20 +16,27 @@ namespace iTalk.DAO {
         /// 建構函數
         /// </summary>
         /// <param name="userId">成員 Id</param>
-        /// <param name="groupId">邀請者 Id</param>
+        /// <param name="groupId">群組 Id</param>
         /// <param name="status">關係狀態</param>
         /// <param name="date">建立時間</param>
         public GroupMember(long userId, long groupId, RelationshipStatus status, DateTime date)
             : base(date) {
-            //if (string.IsNullOrEmpty(userId)) {
-            //    throw new ArgumentNullException("memberId");
-            //}
-
-            //if (groupId == null) {
-            //    throw new ArgumentNullException("groupId");
-            //}
-
             this.UserId = userId;
+            this.GroupId = groupId;
+            this.Status = status;
+        }
+
+        /// <summary>
+        /// 建構函數
+        /// </summary>
+        /// <param name="userId">成員 Id</param>
+        /// <param name="group">群組</param>
+        /// <param name="status">關係狀態</param>
+        /// <param name="date">建立時間</param>
+        public GroupMember(long userId, Group group, RelationshipStatus status, DateTime date)
+            : base(date) {
+            this.UserId = userId;
+            this.Group = group;
             this.Status = status;
         }
 

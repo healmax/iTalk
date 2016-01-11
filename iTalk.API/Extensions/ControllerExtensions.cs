@@ -20,31 +20,35 @@ namespace iTalk.API {
         /// 檢查群組關係
         /// </summary>
         /// <param name="controller">控制器</param>
-        /// <param name="relationshipId">群組 Id</param>
+        /// <param name="groupId">群組 Id</param>
         /// <param name="throwIfNotExist">指定之群組不存在時是否拋出例外</param>
         /// <param name="throwIfNoRelationship">不是群組成員時是否拋出例外</param>
         /// <returns>朋友關聯狀態</returns>
-        public static async Task<RelationCheck> ValidateGroup(this DefaultApiController controller, long relationshipId, bool throwIfNotExist = true, bool throwIfNoRelationship = true) {
+        public static async Task<RelationCheck> ValidateGroup(this DefaultApiController controller, long groupId, bool throwIfNotExist = true, bool throwIfNoRelationship = true) {
             iTalkDbContext dbContext = controller.Request.GetOwinContext().Get<iTalkDbContext>();
-            Group group = await dbContext.Groups.FindAsync(relationshipId);
+            //Group group = await dbContext.Groups.FindAsync(groupId);
+            bool exist = await dbContext.Groups.AnyAsync(g => g.Id == groupId);
 
-            if (group == null) {
+            if (!exist) {
                 if (throwIfNotExist) {
-                    throw controller.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.Group, relationshipId, Resources.NotExist);
+                    throw controller.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.Group, groupId, Resources.NotExist);
                 }
                 else {
                     return RelationCheck.NotExist;
                 }
             }
 
-            bool isMember = await dbContext.Entry(group)
-                .Collection(g => g.Members)
-                .Query()
-                .AnyAsync(m => m.UserId == controller.UserId);
-
+            //bool isMember = await dbContext.Entry(group)
+            //    .Collection(g => g.Members)
+            //    .Query()
+            //    .AnyAsync(m => m.UserId == controller.UserId);
+            bool isMember = await dbContext.GroupMembers
+                .Where(gm => gm.UserId == controller.UserId)
+                .AnyAsync(gm => gm.GroupId == groupId);                
+            
             if (!isMember && throwIfNoRelationship) {
                 throw controller.CreateResponseException(HttpStatusCode.NotFound, "{0}{1} {2} {3}{4}",
-                    Resources.You, Resources.Not, relationshipId, Resources.Group, Resources.Member);
+                    Resources.You, Resources.Not, groupId, Resources.Group, Resources.Member);
             }
 
             return isMember ? RelationCheck.In : RelationCheck.Not;

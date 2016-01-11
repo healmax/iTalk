@@ -53,7 +53,7 @@ namespace iTalk.API.Controllers {
 
             Dialog dialog = new Dialog(friendshipId, this.UserId, model.Date, model.Content);
 
-            return await this.Chat(model, dialog);
+            return await this.Chat(friendId, dialog);
         }
 
         /// <summary>
@@ -67,14 +67,16 @@ namespace iTalk.API.Controllers {
         }
 
         /// <summary>
-        /// 推送對話到特定朋友的客戶端
+        /// 推送對話到自己與特定朋友的客戶端
         /// </summary>
         /// <param name="hub">SignalR Hub</param>
+        /// <param name="friendId">朋友或群組Id</param>
         /// <param name="model">對話</param>
-        protected override async Task PushChatToClient(IHubContext hub, ChatViewModel model) {
-            string friendId = model.TargetId.ToString();
-            model.TargetId = this.UserId;
-            hub.Clients.User(friendId).receiveChat(model);
+        protected override async Task PushChatToClient(IHubContext hub, long friendId, Chat model) {
+            //string friendId = model.TargetId.ToString();
+            //model.TargetId = this.UserId;
+            hub.Clients.User(this.UserId.ToString()).receiveChat(friendId, model);
+            hub.Clients.User(friendId.ToString()).receiveChat(this.UserId, model);
 
             await Task.FromResult<object>(null);
         }

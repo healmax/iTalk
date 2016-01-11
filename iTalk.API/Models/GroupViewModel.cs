@@ -5,13 +5,11 @@ namespace iTalk.API.Models {
     /// <summary>
     /// 建立群組 View Model
     /// </summary>
-    public abstract class CreateGroupViewModel {
+    public class CreateGroupViewModel {
         /// <summary>
         /// 建構函數
         /// </summary>
-        public CreateGroupViewModel() {
-            this.Members = new List<long>();
-        }
+        public CreateGroupViewModel() { }
 
         /// <summary>
         /// 取得/設定 名稱
@@ -27,9 +25,25 @@ namespace iTalk.API.Models {
         public string Description { get; set; }
 
         /// <summary>
+        /// 群組成員 Id 
+        /// </summary>
+        IEnumerable<long> _members;
+
+        /// <summary>
         /// 取得/設定 群組成員 Id 
         /// </summary>
-        public List<long> Members { get; private set; }
+        public IEnumerable<long> Members {
+            get {
+                if (this._members == null) {
+                    this._members = new List<long>();
+                }
+
+                return this._members;
+            }
+            set {
+                this._members = value;
+            }
+        }
     }
 
     /// <summary>

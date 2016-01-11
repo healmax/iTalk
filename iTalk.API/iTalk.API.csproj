@@ -411,7 +411,10 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Img\portrait.png" />
-    <Content Include="js\index.js" />
+    <Content Include="js\addFriendController.js" />
+    <Content Include="js\chatController.js" />
+    <Content Include="js\groupController.js" />
+    <Content Include="js\iTalkApp.js" />
     <Content Include="js\signalRHubProxy.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -1236,6 +1239,7 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Areas\Admin\Views\Home\_CreateGroup.cshtml" />
     <Content Include="Areas\Admin\Views\Home\_FriendList.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\_Detail.cshtml" />
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
@@ -1292,7 +1296,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Filter\AutoAddTestFriendFilterAttribute.cs" />
+    <Compile Include="Filter\DefaultTestFriendFilterAttribute.cs" />
     <Compile Include="Hubs\SignalRContractResolver.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\UserManager.cs" />

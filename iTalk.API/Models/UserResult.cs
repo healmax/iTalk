@@ -2,7 +2,12 @@
     /// <summary>
     /// 使用者 View Model
     /// </summary>
-    public class UserResult : ExecuteResult {
+    public class UserResult {
+        /// <summary>
+        /// 建構函數
+        /// </summary>
+        public UserResult() { }
+
         /// <summary>
         /// 建構函數
         /// </summary>
@@ -19,17 +24,20 @@
             this.IsFriend = isFriend;
         }
 
-        public long Id { get; private set; }
+        /// <summary>
+        /// 取得/設定 Id
+        /// </summary>
+        public long Id { get; set; }
 
         /// <summary>
         /// 取得/設定 使用者名稱
         /// </summary>
-        public string UserName { get; private set; }
+        public string UserName { get; set; }
 
         /// <summary>
         /// 取得 暱稱
         /// </summary>
-        public string Alias { get; private set; }
+        public string Alias { get; set; }
 
         /// <summary>
         /// 個性簽名
@@ -47,6 +55,6 @@
         /// <summary>
         /// 取得/設定 是否為朋友
         /// </summary>
-        public bool IsFriend { get; private set; }
+        public bool IsFriend { get; set; }
     }
 }

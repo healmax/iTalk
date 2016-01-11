@@ -11,7 +11,8 @@ namespace iTalk.DAO.Migrations {
         /// «Øºc¨ç¼Æ
         /// </summary>
         public Configuration() {
-            AutomaticMigrationsEnabled = false;
+            this.AutomaticMigrationsEnabled = false;
+            this.SetSqlGenerator("System.Data.SqlClient", new iTalkMigrationSqlGenerator());
         }
 
         /// <summary>

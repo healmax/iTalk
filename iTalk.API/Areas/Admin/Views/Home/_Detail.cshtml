@@ -1,0 +1,55 @@
+﻿<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+    <md-content layout="column">
+        <div layout="column" layout-align="center center">
+            <img ng-src="{{detail.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-lg" />
+            <label>{{detail.alias || detail.name}}</label>
+            <label class="text-muted">{{detail.personalSign}}</label>
+        </div>
+        <md-list>
+            <md-list-item>
+                <p>邀請</p>
+                <span class="fa fa-angle-right md-secondary disabled"></span>
+            </md-list-item>
+            <md-divider></md-divider>
+
+            <div ng-if="detail.id < 0">
+                <md-list-item>
+                    <p>退出群組</p>
+                    <span class="fa fa-angle-right md-secondary"></span>
+                </md-list-item>
+                <md-tabs md-dynamic-height>
+                    <md-tab label="群組成員({{detail.members.length}})">
+                        <md-list>
+                            <md-list-item ng-repeat="id in detail.members">
+                                <img ng-src="{{users[id.toString()].thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
+                                <p>{{users[id.toString()].alias}}</p>
+                                <a ng-if="id !== me.id">
+                                    <span class="fa fa-times"></span>
+                                </a>
+                            </md-list-item>
+                        </md-list>
+                    </md-tab>
+                    <md-tab label="正在邀請(0)"></md-tab>
+                </md-tabs>
+            </div>
+
+            <div ng-if="detail.id > 0">
+                <md-list-item>
+                    <p>聊天</p>
+                    <span class="fa fa-angle-right md-secondary"></span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item>
+                    <p>加到我的最愛</p>
+                    <md-checkbox ng-disabled="true" class="md-secondary"></md-checkbox>
+                </md-list-item>
+                <md-divider></md-divider>
+
+                <md-list-item>
+                    <p>封鎖</p>
+                    <span class="fa fa-angle-right md-secondary"></span>
+                </md-list-item>
+            </div>
+        </md-list>
+    </md-content>
+</md-sidenav>

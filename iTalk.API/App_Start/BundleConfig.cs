@@ -31,14 +31,20 @@ namespace iTalk.API {
                      "~/Scripts/angular.js",
                      "~/Scripts/angular-animate.js",
                      "~/Scripts/angular-aria.js",
+                     "~/Scripts/angular-messages.js",
                      "~/Scripts/angular-ui/ui-bootstrap.js",
                      "~/Scripts/matchmedia-ng.js",
                      "~/Scripts/angular-material.js",
-                     "~/js/index.js",
-                     "~/js/signalRHubProxy.js"));
+                     "~/js/signalRHubProxy.js",
+                     "~/js/iTalkApp.js",
+                     "~/js/chatController.js",
+                     "~/js/groupController.js",
+                     "~/js/addFriendController.js"
+                     ));
 
             bundles.Add(new StyleBundle("~/Content/angular").Include(
-                    "~/Content/angular-material.css"));
+                    "~/Content/angular-material.css",
+                    "~/Content/angular-material.layout.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
                     "~/Scripts/jquery.signalR-{version}.js",
