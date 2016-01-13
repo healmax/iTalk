@@ -1,101 +1,88 @@
 ﻿<div id="function-tabs" ng-switch="tabIndex">
     <div id="chat-tab" ng-switch-when="1"></div>
     <div id="friend-tab" class="tab" ng-switch-when="2">
-        <md-content class="autoScroll">
-            <md-input-container md-no-float>
-                <md-icon class="fa fa-search"></md-icon>
-                <input type="text" placeholder=@Resources.SearchByName ng-model="search.alias" />
-            </md-input-container>
+        <div class="layout-padding" layout>
+            <div class="layout-padding" layout>
+                <span class="fa fa-search"></span>
+                <input type="text" placeholder="@Resources.SearchByName" ng-model="search.alias" />
+            </div>
+        </div>
+        <md-content class="below-search-box">
+            <md-list id="friend-list">
+                <md-list-item>
+                    <small class="text-muted">@Resources.Friend {{count(friends)}}</small>
+                </md-list-item>
+                <md-list-item ng-class="{'bg-info':current.id === friend.id}"
+                              ng-click="setCurrent(friend)"
+                              ng-repeat="(key, friend) in friends | custom:search">
+                    <img ng-src="{{friend.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
+                    <p ng-bind="friend.alias"></p>
+                </md-list-item>
+            </md-list>
         </md-content>
-        <small class="text-muted">@Resources.Friend {{count(friends)}}</small>
-        <md-list id="friend-list" class="tab-height">
-            <!--nav nav-pills nav-stacked -->
-            <md-list-item ng-class="{'bg-info':current.id === friend.id}"
-                          ng-click="setCurrent(friend)"
-                          ng-repeat="(key, friend) in friends | custom:search">
-                @*<a href="javascript:;" ng-bind="friend.alias"></a>*@
-                <img ng-src="{{friend.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
-                <p ng-bind="friend.alias"></p>
-            </md-list-item>
-        </md-list>
     </div>
     <div id="group-tab" class="tab" ng-switch-when="3" ng-controller="groupController">
-        <md-content class="autoScroll">
-            <md-input-container md-no-float>
-                <md-icon class="fa fa-search"></md-icon>
-                <input type="text" placeholder="@Resources.SearchByName" ng-model="search.name" />
-            </md-input-container>
-        </md-content>
-        <small class="text-muted">@Resources.Group {{count(groups)}}</small>
-        <md-button class="md-icon-button" ng-click="showCreateGroupDialog($event)" aria-label="createGroup">
-            <span class="fa fa-plus"></span>
-        </md-button>
-        <md-list id="group-list" class="tab-height">
-            <!--nav nav-pills nav-stacked -->
-            <md-list-item ng-class="{'bg-info':current.id === group.id}"
-                          ng-click="setCurrent(group)"
-                          ng-repeat="(key, group) in groups | custom:search">
-                @*<a href="javascript:;" ng-bind="friend.alias"></a>*@
-                <img ng-src="{{group.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
-                <p ng-bind="group.name"></p>
-            </md-list-item>
-        </md-list>
-        @*<ul id="group-list" class="nav nav-pills nav-stacked tab-height">
+        <div class="layout-padding" layout>
+            <span class="fa fa-search"></span>
+            <input type="text" placeholder="@Resources.SearchByName" ng-model="search.name" />
+        </div>
+        <md-content class="below-search-box">
+            <md-list id="group-list">
+                <md-list-item>
+                    <small class="text-muted">@Resources.Group {{count(groups)}}</small>
+                    <md-button class="md-icon-button md-secondary" ng-click="showCreateGroupDialog($event)" aria-label="createGroup">
+                        <span class="fa fa-plus"></span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item ng-class="{'bg-info':current.id === group.id}"
+                              ng-click="setCurrent(group)"
+                              ng-repeat="(key, group) in groups | custom:search">
+                    <img ng-src="{{group.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
+                    <p ng-bind="group.name"></p>
+                </md-list-item>
+            </md-list>
+            @*<ul id="group-list" class="nav nav-pills nav-stacked tab-height">
                 <li ng-class="{'active': current.id === group.id}" ng-click="setCurrent(group)" ng-repeat="(key, group) in groups | custom:search">
                     <a href="javascript:;" ng-bind="group.name"></a>
                 </li>
             </ul>*@
+        </md-content>
     </div>
     <div id="add-friend-tab" class="tab" ng-switch-when="4" ng-controller="addFriendController">
-        <div class=" has-feedback">
-            <input class="form-control input-sm"
-                   placeholder=@Resources.SearchByName
+        <div class="layout-padding" layout>
+            <span class="fa fa-search"></span>
+            <input type="text"
+                   placeholder="@Resources.SearchByName"
                    ng-model="user.input"
                    ng-keydown="$event.which === 13 && searchUser()" />
-            <span class="fa fa-search form-control-feedback"></span>
         </div>
-        <small class="text-muted">@Resources.UserName @User.Identity.Name</small>
-        <div class="text-center tab-height">
-            <div ng-if="user.status === 1">
-                <img ng-src="{{user.found.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-lg" />
-                <p><strong ng-bind="user.found.alias"></strong></p>
-                <p ng-bind="user.found.description"></p>
-                <span ng-if="user.found.isFriend">
-                    <span ng-bind="user.found.alias"></span> @Resources.AlreadyYourFriend
-                </span>
-                <p ng-if="user.found.userName === '@User.Identity.Name'">@Resources.Yourself</p>
-                <div class="form-inline">
-                    <div class="input-group">
-                        <button class="btn btn-default" ng-click="endAddFriend()">@Resources.Cancel</button>&nbsp;
-                        <button class="btn btn-success"
-                                ng-disabled="user.found.isFriend || user.found.userName === '@User.Identity.Name'"
-                                ng-click="addFriend()">
-                            @Resources.Add
-                        </button>
+        <div>
+            <md-list-item class="text-muted">@Resources.UserName @User.Identity.Name</md-list-item>
+            <div class="text-center">
+                <div ng-if="user.status === 1">
+                    <img ng-src="{{user.found.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-lg" />
+                    <p><strong ng-bind="user.found.alias"></strong></p>
+                    <p ng-bind="user.found.description"></p>
+                    <span ng-if="user.found.isFriend">
+                        <span ng-bind="user.found.alias"></span> @Resources.AlreadyYourFriend
+                    </span>
+                    <p ng-if="user.found.userName === '@User.Identity.Name'">@Resources.Yourself</p>
+                    <div class="form-inline">
+                        <div class="input-group">
+                            <button class="btn btn-default" ng-click="endAddFriend()">@Resources.Cancel</button>&nbsp;
+                            <button class="btn btn-success"
+                                    ng-disabled="user.found.isFriend || user.found.userName === '@User.Identity.Name'"
+                                    ng-click="addFriend()">
+                                @Resources.Add
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div ng-if="user.status === 0">
-                <p>@Resources.CannotFindUser</p>
-                <button class="btn btn-success" ng-click="endAddFriend()">@Resources.Confirm</button>
+                <div ng-if="user.status === 0">
+                    <p>@Resources.CannotFindUser</p>
+                    <button class="btn btn-success" ng-click="endAddFriend()">@Resources.Confirm</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!--功能按鈕列-->
-<div id="function-buttons" class="area">
-    <ul class="nav nav-pills">
-        <li class="disabled" ng-click="setTabIndex(-1)" ng-class="{ active: isCurrentTab(1) }">
-            <a href="javascript:;"><span class="fa fa-comment-o fa-lg"></span></a>
-        </li>
-        <li ng-click="setTabIndex(2)" ng-class="{ active: isCurrentTab(2) }">
-            <a href="javascript:;"><span class="fa fa-user fa-lg"></span></a>
-        </li>
-        <li ng-click="setTabIndex(3)" ng-class="{ active: isCurrentTab(3) }">
-            <a href="javascript:;"><span class="fa fa-users fa-lg"></span></a>
-        </li>
-        <li ng-click="setTabIndex(4)" ng-class="{ active: isCurrentTab(4) }">
-            <a href="javascript:;"><span class="fa fa-user-plus fa-lg"></span></a>
-        </li>
-    </ul>
 </div>

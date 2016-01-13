@@ -159,9 +159,17 @@ iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 
         };
     };
 
+    $scope.isSameDay = function (date1, date2) {
+        return new Date(date1).toLocaleDateString() == new Date(date2).toLocaleDateString();
+    }
+
+    $scope.toLocaleDateString = function (date) {
+        return new Date(date).toLocaleDateString();
+    }
+
     $scope.showError = function (result) {
         alert(result.statusCode + ' : ' + result.message);
-    };
+    }
 
     $scope.count = function (dict) {
         return Object.keys(dict).length;
@@ -170,7 +178,7 @@ iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 
     $scope.detail = null;
 
     $scope.showDetail = function (navId, id) {
-        if (Number.isInteger(id)) {
+        if ($.isNumeric(id)) {
             if (id > 0) {
                 $scope.detail = $scope.users[id];
             }

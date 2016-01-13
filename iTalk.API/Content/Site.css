@@ -1,12 +1,48 @@
 ﻿body {
-    padding-top:50px;
+    padding-top: 50px;
+    /*padding-bottom: 150px;*/
     background-color: #D3DAE2;
-    /*padding-bottom: 50px;*/
+    overflow: hidden;
 }
 
-.below-navbar {
-    padding-top: 75px;
+.block {
+    border: 1px solid #ccc;
 }
+
+.scroll-container {
+    margin-bottom: 60px;
+    position: fixed;
+    top: 50px;
+    bottom: 60px;
+}
+
+.scrollable-y {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.no-padding-margin {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+#bottom-sidebar {
+    margin-bottom: 15px;
+}
+
+.below-search-box {
+    margin-top: -15px;
+    height: calc(100vh - 152px);
+}
+
+.text-left-important {
+    text-align: left !important;
+}
+
+/*.below-navbar {
+    margin-top: 75px;
+}*/
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -14,7 +50,7 @@
     padding-right: 15px;*/
 }
 
-.content-height {
+/*.content-height {
     height: calc(100vh - 135px);
     overflow: auto;
 }
@@ -22,13 +58,16 @@
 .tab-height {
     height: calc(100vh - 185px);
     border: 1px solid white;
-}
+}*/
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
+    border: 0px none;
+    outline: 0px none;
+    width: 100%;
 }
 
 .container {
@@ -37,13 +76,9 @@ textarea {
 
 .tab {
     width: 300px;
-    padding: 10px;
-    overflow: auto;
+    /*padding: 10px;*/
+    /*overflow: auto;*/
 }
-
-/*.area {
-    border: 1px solid #ddd;
-}*/
 
 .workarea {
     background-color: white;
@@ -54,12 +89,8 @@ textarea {
     color: white;
 }
 
-/*.main-content {
-    padding-left: 0px;
-}*/
-
 .chat-input {
-    max-width: calc(100vw - 50px);
+    max-width: calc(100vw - 400px);
     float: left;
 }
 
@@ -91,9 +122,9 @@ textarea {
     height: 50px;
 }
 
-.chat-input-buttons {
+/*.chat-input-buttons {
     padding: 5px 0px 0px 5px;
-}
+}*/
 
 /*
 loading angular at the bottom of the page, it's taking time to load. So the css required for the ng-cloak is not available yet.
@@ -109,9 +140,16 @@ Either move the js to the tag or load the specific CSS code to your CSS to make 
     position: relative;
     Max-width: 240px;
     height: auto;
-    background-color: #C2F5A8;
     word-wrap: break-word;
     word-break: break-all;
+}
+
+.bg-sender {
+    background-color: #C2F5A8;
+}
+
+.bg-receiver {
+    background-color: #ECEEF3;
 }
 
 .border {
@@ -147,7 +185,7 @@ Either move the js to the tag or load the specific CSS code to your CSS to make 
     top: 8px;
     bottom: auto;
     border: 12px solid;
-    border-color: #C2F5A8 #C2F5A8 transparent transparent;
+    border-color: #ECEEF3 #ECEEF3 transparent transparent;
 }
 
 .tri-right.border.btm-left:before {
@@ -199,7 +237,7 @@ Either move the js to the tag or load the specific CSS code to your CSS to make 
     top: auto;
     bottom: -20px;
     border: 12px solid;
-    border-color: #C2F5A8 transparent transparent #C2F5A8;
+    border-color: #ECEEF3 transparent transparent #ECEEF3;
 }
 
 .tri-right.border.btm-right-in:before {
@@ -223,7 +261,7 @@ Either move the js to the tag or load the specific CSS code to your CSS to make 
     right: 38px;
     bottom: -20px;
     border: 12px solid;
-    border-color: #C2F5A8 #C2F5A8 transparent transparent;
+    border-color: #ECEEF #ECEEF transparent transparent;
 }
 
 .tri-right.border.btm-right:before {
@@ -332,6 +370,24 @@ a:focus {
     outline-offset: inherit;
 }
 
-.room-title {
-    z-index: 2000;
+/*
+ *  Scrollbar
+ */
+
+md-content::-webkit-scrollbar-track {
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+    background-color: none;
+}
+
+md-content::-webkit-scrollbar {
+    width: 4px;
+    /*background-color: #F5F5F5;*/
+}
+
+md-content::-webkit-scrollbar-thumb {
+    /*background-color: #000;*/
+    /*border: 2px solid #555;*/
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #C1C4D0;
 }

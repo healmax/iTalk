@@ -6,99 +6,107 @@
      ng-controller="indexController"
      ng-model="me"
      ng-init="me = { id: @(User.Identity.GetUserId<long>()), userName: '@User.Identity.Name' }"
+     style="height: calc(100vh - 114px);"
      ng-cloak>
-    <div id="sidebar" ng-if="!isPhone">
-        @Html.Partial("_Sidebar")
-    </div>
-    <md-content>
-        <div class="main-content">
-            <!--聊天內容區塊-->
-            <div class="area">
-                <div class="room-title">
-                    <a class="h4 affix" href="javascript:;" ng-click="showDetail('right')">
-                        <md-list-item ng-if="current" layout>
-                            <img ng-src="{{current.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
-                            <div ng-if="current.alias">{{current.alias}}</div>
-                            <div ng-if="current.name">{{current.name}}({{current.members.length}})</div>
-                        </md-list-item>
-                    </a>
-                </div>
-                <div class="below-navbar" ng-show="current.id == key" ng-repeat="(key, chat) in chats">
-                    @*<md-list>
-                            <md-list-item class="md-2-line" ng-switch="isSender(c)" ng-repeat="c in chat">
-                                <img ng-if="key <= 0" src="" class="img-circle portrait-xs" ng-click="showDetail('right')" />
-                                <div class="md-list-item-text" layout="column">
-                                    <span ng-if="key <= 0" ng-bind="users[c.senderId.toString()].alias"></span>
-                                    <div class="chat-bubble tri-right round"
-                                         ng-class="{'right-in':isSender(c), 'left-in':!isSender(c)}">
-                                        <div class="chat-content">
-                                            <span ng-bind="::c.content" style="vertical-align:central"></span>
-                                        </div>
+    <div class="">
+        <div id="sidebar" ng-if="!isPhone">
+            @Html.Partial("_Sidebar")
+        </div>
+        <!--聊天內容區塊-->
+        <md-content>
+            <div layout>
+                <md-button ng-if="current" ng-click="showDetail('right')" class="h4 no-padding-margin text-left-important" flex="100">
+                    <img ng-src="{{current.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
+                    <span ng-if="current.alias">{{current.alias}}</span>
+                    <span ng-if="current.name">{{current.name}}({{current.members.length}})</span>
+                </md-button>
+            </div>
+            <md-content ng-show="current.id == key" ng-repeat="(key, chat) in chats" style="height: calc(100vh - 170px)">
+                <ul class="list-unstyled">
+                    <li ng-repeat="c in chat track by $index">
+                        <div ng-switch="$index == 0 || !isSameDay(chat[$index - 1].date, c.date)">
+                            <!--顯示日期-->
+                            <div ng-switch-when="true" class="text-center" layout-padding>
+                                <span class="bg-info" ng-bind="toLocaleDateString(c.date)"></span>
+                            </div>
+                            <!--顯示對話-->
+                            <div>
+                                <div layout ng-class="{'pull-right':isSender(c)}">
+                                    <div layout layout-align="center center">
+                                        <sub ng-if="isSender(c)" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="sender-date"></sub>
                                     </div>
-                                </div>
-                            </md-list-item>
-                        </md-list>*@
-                    <ul id="" class="list-unstyled">
-                        <li ng-switch="isSender(c)" ng-repeat="c in chat">
-                            <div layout ng-class="{'pull-right':isSender(c)}">
-                                <div layout layout-align="center center">
-                                    <sub ng-switch-when="true" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="sender-date"></sub>
-                                </div>
-                                <div ng-switch-when="false" ng-if="key <= 0" layout="column">
-                                    <img ng-src="{{users[c.senderId.toString()].thumnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
-                                    <p class="center-block" ng-bind="users[c.senderId.toString()].alias"></p>
-                                </div>
-                                <div>
-                                    <div class="chat-bubble tri-right round"
-                                         ng-class="{'right-in':isSender(c), 'left-in':!isSender(c)}">
-                                        <div class="chat-content">
-                                            <p ng-bind="::c.content" style="vertical-align:central"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div layout layout-align="center center">
-                                    <sub ng-switch-when="false" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="receiver-date"></sub>
-                                </div>
-                                @*<sub ng-switch-when="true" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="sender-date"></sub>
-                                    <div>
-                                        <div ng-switch-when="false" ng-if="key <= 0" layout="column">
-                                            <img src="" class="img-circle portrait-xs" ng-click="showDetail('right')" />
-                                            <span ng-bind="users[c.senderId.toString()].alias"></span>
-                                        </div>
+                                    <div ng-if="!isSender(c) && key <= 0" layout="column">
+                                        <img ng-src="{{users[c.senderId.toString()].thumnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
+                                        <p class="center-block" ng-bind="users[c.senderId.toString()].alias"></p>
                                     </div>
                                     <div>
                                         <div class="chat-bubble tri-right round"
-                                             ng-class="{'right-in':isSender(c), 'left-in':!isSender(c)}">
+                                             ng-class="{'right-in bg-sender':isSender(c), 'left-in bg-receiver':!isSender(c)}">
                                             <div class="chat-content">
                                                 <p ng-bind="::c.content" style="vertical-align:central"></p>
                                             </div>
                                         </div>
-                                        <sub ng-switch-when="false" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="receiver-date"></sub>
-                                    </div>*@
+                                    </div>
+                                    <div layout layout-align="center center">
+                                        <sub ng-if="!isSender(c)" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="receiver-date"></sub>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="clearfix"></div>
-                        </li>
-                    </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>
+            </md-content>
+            @Html.Partial("_Detail")
+        </md-content>
+        <nav id="bottom-sidebar" class="navbar navbar-fixed-bottom">
+            <div class="container">
+                <div class="workarea row" layout>
+                    <!--功能按鈕列-->
+                    <div class="tab" flex="none">
+                        <div class="col-xs-3">
+                            <md-button class="md-icon-button" ng-disabled="true" ng-click="setTabIndex(-1)" ng-class="{ 'md-primary': isCurrentTab(1) }">
+                                <span class="fa fa-comment-o fa-2x"></span>
+                            </md-button>
+                        </div>
+                        <div class="col-xs-3">
+                            <md-button class="md-icon-button" ng-click="setTabIndex(2)" ng-class="{ 'md-primary': isCurrentTab(2) }">
+                                <span class="fa fa-user fa-2x"></span>
+                            </md-button>
+                        </div>
+                        <div class="col-xs-3">
+                            <md-button class="md-icon-button" ng-click="setTabIndex(3)" ng-class="{ 'md-primary': isCurrentTab(3) }">
+                                <span class="fa fa-users fa-2x"></span>
+                            </md-button>
+                        </div>
+                        <div class="col-xs-3">
+                            <md-button class="md-icon-button" ng-click="setTabIndex(4)" ng-class="{ 'md-primary': isCurrentTab(4) }">
+                                <span class="fa fa-user-plus fa-2x"></span>
+                            </md-button>
+                        </div>
+                    </div>
+                    <!--輸入區塊-->
+                    <div layout flex="auto" ng-controller="chatController">
+                        <input ng-disabled="!current"
+                               ng-model="current.input"
+                               ng-keydown="$event.which === 13 && sendDialog()"
+                               placeholder=@Resources.PleaseInputMessage
+                               flex="auto" />
+                        <md-button class="md-icon-button" style="margin-left: -5px; margin-right: -5px">
+                            <span class="fa fa-smile-o fa-lg"></span>
+                        </md-button>
+                        <md-button class="md-icon-button" style="margin-left: -5px; margin-right: -5px">
+                            <span class="fa fa-paperclip fa-lg">
+                            </span>
+                        </md-button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!--輸入區塊-->
-        <div class="chat-input-area" ng-controller="chatController">
-            <input ng-disabled="!current"
-                   ng-model="current.input"
-                   ng-keydown="$event.which === 13 && sendDialog()"
-                   class="chat-input form-control input-sm"
-                   placeholder=@Resources.PleaseInputMessage />
-            <div class="btn-group chat-input-buttons">
-                <a href="javascript:;"><span class="fa fa-smile-o fa-lg"></span></a>
-                <a href="javascript:;"><span class="fa fa-paperclip fa-lg"></span></a>
-            </div>
-        </div>
-        @Html.Partial("_Detail")
+        </nav>
         <div id="sidebar" ng-if="isPhone">
             @Html.Partial("_Sidebar")
         </div>
-    </md-content>
+    </div>
 </div>
 
 @section style{
