@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
 <html ng-app="iTalkApp">
 <head>
     <meta charset="utf-8" />
@@ -8,7 +10,9 @@
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("style", false)
 </head>
-<body class="body-content">
+<body class="body-content"
+      ng-init="id = initUser(@User.Identity.Name)"
+      ng-controller="indexController">
     @RenderBody()
 
     @Scripts.Render("~/bundles/jquery")

@@ -40,6 +40,10 @@
     text-align: left !important;
 }
 
+.dialog {
+    height: calc(100vh - 170px);
+}
+
 /*.below-navbar {
     margin-top: 75px;
 }*/
@@ -61,9 +65,9 @@
 }*/
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
+input
+/*select,
+textarea*/ {
     /*max-width: 280px;*/
     border: 0px none;
     outline: 0px none;
@@ -365,10 +369,10 @@ md-input-container {
     margin: 0px !important;
 }
 
-a:focus {
+/*a:focus {
     outline: inherit;
     outline-offset: inherit;
-}
+}*/
 
 /*
  *  Scrollbar

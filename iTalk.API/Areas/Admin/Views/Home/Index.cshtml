@@ -1,11 +1,7 @@
-﻿@using Microsoft.AspNet.Identity
-@{
+﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_ToolbarLayout.cshtml";
 }
 <div class="row workarea"
-     ng-controller="indexController"
-     ng-model="me"
-     ng-init="me = { id: @(User.Identity.GetUserId<long>()), userName: '@User.Identity.Name' }"
      style="height: calc(100vh - 114px);"
      ng-cloak>
     <div class="">
@@ -21,7 +17,11 @@
                     <span ng-if="current.name">{{current.name}}({{current.members.length}})</span>
                 </md-button>
             </div>
-            <md-content ng-show="current.id == key" ng-repeat="(key, chat) in chats" style="height: calc(100vh - 170px)">
+            <md-content class="dialog" ng-show="current.id == key" ng-repeat="(key, chat) in chats">
+                <div ng-if="isloading" layout layout-align="center center" style="height:100%;width:100%">
+                    <md-progress-circular md-mode="indeterminate" md-diameter="200">
+                    </md-progress-circular>
+                </div>
                 <ul class="list-unstyled">
                     <li ng-repeat="c in chat track by $index">
                         <div ng-switch="$index == 0 || !isSameDay(chat[$index - 1].date, c.date)">
@@ -108,12 +108,30 @@
         </div>
     </div>
 </div>
+<!--Loading Modal-->
+<div id="loading-modal" class="modal fade" layout layout-align="center center">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="text-center">讀取中...</p>
+                <md-progress-linear mode="indeterminate"></md-progress-linear>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section style{
     @Styles.Render("~/Content/angular")
 }
 
 @section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#loading-modal').modal({
+                backdrop: 'static'
+            });
+        })
+    </script>
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/signalR")
     <script type="text/ng-template" id="createGroupView">

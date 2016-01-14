@@ -16,11 +16,13 @@
             @if (User.Identity.IsAuthenticated) {
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                             @User.Identity.Name
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li><a href="javascript:;" data-toggle="modal" data-target="#setting-modal">基本設定</a></li>
+                            <li role="separator" class="divider"></li>
                             <li>
                                 <a href="javascript:document.getElementById('logOffForm').submit()" onclick="logout()">
                                     @Resources.Logout
@@ -39,6 +41,75 @@
 </nav>
 <div class="container">
     @RenderBody()
+</div>
+<div id="setting-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4><b>基本設定</b></h4>
+            </div>
+            <div class="modal-body">
+                <div layout layout-padding layout-align="start center">
+                    <div layout="column">
+                        <img ng-src="{{current.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-lg" />
+                    </div>
+                    @*<table class="">
+                            <tr>
+                                <td>@Resources.Name</td>
+                                <td><input class="form-control" ng-model=" me.alias" /></td>
+                            </tr>
+                            <tr>
+                                <td>@Resources.PersonalSign</td>
+                                <td><input class="form-control" ng-model=" me.persionalsign" placeholder="尚未設定" /></td>
+                            </tr>
+                            <tr>
+                                <td>ID</td>
+                                <td><input class="form-control" ng-model=" me.username" /></td>
+                            </tr>
+                        </table>*@
+                    <div class="form-horizontal">
+                        <div class="form-group" layout layout-margin>
+                            <label class="control-label" flex="none">@Resources.Name    </label>
+                            <div class="" flex>
+                                <input class="form-control input-sm" ng-model="me.alias" />
+                            </div>
+                        </div>
+                        <div class="form-group" layout layout-margin>
+                            <label class="control-label" flex="none">@Resources.PersonalSign</label>
+                            <div class="" flex>
+                                <input class="form-control input-sm" ng-model="me.personalSign" placeholder="尚未設定" />
+                            </div>
+                        </div>
+                        <div class="form-group" layout layout-margin>
+                            <label class="control-label" flex="none">ID</label>
+                            <div class="" flex>
+                                <p class="input-sm text-muted" ng-bind="me.userName"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" layout-margin>
+                    <label>語言設定</label>
+                    <select disabled>
+                        <option>繁體中文</option>
+                    </select>
+                </div>
+                <div class="form-group" layout-margin>
+                    <label>字體大小</label>
+                    <select disabled>
+                        <option>大</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">@Resources.Cancel</button>
+                <button class="btn btn-primary">儲存</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section style{

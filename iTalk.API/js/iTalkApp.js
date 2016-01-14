@@ -85,6 +85,8 @@ angular.module('dcbImgFallback', [])
 var iTalkApp = angular.module('iTalkApp', ['SignalR', 'matchmedia-ng', 'ui.bootstrap', 'ngMaterial', 'ngMessages', 'customFilter', 'dcbImgFallback']);
 
 iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 'matchmedia', function ($scope, $http, $mdSidenav, Hub, matchmedia) {
+    var isInit = 3;
+
     matchmedia.onPhone(function (mediaQueryList) {
         $scope.isPhone = mediaQueryList.matches;
     });
@@ -97,12 +99,25 @@ iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 
     // 目前對話的朋友或群組
     $scope.current = null;
 
+    $scope.initUser = function (username) {
+        $http.get('/account?userName=' + username)
+            .then(function (response) {
+                $scope.me = response.data.result;
+            }).finally(function () {
+                loadingComplete();
+            })
+    }
+
     $http.get('/friend')
         .then(function (response) {
             angular.forEach(response.data.result, function (f, i) {
                 $scope.friends[f.id.toString()] = f;
                 $scope.chats[f.id.toString()] = null;
             });
+            loadingComplete();
+        }, function (response) {
+            showError(response.data);
+            loadingComplete();
         });
 
     $http.get('/group')
@@ -111,7 +126,19 @@ iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 
                 $scope.groups[g.id.toString()] = g;
                 $scope.chats[g.id.toString()] = null;
             });
+            loadingComplete();
+        }, function (response) {
+            showError(response.data);
+            loadingComplete();
         });
+
+    function loadingComplete() {
+        isInit--;
+
+        if (!isInit) {
+            angular.element('#loading-modal').modal('hide');
+        }
+    }
 
     $scope.tabIndex = 2;
 
@@ -138,7 +165,9 @@ iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 
     $scope.setCurrent = function (target) {
         $scope.current = target;
 
-        if (!$scope.chats[target.id]) {
+        if (!$scope.chats[target.id.toString()]) {
+            $scope.isloading = true;
+
             $http.get('/' + $scope.getControllerName() + '?targetId=' + target.id)
                 .then(function (response) {
                     $scope.chats[target.id.toString()] = response.data.result;
@@ -155,6 +184,10 @@ iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 
                                 });
                             })
                     }
+                }, function (response) {
+                    showError(response.data);
+                }).finally(function () {
+                    $scope.isloading = false;
                 })
         };
     };
