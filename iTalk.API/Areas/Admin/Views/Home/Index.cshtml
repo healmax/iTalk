@@ -59,6 +59,7 @@
             </md-content>
             @Html.Partial("_Detail")
         </md-content>
+        <!--Bottom Navbar-->
         <nav id="bottom-sidebar" class="navbar navbar-fixed-bottom">
             <div class="container">
                 <div class="workarea row" layout>
@@ -87,7 +88,8 @@
                     </div>
                     <!--輸入區塊-->
                     <div layout flex="auto" ng-controller="chatController">
-                        <input ng-disabled="!current"
+                        <input class="custom-input"
+                               ng-disabled="!current"
                                ng-model="current.input"
                                ng-keydown="$event.which === 13 && sendDialog()"
                                placeholder=@Resources.PleaseInputMessage

@@ -65,13 +65,17 @@
 }*/
 
 /* Set width on the form input elements since they're 100% wide by default */
-input
-/*select,
-textarea*/ {
-    /*max-width: 280px;*/
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.custom-input {
     border: 0px none;
     outline: 0px none;
     width: 100%;
+    max-width: initial !important;
 }
 
 .container {

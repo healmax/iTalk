@@ -2,10 +2,8 @@
     <div id="chat-tab" ng-switch-when="1"></div>
     <div id="friend-tab" class="tab" ng-switch-when="2">
         <div class="layout-padding" layout>
-            <div class="layout-padding" layout>
-                <span class="fa fa-search"></span>
-                <input type="text" placeholder="@Resources.SearchByName" ng-model="search.alias" />
-            </div>
+            <span class="fa fa-search"></span>
+            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search.alias" />
         </div>
         <md-content class="below-search-box">
             <md-list id="friend-list">
@@ -24,13 +22,13 @@
     <div id="group-tab" class="tab" ng-switch-when="3" ng-controller="groupController">
         <div class="layout-padding" layout>
             <span class="fa fa-search"></span>
-            <input type="text" placeholder="@Resources.SearchByName" ng-model="search.name" />
+            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search.name" />
         </div>
         <md-content class="below-search-box">
             <md-list id="group-list">
                 <md-list-item>
                     <small class="text-muted">@Resources.Group {{count(groups)}}</small>
-                    <md-button class="md-icon-button md-secondary" ng-click="showCreateGroupDialog($event)" aria-label="createGroup">
+                    <md-button class="md-icon-button md-secondary" ng-click="showCreateGroupDialog($event)" title="建立群組" aria-label="createGroup">
                         <span class="fa fa-plus"></span>
                     </md-button>
                 </md-list-item>
@@ -42,10 +40,10 @@
                 </md-list-item>
             </md-list>
             @*<ul id="group-list" class="nav nav-pills nav-stacked tab-height">
-                <li ng-class="{'active': current.id === group.id}" ng-click="setCurrent(group)" ng-repeat="(key, group) in groups | custom:search">
-                    <a href="javascript:;" ng-bind="group.name"></a>
-                </li>
-            </ul>*@
+                    <li ng-class="{'active': current.id === group.id}" ng-click="setCurrent(group)" ng-repeat="(key, group) in groups | custom:search">
+                        <a href="javascript:;" ng-bind="group.name"></a>
+                    </li>
+                </ul>*@
         </md-content>
     </div>
     <div id="add-friend-tab" class="tab" ng-switch-when="4" ng-controller="addFriendController">
@@ -54,6 +52,7 @@
             <input type="text"
                    placeholder="@Resources.SearchByName"
                    ng-model="user.input"
+                   class="custom-input"
                    ng-keydown="$event.which === 13 && searchUser()" />
         </div>
         <div>
