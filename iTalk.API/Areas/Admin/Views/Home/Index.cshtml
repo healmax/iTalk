@@ -13,8 +13,8 @@
             <div layout>
                 <md-button ng-if="current" ng-click="showDetail('right')" class="h4 no-padding-margin text-left-important" flex="100">
                     <img ng-src="{{current.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
-                    <span ng-if="current.alias">{{current.alias}}</span>
-                    <span ng-if="current.name">{{current.name}}({{current.members.length}})</span>
+                    <b ng-if="current.alias" class="text">{{current.alias}}</b>
+                    <b ng-if="current.name">{{current.name}} ({{current.members.length}})</b>
                 </md-button>
             </div>
             <md-content class="dialog" ng-show="current.id == key" ng-repeat="(key, chat) in chats">
@@ -32,8 +32,10 @@
                             <!--顯示對話-->
                             <div>
                                 <div layout ng-class="{'pull-right':isSender(c)}">
-                                    <div layout layout-align="center center">
-                                        <sub ng-if="isSender(c)" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="sender-date"></sub>
+                                    <div class="sender-date text-muted" ng-if="isSender(c)" layout="column" layout-align="center end">
+                                        <span class="small" ng-if="key > 0 && friends[key].readTime > c.date">已讀</span>
+                                        <span class="small" ng-if="key < 0 && calcReadCount(key, c.date)">已讀 1</span>
+                                        <span class="small" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'"></span>
                                     </div>
                                     <div ng-if="!isSender(c) && key <= 0" layout="column">
                                         <img ng-src="{{users[c.senderId.toString()].thumnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
@@ -47,8 +49,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div layout layout-align="center center">
-                                        <sub ng-if="!isSender(c)" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'" class="receiver-date"></sub>
+                                    <div class="receiver-date text-muted" ng-if="!isSender(c)" layout layout-align="start center">
+                                        <span class="small" ng-bind="::c.date | date:'hh:mm:ss':'utc +08:00'"></span>
                                     </div>
                                 </div>
                             </div>
@@ -121,11 +123,9 @@
         </div>
     </div>
 </div>
-
 @section style{
     @Styles.Render("~/Content/angular")
 }
-
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
@@ -140,4 +140,3 @@
         @Html.Partial("_CreateGroup")
     </script>
 }
-

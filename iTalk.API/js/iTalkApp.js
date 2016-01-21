@@ -200,6 +200,17 @@ iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 
         return new Date(date).toLocaleDateString();
     }
 
+    $scope.calcReadCount = function (groupId, chatTime) {
+        var count = 0;
+        angular.forEach($scope.groups[groupId].members, function (member, index) {
+            if (member.id !== $scope.me.id && member.readTime > chatTime) {
+                count++;
+            }
+        })
+
+        return count;
+    }
+
     $scope.showError = function (result) {
         alert(result.statusCode + ' : ' + result.message);
     }
@@ -244,6 +255,12 @@ iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', 'Hub', 
                 $scope.chats[groupId.toString()].push(chat);
                 $scope.$apply();
                 window.scrollTo(0, document.body.scrollHeight);
+            },
+            'updateFriendReadTime': function (friendId, readTime) {
+                $scope.friends[friendId.toString()].readTime = readTime;
+            },
+            'updateGroupMemberReadTime': function (groupId, friendId, readTime) {
+                $scope.groups[groupId.toString()].members[friendId.toString()].readTime = readTime;
             }
         },
         //methods: ['send'],

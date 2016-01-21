@@ -66,9 +66,10 @@
     <Compile Include="Group.cs" />
     <Compile Include="FileMessage.cs" />
     <Compile Include="GroupMember.cs" />
-    <Compile Include="Migrations\201512091709174_init.cs" />
-    <Compile Include="Migrations\201512091709174_init.Designer.cs">
-      <DependentUpon>201512091709174_init.cs</DependentUpon>
+    <Compile Include="ITarget.cs" />
+    <Compile Include="Migrations\201601200813194_init.cs" />
+    <Compile Include="Migrations\201601200813194_init.Designer.cs">
+      <DependentUpon>201601200813194_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\iTalkMigrationSqlGenerator.cs" />
     <Compile Include="Relationship.cs" />
@@ -87,8 +88,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512091709174_init.resx">
-      <DependentUpon>201512091709174_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601200813194_init.resx">
+      <DependentUpon>201601200813194_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

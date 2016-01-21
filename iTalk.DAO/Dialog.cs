@@ -15,12 +15,12 @@ namespace iTalk.DAO {
         /// <summary>
         /// 建構函數
         /// </summary>
-        /// <param name="relationshipId">關係 Id</param>
         /// <param name="senderId">發送者 Id</param>
+        /// <param name="receiverId">接收者 Id</param>
         /// <param name="date">對話日期</param>
         /// <param name="content">內容</param>
-        public Dialog(long relationshipId, long senderId, DateTime date, string content)
-            : base(relationshipId, senderId, date) {
+        public Dialog(long senderId, long receiverId, DateTime date, string content)
+            : base(senderId, receiverId, date) {
             if (string.IsNullOrEmpty(content)) {
                 throw new ArgumentNullException("content");
             }

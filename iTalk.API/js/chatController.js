@@ -6,7 +6,7 @@
         var chat = {
             targetId: $scope.current.id,
             content: $scope.current.input,
-            date: new Date().toJSON()
+            date: new Date()
         };
 
         $http.post('/' + $scope.getControllerName() + '/dialog', chat)
@@ -18,7 +18,7 @@
                 //});
                 $scope.current.input = '';
             }, function (response) {
-                $scope.showError(response.data.message);
+                $scope.showError(response.data);
             });
     };
 }]);

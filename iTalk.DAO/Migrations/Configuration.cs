@@ -28,13 +28,13 @@ namespace iTalk.DAO.Migrations {
             context.Users.AddOrUpdate(u => u.Id, new[] {
                 new iTalkUser() {
                     UserName = "TestUser1",
-                    Alias = "測試使用者一號",
-                    PersonalSign = "我是自動建立的測試使用者",
+                    Alias = "翻譯機器人一號",
+                    PersonalSign = "中翻英",
                     PasswordHash = hasher.HashPassword("111"),
                     SecurityStamp = Guid.NewGuid().ToString("D") },
                 new iTalkUser() {
                     UserName = "TestUser2",
-                    Alias = "測試使用者二號",
+                    Alias = "測試使用者",
                     PersonalSign = "I'm Auto Create Test User",
                     PasswordHash = hasher.HashPassword("222"),
                     SecurityStamp = Guid.NewGuid().ToString("D") }

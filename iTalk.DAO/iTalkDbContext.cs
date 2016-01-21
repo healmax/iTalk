@@ -25,7 +25,7 @@ namespace iTalk.DAO {
         /// <summary>
         /// 取得 文字對話
         /// </summary>
-        public virtual DbSet<Dialog> Dialog { get; set; }
+        public virtual DbSet<Dialog> Dialogs { get; set; }
 
         /// <summary>
         /// 取得 傳送檔案對話
@@ -57,17 +57,17 @@ namespace iTalk.DAO {
         /// </summary>
         /// <param name="modelBuilder">DbModelBuilder</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
-            modelBuilder.Entity<Friendship>()
-                .Map(m => {
-                    m.MapInheritedProperties();
-                    m.ToTable("Friendships");
-                });
+            //modelBuilder.Entity<Friendship>()
+            //    .Map(m => {
+            //        m.MapInheritedProperties();
+            //        m.ToTable("Friendships");
+            //    });
 
-            modelBuilder.Entity<Group>()
-                .Map(m => {
-                    m.MapInheritedProperties();
-                    m.ToTable("Group");
-                });
+            //modelBuilder.Entity<Group>()
+            //    .Map(m => {
+            //        m.MapInheritedProperties();
+            //        m.ToTable("Group");
+            //    });
 
             modelBuilder.Entity<Group>()
                 .HasRequired(g => g.Creator)
@@ -76,16 +76,16 @@ namespace iTalk.DAO {
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Friendship>()
+                .HasRequired(f => f.User)
+                .WithMany()
+                .HasForeignKey(f => f.UserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Friendship>()
                 .HasRequired(f => f.Invitee)
                 .WithMany()
                 .HasForeignKey(f => f.InviteeId)
                 .WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<Friendship>()
-            //    .HasRequired(f => f.User)
-            //    .WithMany()
-            //    .HasForeignKey(f => f.UserId)
-            //    .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }

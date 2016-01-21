@@ -15,7 +15,7 @@
 //            //foreach (var f in friends) {
 //            //    this.Friends.Add(new UserInfo() {
 //            //        Alias =f .Alias,
-//            //        PersonnalSign = f.PersonalSign,
+//            //        PersonalSign = f.PersonalSign,
 //            //        Thumb = f.Thumb,
 //            //        UserName = f.UserName
 //            //    });

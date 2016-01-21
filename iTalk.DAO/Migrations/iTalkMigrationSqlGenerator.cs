@@ -12,9 +12,9 @@ namespace iTalk.DAO.Migrations {
         /// <param name="createTableOperation">CreateTableOperation</param>
         protected override void WriteCreateTable(CreateTableOperation createTableOperation) {
             // TODO : 改良寫法
-            if (createTableOperation.Name == "dbo.Group") {
+            if (createTableOperation.Name == "dbo.Groups") {
                 base.Generate(new SqlOperation(
-                    "CREATE TABLE [dbo].[Group](" +
+                    "CREATE TABLE [dbo].[Groups](" +
                         "[Id] [bigint] IDENTITY(-1,-1) NOT NULL," +
                         "[Date] [datetime] NOT NULL," +
                         "[TimeStamp] [timestamp] NOT NULL," +

@@ -22,18 +22,6 @@ namespace iTalk.API.Controllers {
         }
 
         /// <summary>
-        /// 取得對話
-        /// </summary>
-        /// <param name="friendId">朋友 Id</param>
-        /// <returns>對話</returns>
-        protected override IQueryable<Chat> GetChats(long friendId) {
-            return this.DbContext.Friendships
-                .Where(rs => (rs.UserId == this.UserId && rs.InviteeId == friendId) ||
-                    (rs.UserId == friendId && rs.InviteeId == this.UserId))
-                .SelectMany(rs => rs.Chats);
-        }
-
-        /// <summary>
         /// 傳送對話
         /// </summary>
         /// <param name="model">對話</param>
@@ -46,14 +34,14 @@ namespace iTalk.API.Controllers {
             // 檢查有無此人、是否為好友
             await this.ValidateFriendship(friendId);
 
-            // 理論上檢查失敗的話是跑不到這裡的...
-            long friendshipId = (await this.DbContext.Friendships
-                .Where(fs => fs.UserId == this.UserId && fs.InviteeId == model.TargetId)
-                .FirstOrDefaultAsync()).Id;
+            //// 理論上檢查失敗的話是跑不到這裡的...
+            //long friendshipId = (await this.DbContext.Friendships
+            //    .Where(fs => fs.UserId == this.UserId && fs.InviteeId == model.ReceiverId)
+            //    .FirstOrDefaultAsync()).Id;
 
-            Dialog dialog = new Dialog(friendshipId, this.UserId, model.Date, model.Content);
+            Dialog dialog = new Dialog(this.UserId, model.TargetId, model.Date, model.Content);
 
-            return await this.Chat(friendId, dialog);
+            return await this.Chat(dialog);
         }
 
         /// <summary>
@@ -70,13 +58,12 @@ namespace iTalk.API.Controllers {
         /// 推送對話到自己與特定朋友的客戶端
         /// </summary>
         /// <param name="hub">SignalR Hub</param>
-        /// <param name="friendId">朋友或群組Id</param>
         /// <param name="model">對話</param>
-        protected override async Task PushChatToClient(IHubContext hub, long friendId, Chat model) {
+        protected override async Task PushChatToClient(IHubContext hub, Chat model) {
             //string friendId = model.TargetId.ToString();
             //model.TargetId = this.UserId;
-            hub.Clients.User(this.UserId.ToString()).receiveChat(friendId, model);
-            hub.Clients.User(friendId.ToString()).receiveChat(this.UserId, model);
+            hub.Clients.User(this.UserId.ToString()).receiveChat(model.ReceiverId, model);
+            hub.Clients.User(model.ReceiverId.ToString()).receiveChat(this.UserId, model);
 
             await Task.FromResult<object>(null);
         }

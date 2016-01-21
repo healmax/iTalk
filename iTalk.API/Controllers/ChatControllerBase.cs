@@ -57,15 +57,24 @@ namespace iTalk.API.Controllers {
         /// </summary>
         /// <param name="targetId">使用者或群組 Id</param>
         /// <returns>對話集合</returns>
-        protected abstract IQueryable<Chat> GetChats(long targetId);
+        protected IQueryable<Chat> GetChats(long targetId) {
+            if (targetId > 0) {
+                // 朋友的對話
+                return this.DbContext.Chats.Where(c =>
+                    (c.SenderId == this.UserId && c.ReceiverId == targetId) ||
+                    (c.SenderId == targetId && c.ReceiverId == this.UserId));
+            }
+
+            // 群組的對話
+            return this.DbContext.Chats.Where(c => c.ReceiverId == targetId);
+        }
 
         /// <summary>
         /// 傳送對話
         /// </summary>
-        /// <param name="targetId">朋友或群組Id</param>
         /// <param name="chat">對話</param>
         /// <returns>執行結果</returns>
-        protected async Task<ExecuteResult> Chat(long targetId, Chat chat) {
+        protected async Task<ExecuteResult> Chat(Chat chat) {
             this.DbContext.Chats.Add(chat);
 
             try {
@@ -73,13 +82,13 @@ namespace iTalk.API.Controllers {
 
                 // 暫放 Hub
                 var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-                await this.PushChatToClient(hub, targetId, chat);
+                await this.PushChatToClient(hub, chat);
             }
             catch (Exception ex) {
                 throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
             }
 
-            return new ExecuteResult(true);
+            return new ExecuteResult();
         }
 
         /// <summary>
@@ -100,8 +109,7 @@ namespace iTalk.API.Controllers {
         /// 推送對話到相關的客戶端
         /// </summary>
         /// <param name="hub">SignalR HubContext</param>
-        /// <param name="targetId">朋友或群組Id</param>
         /// <param name="model">對話</param>
-        protected abstract Task PushChatToClient(IHubContext hub, long targetId, Chat model);
+        protected abstract Task PushChatToClient(IHubContext hub, Chat model);
     }
 }

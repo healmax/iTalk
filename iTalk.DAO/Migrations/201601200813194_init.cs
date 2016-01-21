@@ -12,8 +12,8 @@ namespace iTalk.DAO.Migrations
                 c => new
                     {
                         Id = c.Long(nullable: false, identity: true),
-                        RelationshipId = c.Long(nullable: false),
                         SenderId = c.Long(nullable: false),
+                        ReceiverId = c.Long(nullable: false),
                         Date = c.DateTime(nullable: false),
                         TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
                         Content = c.String(maxLength: 255),
@@ -66,22 +66,6 @@ namespace iTalk.DAO.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.GroupMembers",
-                c => new
-                    {
-                        Id = c.Long(nullable: false, identity: true),
-                        UserId = c.Long(nullable: false),
-                        GroupId = c.Long(nullable: false),
-                        Status = c.Int(nullable: false),
-                        Date = c.DateTime(nullable: false),
-                        TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Group", t => t.GroupId)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => new { t.UserId, t.GroupId }, unique: true, name: "Member");
-            
-            CreateTable(
                 "dbo.AspNetUserLogins",
                 c => new
                     {
@@ -107,6 +91,57 @@ namespace iTalk.DAO.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.Friendships",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        UserId = c.Long(nullable: false),
+                        InviteeId = c.Long(nullable: false),
+                        Status = c.Int(nullable: false),
+                        ReadTime = c.DateTime(nullable: false),
+                        Date = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.InviteeId)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .Index(t => new { t.UserId, t.InviteeId }, unique: true, name: "Relations");
+            
+            CreateTable(
+                "dbo.GroupMembers",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        UserId = c.Long(nullable: false),
+                        GroupId = c.Long(nullable: false),
+                        Status = c.Int(nullable: false),
+                        ReadTime = c.DateTime(nullable: false),
+                        Date = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Groups", t => t.GroupId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => new { t.UserId, t.GroupId }, unique: true, name: "Member");
+            
+            CreateTable(
+                "dbo.Groups",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 20),
+                        Description = c.String(),
+                        Thumbnail = c.Binary(),
+                        ImageUrl = c.String(),
+                        CreatorId = c.Long(nullable: false),
+                        Date = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.CreatorId)
+                .Index(t => t.CreatorId);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -116,69 +151,36 @@ namespace iTalk.DAO.Migrations
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
-            CreateTable(
-                "dbo.Friendships",
-                c => new
-                    {
-                        Id = c.Long(nullable: false, identity: true),
-                        Date = c.DateTime(nullable: false),
-                        TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
-                        UserId = c.Long(nullable: false),
-                        InviteeId = c.Long(nullable: false),
-                        Status = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.InviteeId)
-                .Index(t => new { t.UserId, t.InviteeId }, unique: true, name: "Relations");
-            
-            CreateTable(
-                "dbo.Group",
-                c => new
-                    {
-                        Id = c.Long(nullable: false, identity: true),
-                        Date = c.DateTime(nullable: false),
-                        TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
-                        Name = c.String(nullable: false, maxLength: 20),
-                        Description = c.String(),
-                        Thumbnail = c.Binary(),
-                        ImageUrl = c.String(),
-                        CreatorId = c.Long(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.CreatorId)
-                .Index(t => t.CreatorId);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Group", "CreatorId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Friendships", "InviteeId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Friendships", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.GroupMembers", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.GroupMembers", "GroupId", "dbo.Groups");
+            DropForeignKey("dbo.Groups", "CreatorId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Friendships", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Friendships", "InviteeId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Chats", "SenderId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.GroupMembers", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.GroupMembers", "GroupId", "dbo.Group");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropIndex("dbo.Group", new[] { "CreatorId" });
-            DropIndex("dbo.Friendships", "Relations");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Groups", new[] { "CreatorId" });
+            DropIndex("dbo.GroupMembers", "Member");
+            DropIndex("dbo.Friendships", "Relations");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.GroupMembers", "Member");
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Chats", new[] { "SenderId" });
-            DropTable("dbo.Group");
-            DropTable("dbo.Friendships");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Groups");
+            DropTable("dbo.GroupMembers");
+            DropTable("dbo.Friendships");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.GroupMembers");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Chats");

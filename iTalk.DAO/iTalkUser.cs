@@ -6,7 +6,7 @@ namespace iTalk.DAO {
     /// <summary>
     /// 使用者
     /// </summary>
-    public class iTalkUser : IdentityUser<long, iTalkUserLogin, iTalkUserRole, iTalkUserClaim> {
+    public class iTalkUser : IdentityUser<long, iTalkUserLogin, iTalkUserRole, iTalkUserClaim>, ITarget {
         /// <summary>
         /// 重寫 UserName
         /// </summary>
@@ -50,24 +50,24 @@ namespace iTalk.DAO {
         ///// </summary>
         //public virtual ICollection<Chat> ReceivedChats { get; private set; }
 
-        /// <summary>
-        /// 取得 主動發出邀請的關係集合
-        /// </summary>
-        public virtual ICollection<Friendship> ActiveShips { get; private set; }
+        ///// <summary>
+        ///// 取得 主動發出邀請的關係集合
+        ///// </summary>
+        //public virtual ICollection<Friendship> ActiveShips { get; private set; }
 
-        /// <summary>
-        /// 取得 被動接受邀請的關係集合
-        /// </summary>
-        public virtual ICollection<Friendship> PassiveShips { get; private set; }
+        ///// <summary>
+        ///// 取得 被動接受邀請的關係集合
+        ///// </summary>
+        //public virtual ICollection<Friendship> PassiveShips { get; private set; }
 
         ///// <summary>
         ///// 取得 建立的群組
         ///// </summary>
         //public virtual ICollection<Group> CreateGroups { get; private set; }
 
-        /// <summary>
-        /// 取得 加入的群組
-        /// </summary>
-        public virtual ICollection<GroupMember> GroupMembers { get; private set; }
+        ///// <summary>
+        ///// 取得 加入的群組
+        ///// </summary>
+        //public virtual ICollection<GroupMember> GroupMembers { get; private set; }
     }
 }

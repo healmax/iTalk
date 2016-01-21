@@ -7,7 +7,7 @@ namespace iTalk.DAO {
     /// <summary>
     /// 群組
     /// </summary>
-    public class Group : Relationship {
+    public class Group : EntityBase, ITarget {
         /// <summary>
         /// 建構函數 For EF
         /// </summary>
@@ -29,8 +29,8 @@ namespace iTalk.DAO {
             //    throw new ArgumentNullException("creatorId");
             //}
 
-            this.CreatorId = creatorId;
             this.Name = name;
+            this.CreatorId = creatorId;
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web.OData;
 
 namespace iTalk.API.Controllers {
     /// <summary>
@@ -26,39 +27,42 @@ namespace iTalk.API.Controllers {
                     ImageUrl = g.ImageUrl,
                     Name = g.Name,
                     Thumbnail = g.Thumbnail,
-                    Members = g.Members.Select(m => m.UserId)
+                    Members = g.Members.Select(gm => new GroupResult.GroupMember {
+                        Id = gm.Id,
+                        ReadTime = gm.ReadTime
+                    })
                 })
                 .ToArrayAsync();
 
             return new ExecuteResult<GroupResult[]>(groups);
         }
 
-        /// <summary>
-        /// 取得群組
-        /// </summary>
-        /// <param name="groupId">群組Id</param>
-        /// <returns>群組</returns>
-        public async Task<ExecuteResult<UserResult[]>> Get(long groupId) {
-            await this.ValidateGroup(groupId);
-            var members = await this.DbContext.GroupMembers
-                .Where(gm => gm.GroupId == groupId)
-                .Select(gm => new UserResult() {
-                    Id = gm.UserId,
-                    UserName = gm.User.UserName,
-                    Alias = gm.User.Alias,
-                    PersonalSign = gm.User.PersonalSign,
-                    IsFriend = this.DbContext.Friendships.Any(fs => fs.UserId == this.UserId && fs.InviteeId == gm.UserId)
-                })
-                .ToArrayAsync();
+        ///// <summary>
+        ///// 取得群組
+        ///// </summary>
+        ///// <param name="groupId">群組Id</param>
+        ///// <returns>群組</returns>
+        //public async Task<ExecuteResult<UserResult[]>> Get(long groupId) {
+        //    await this.ValidateGroup(groupId);
+        //    var members = await this.DbContext.GroupMembers
+        //        .Where(gm => gm.GroupId == groupId)
+        //        .Select(gm => new UserResult() {
+        //            Id = gm.UserId,
+        //            UserName = gm.User.UserName,
+        //            Alias = gm.User.Alias,
+        //            PersonalSign = gm.User.PersonalSign,
+        //            IsFriend = this.DbContext.Friendships.Any(fs => fs.UserId == this.UserId && fs.InviteeId == gm.UserId)
+        //        })
+        //        .ToArrayAsync();
 
-            return new ExecuteResult<UserResult[]>(members);
-        }
+        //    return new ExecuteResult<UserResult[]>(members);
+        //}
 
         /// <summary>
         /// 建立群組
         /// </summary>
         /// <returns>執行結果</returns>
-        public async Task<ExecuteResult> Post(CreateGroupViewModel model) {
+        public async Task<ExecuteResult> Post(GroupViewModel model) {
             if (model == null) {
                 throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideNessaryInfo);
             }
@@ -84,7 +88,7 @@ namespace iTalk.API.Controllers {
                 throw this.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.User, string.Join(",", invalidUsers), Resources.NotExist);
             }
 
-            DateTime createTime = DateTime.Now;
+            DateTime createTime = DateTime.UtcNow;
             Group group = this.DbContext.Groups.Add(new Group(model.Name, this.UserId, createTime) {
                 Description = model.Description,
                 // TODO : 圖片
@@ -93,7 +97,7 @@ namespace iTalk.API.Controllers {
             memberIds.Add(this.UserId);
 
             foreach (long id in memberIds) {
-                this.DbContext.GroupMembers.Add(new GroupMember(id, group, RelationshipStatus.Pending, createTime));
+                this.DbContext.GroupMembers.Add(new GroupMember(id, group, RelationshipStatus.Pending, createTime, createTime));
             }
 
             try {
@@ -106,33 +110,32 @@ namespace iTalk.API.Controllers {
             return new ExecuteResult();
         }
 
-        /// <summary>
-        /// 更新群組
-        /// </summary>
-        /// <returns></returns>
-        public async Task<ExecuteResult> Put(GroupViewModel model) {
-            if (model == null) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideNessaryInfo);
-            }
+        ///// <summary>
+        ///// 更新群組
+        ///// </summary>
+        ///// <returns></returns>
+        //public async Task<ExecuteResult> Put(long id, Delta<Group> model) {
+        //    if (model == null) {
+        //        throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideNessaryInfo);
+        //    }
 
-            if (!this.ModelState.IsValid) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
-            }
+        //    if (!this.ModelState.IsValid) {
+        //        throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
+        //    }
 
-            Group group = await this.FindGroup(model.Id);
-            group.Name = model.Name;
-            group.Description = model.Description;
-            // TODO : 圖片
+        //    Group group = await this.FindGroup(id);
 
-            try {
-                await this.DbContext.SaveChangesAsync();
-            }
-            catch (Exception ex) {
-                this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
-            }
+        //    // TODO : 圖片
 
-            return new ExecuteResult();
-        }
+        //    try {
+        //        await this.DbContext.SaveChangesAsync();
+        //    }
+        //    catch (Exception ex) {
+        //        this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
+        //    }
+
+        //    return new ExecuteResult();
+        //}
 
         /// <summary>
         /// 刪除群組

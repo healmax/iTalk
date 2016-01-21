@@ -45,7 +45,7 @@ namespace iTalk.API.Controllers {
             }
 
             iTalkUser user = await this.UserManager.FindByNameAsync(this.User.Identity.Name);
-            user.PersonalSign = model.PersonnalSign;
+            user.PersonalSign = model.PersonalSign;
 
             // TODO : 更新個人圖片
             try {
@@ -77,7 +77,7 @@ namespace iTalk.API.Controllers {
             iTalkUser user = new iTalkUser() {
                 UserName = model.UserName,
                 Alias = model.Alias,
-                PersonalSign = model.PersonnalSign
+                PersonalSign = model.PersonalSign
             };
             IdentityResult result;
 

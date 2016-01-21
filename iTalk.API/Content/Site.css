@@ -335,16 +335,16 @@ Either move the js to the tag or load the specific CSS code to your CSS to make 
     }
 
 .sender-date {
-    right: -25px;
+    margin-right: -20px;
 }
 
 .receiver-date {
-    left: -25px;
+    margin-left: -20px;
 }
 
-.sender-date, .receiver-date {
+/*.sender-date, .receiver-date {
     bottom: -1em;
-}
+}*/
 
 md-input-container {
     padding-bottom: 2px !important;

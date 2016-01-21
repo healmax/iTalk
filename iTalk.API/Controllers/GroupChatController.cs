@@ -22,15 +22,6 @@ namespace iTalk.API.Controllers {
         }
 
         /// <summary>
-        /// 取得對話核心方法
-        /// </summary>
-        /// <param name="groupId"></param>
-        /// <returns>對話集合</returns>
-        protected override IQueryable<Chat> GetChats(long groupId) {
-            return this.DbContext.Chats.Where(c => c.RelationshipId == groupId);
-        }
-
-        /// <summary>
         /// 傳送對話
         /// </summary>
         /// <param name="model">對話</param>
@@ -39,9 +30,9 @@ namespace iTalk.API.Controllers {
         public async Task<ExecuteResult> Dialog(DialogViewModel model) {
             this.CheckModelState(model);
             await this.ValidateGroup(model.TargetId);
-            Dialog dialog = new Dialog(model.TargetId, this.UserId, model.Date, model.Content);
+            Dialog dialog = new Dialog(this.UserId, model.TargetId, model.Date, model.Content);
 
-            return await this.Chat(model.TargetId, dialog);
+            return await this.Chat(dialog);
         }
 
         /// <summary>
@@ -50,7 +41,7 @@ namespace iTalk.API.Controllers {
         /// <param name="fileMessage">檔案訊息</param>
         /// <returns>執行結果</returns>
         [Route("File")]
-        public Task<ExecuteResult> File(FileMessageViewModel fileMessage) {            
+        public Task<ExecuteResult> File(FileMessageViewModel fileMessage) {
             throw new NotImplementedException();
         }
 
@@ -60,9 +51,9 @@ namespace iTalk.API.Controllers {
         /// <param name="hub">SignalR HubContext</param>
         /// <param name="groupId">朋友或群組Id</param>
         /// <param name="model">對話</param>
-        protected override async Task PushChatToClient(IHubContext hub, long groupId, Chat model) {
+        protected override async Task PushChatToClient(IHubContext hub, Chat model) {
             var members = await this.DbContext.GroupMembers
-                .Where(m => m.GroupId == model.RelationshipId)
+                .Where(gm => gm.GroupId == model.ReceiverId)
                 .Select(m => m.UserId.ToString())
                 .ToArrayAsync();
 
@@ -72,7 +63,7 @@ namespace iTalk.API.Controllers {
             //    .ToList();
 
             //model.TargetId = this.UserId;
-            hub.Clients.Users(members).receiveGroupChat(groupId, model);
+            hub.Clients.Users(members).receiveGroupChat(model.ReceiverId, model);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace iTalk.API.Models {
         /// </summary>
         [StringLength(50)]
         [Display(ResourceType = typeof(Resources), Name = "PersonalSign")]
-        public string PersonnalSign { get; set; }
+        public string PersonalSign { get; set; }
     }
 
     /// <summary>
