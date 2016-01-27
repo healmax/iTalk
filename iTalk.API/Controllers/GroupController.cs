@@ -2,61 +2,65 @@
 using iTalk.API.Properties;
 using iTalk.DAO;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web.OData;
 
 namespace iTalk.API.Controllers {
     /// <summary>
-    /// 群組控制器(測試中...)
+    /// 群組控制器
     /// </summary>
     public class GroupController : DefaultApiController {
         /// <summary>
         /// 取得群組
         /// </summary>
         /// <returns>群組資訊</returns>
-        public async Task<ExecuteResult<GroupResult[]>> Get() {
-            var groups = await this.DbContext.Groups
-                .Where(g => g.Members.Any(gm => gm.UserId == this.UserId))
-                .Select(g => new GroupResult() {
+        public async Task<ExecuteResult<GroupInfo[]>> Get() {
+            var groups = await this.DbContext.GroupMembers
+                .Where(m => m.UserId == this.UserId)
+                .Select(m => m.Group)
+                .Select(g => new GroupInfo {
                     Description = g.Description,
                     Id = g.Id,
                     ImageUrl = g.ImageUrl,
                     Name = g.Name,
                     Thumbnail = g.Thumbnail,
-                    Members = g.Members.Select(gm => new GroupResult.GroupMember {
-                        Id = gm.Id,
+                    LastChat = g.Chats.OrderByDescending(c => c.Date).FirstOrDefault(),
+                    UnreadMessageCount = g.Chats.Count(c => c.SenderId != this.UserId && c.Date > g.Members.FirstOrDefault(m => m.UserId == this.UserId).ReadTime),
+                    Members = g.Members.Select(gm => new GroupInfo.GroupMember {
+                        Id = gm.UserId,
                         ReadTime = gm.ReadTime
                     })
                 })
+                .OrderBy(g => g.Name)
                 .ToArrayAsync();
 
-            return new ExecuteResult<GroupResult[]>(groups);
+            return new ExecuteResult<GroupInfo[]>(groups);
         }
 
-        ///// <summary>
-        ///// 取得群組
-        ///// </summary>
-        ///// <param name="groupId">群組Id</param>
-        ///// <returns>群組</returns>
-        //public async Task<ExecuteResult<UserResult[]>> Get(long groupId) {
-        //    await this.ValidateGroup(groupId);
-        //    var members = await this.DbContext.GroupMembers
-        //        .Where(gm => gm.GroupId == groupId)
-        //        .Select(gm => new UserResult() {
-        //            Id = gm.UserId,
-        //            UserName = gm.User.UserName,
-        //            Alias = gm.User.Alias,
-        //            PersonalSign = gm.User.PersonalSign,
-        //            IsFriend = this.DbContext.Friendships.Any(fs => fs.UserId == this.UserId && fs.InviteeId == gm.UserId)
-        //        })
-        //        .ToArrayAsync();
+        /// <summary>
+        /// 取得群組成員
+        /// </summary>
+        /// <param name="groupId">群組Id</param>
+        /// <returns>群組成員</returns>
+        public async Task<ExecuteResult<UserInfoBase[]>> Get(long groupId) {
+            await this.ValidateGroup(groupId);
 
-        //    return new ExecuteResult<UserResult[]>(members);
-        //}
+            var members = await this.DbContext.GroupMembers
+                .Where(gm => gm.GroupId == groupId)
+                .Select(gm => new UserInfoBase {
+                    Alias = gm.User.Alias,
+                    Id = gm.UserId,
+                    ImageUrl = gm.User.PortraitUrl,
+                    PersonalSign = gm.User.PersonalSign,
+                    Thumbnail = gm.User.Thumb,
+                    UserName = gm.User.UserName
+                })
+                .ToArrayAsync();
+
+            return new ExecuteResult<UserInfoBase[]>(members);
+        }
 
         /// <summary>
         /// 建立群組
@@ -80,8 +84,8 @@ namespace iTalk.API.Controllers {
             long[] invalidUsers = null;
             await Task.Run(() => invalidUsers = memberIds
                 .Except(this.DbContext.Friendships
-                    .Where(fs => fs.UserId == this.UserId /*&& !model.Members.Contains(fs.InviteeId)*/)
-                    .Select(u => u.InviteeId))
+                    .Where(fs => fs.UserId == this.UserId || fs.InviteeId == this.UserId)
+                    .Select(u => u.UserId == this.UserId ? u.InviteeId : u.UserId))
                 .ToArray());
 
             if (invalidUsers.Length != 0) {

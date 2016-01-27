@@ -18,10 +18,10 @@ namespace iTalk.API.Controllers {
         /// </summary>
         /// <param name="userName">使用者名稱</param>
         /// <returns>使用者資訊</returns>
-        public async Task<ExecuteResult<UserResult>> Get(string userName) {
+        public async Task<ExecuteResult<UserInfo>> Get(string userName) {
             if (string.IsNullOrEmpty(userName)) {
                 throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideUserName);
-            }
+            }            
 
             iTalkUser target = await this.UserManager.FindByNameAsync(userName);
 
@@ -32,7 +32,15 @@ namespace iTalk.API.Controllers {
             bool isFriend = await this.DbContext.Friendships
                 .AnyAsync(rs => rs.UserId == this.UserId && rs.InviteeId == target.Id);
 
-            return new ExecuteResult<UserResult>(new UserResult(target.Id, target.UserName, target.Alias, target.PersonalSign, isFriend));
+            return new ExecuteResult<UserInfo>(new UserInfo {
+                Alias = target.Alias,
+                Id = target.Id,
+                ImageUrl = target.PortraitUrl,
+                IsFriend = isFriend,
+                PersonalSign = target.PersonalSign,
+                Thumbnail = target.Thumb,
+                UserName = target.UserName
+            });
         }
 
         /// <summary>

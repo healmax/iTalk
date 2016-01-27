@@ -7,7 +7,7 @@ namespace iTalk.DAO {
     /// <summary>
     /// 群組
     /// </summary>
-    public class Group : EntityBase, ITarget {
+    public class Group : Relationship {
         /// <summary>
         /// 建構函數 For EF
         /// </summary>
@@ -37,8 +37,7 @@ namespace iTalk.DAO {
         /// 取得/設定 群組名稱
         /// </summary>
         [Required]
-        // TODO : enable this
-        [MinLength(3)]
+        [MinLength(2)]
         [MaxLength(20)]
         public string Name { get; set; }
 
@@ -67,7 +66,6 @@ namespace iTalk.DAO {
         /// 取得 建立者
         /// </summary>
         [ForeignKey("CreatorId")]
-        //[InverseProperty("CreateGroups")]
         public virtual iTalkUser Creator { get; private set; }
 
         /// <summary>

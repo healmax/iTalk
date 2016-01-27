@@ -19,7 +19,7 @@
     <div class="form-group">
         @*@Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })*@
         @*@Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = @Resources.Password, id = "password" })*@
-        <input name="Password" class="form-control" placeholder=@Resources.Password />
+        <input name="Password" class="form-control" placeholder=@Resources.Password type="password" />
     </div>
     <div class="form-group">
         <input type="submit" value=@Resources.Login class="btn btn-primary" />

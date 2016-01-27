@@ -57,34 +57,29 @@ namespace iTalk.DAO {
         /// </summary>
         /// <param name="modelBuilder">DbModelBuilder</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
-            //modelBuilder.Entity<Friendship>()
-            //    .Map(m => {
-            //        m.MapInheritedProperties();
-            //        m.ToTable("Friendships");
-            //    });
-
-            //modelBuilder.Entity<Group>()
-            //    .Map(m => {
-            //        m.MapInheritedProperties();
-            //        m.ToTable("Group");
-            //    });
-
             modelBuilder.Entity<Group>()
+                .Map(m => {
+                    m.MapInheritedProperties();
+                    m.ToTable("Groups");
+                })
                 .HasRequired(g => g.Creator)
-                .WithMany()
-                .HasForeignKey(g => g.CreatorId)
+                .WithMany(u => u.CreateGroups)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Friendship>()
+                .Map(m => {
+                    m.MapInheritedProperties();
+                    m.ToTable("Friendships");
+                });
+
+            modelBuilder.Entity<Friendship>()
                 .HasRequired(f => f.User)
-                .WithMany()
-                .HasForeignKey(f => f.UserId)
+                .WithMany(u => u.ActiveShips)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Friendship>()
                 .HasRequired(f => f.Invitee)
-                .WithMany()
-                .HasForeignKey(f => f.InviteeId)
+                .WithMany(f => f.PassiveShips)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

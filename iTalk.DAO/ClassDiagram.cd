@@ -16,7 +16,7 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAAAAAABAAIAAA=</HashCode>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAgBAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Chat.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -41,17 +41,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="iTalk.DAO.Friendship">
-    <Position X="5" Y="3" Width="1.5" />
+    <Position X="9.5" Y="5.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAJAAAEAAAAQAAAAAAAAAgAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <HashCode>AAAJAAAAAAAAQEAAAAAAAAgAAAAAAAAAIAAACAAAAAA=</HashCode>
       <FileName>Friendship.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="iTalk.DAO.Group">
-    <Position X="7.25" Y="3" Width="1.5" />
+    <Position X="7.25" Y="5.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -62,16 +62,32 @@
     <ShowAsCollectionAssociation>
       <Property Name="Members" />
     </ShowAsCollectionAssociation>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="iTalk.DAO.GroupMember">
-    <Position X="9.5" Y="3" Width="1.5" />
+    <Position X="5" Y="3" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
       <HashCode>AAAJAEAEAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GroupMember.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iTalk.DAO.Relationship">
+    <Position X="8.5" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Relationship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="iTalk.DAO.iTalkUser">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAAAAQAAAAIAAAAAgAABBCAAAAAAAAIAAQAAAAAAAAQ=</HashCode>
+      <FileName>iTalkUser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="微軟正黑體" Size="9" />

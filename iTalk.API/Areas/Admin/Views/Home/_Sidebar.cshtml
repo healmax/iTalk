@@ -1,5 +1,33 @@
 ﻿<div id="function-tabs" ng-switch="tabIndex">
-    <div id="chat-tab" ng-switch-when="1"></div>
+    <div id="chat-tab" class="tab" ng-switch-when="1">
+        <div class="layout-padding" layout>
+            <span class="fa fa-search"></span>
+            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search" />
+        </div>
+        <md-content class="below-search-box">
+            <md-list id="chat-list">
+                <md-list-item class="md-2-line"
+                              aria-label="{{model.alias || model.name}}"
+                              title="{{model.alias || model.name}}"
+                              ng-class="{'bg-info':current.id === model.id}"
+                              ng-click="setCurrent(model)"
+                              ng-repeat="(key, model) in friends.concat(groups) | orderBy:sortByChatTime:true | filter:search">
+                    <img ng-src="{{model.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
+                    <div class="md-list-item-text">
+                        <b ng-bind="model.alias || model.name"></b>
+                        <p ng-bind="model.lastChat.content | overflow:15"></p>
+                        <div class="md-secondary-container">
+                            <p ng-bind="model.lastChat.date | displayDate"></p>
+                            <div layout layout-align="center center"
+                                 ng-if="model.unreadMessageCount > 0">
+                                <span class="badge" ng-bind="updateUnreadMessageCount(model)"></span>
+                            </div>
+                        </div>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </div>
     <div id="friend-tab" class="tab" ng-switch-when="2">
         <div class="layout-padding" layout>
             <span class="fa fa-search"></span>
@@ -11,6 +39,8 @@
                     <small class="text-muted">@Resources.Friend {{count(friends)}}</small>
                 </md-list-item>
                 <md-list-item class="md-2-line"
+                              aria-label="{{friend.alias}}"
+                              title="{{friend.alias}}"
                               ng-class="{'bg-info':current.id === friend.id}"
                               ng-click="setCurrent(friend)"
                               ng-repeat="(key, friend) in friends | custom:search">
@@ -37,6 +67,8 @@
                     </md-button>
                 </md-list-item>
                 <md-list-item class="md-2-line"
+                              aria-label="{{group.name}}"
+                              title="{{group.name}}"
                               ng-class="{'bg-info':current.id === group.id}"
                               ng-click="setCurrent(group)"
                               ng-repeat="(key, group) in groups | custom:search">

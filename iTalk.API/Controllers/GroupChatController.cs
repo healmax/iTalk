@@ -22,6 +22,15 @@ namespace iTalk.API.Controllers {
         }
 
         /// <summary>
+        /// 取得對話
+        /// </summary>
+        /// <param name="groupId">群組 Id</param>
+        /// <returns>對話集合</returns>
+        protected override IQueryable<Chat> GetChats(long groupId) {
+            return this.DbContext.Chats.Where(c => c.RelationId == groupId);
+        }
+
+        /// <summary>
         /// 傳送對話
         /// </summary>
         /// <param name="model">對話</param>
@@ -32,7 +41,7 @@ namespace iTalk.API.Controllers {
             await this.ValidateGroup(model.TargetId);
             Dialog dialog = new Dialog(this.UserId, model.TargetId, model.Date, model.Content);
 
-            return await this.Chat(dialog);
+            return await this.Chat(model.TargetId, dialog);
         }
 
         /// <summary>
@@ -49,21 +58,15 @@ namespace iTalk.API.Controllers {
         /// 推送對話到相關的客戶端
         /// </summary>
         /// <param name="hub">SignalR HubContext</param>
-        /// <param name="groupId">朋友或群組Id</param>
+        /// <param name="groupId">群組Id</param>
         /// <param name="model">對話</param>
-        protected override async Task PushChatToClient(IHubContext hub, Chat model) {
-            var members = await this.DbContext.GroupMembers
-                .Where(gm => gm.GroupId == model.ReceiverId)
+        protected override async Task PushChatToClient(IHubContext hub, long groupId, Chat model) {
+            var memberIds = await this.DbContext.GroupMembers
+                .Where(gm => gm.GroupId == groupId)
                 .Select(m => m.UserId.ToString())
                 .ToArrayAsync();
 
-            //var users = members
-            //    .SkipWhile(id => id == this.UserId)
-            //    .Select(id => id.ToString())
-            //    .ToList();
-
-            //model.TargetId = this.UserId;
-            hub.Clients.Users(members).receiveGroupChat(model.ReceiverId, model);
+            hub.Clients.Users(memberIds).receiveGroupChat(groupId, model);
         }
     }
 }

@@ -48,28 +48,26 @@ namespace iTalk.DAO {
         /// 取得 使用者Id
         /// </summary>
         [Required]
-        [Index("Member", IsUnique = true, Order = 0)]
+        [Index("GroupMember_Index", IsUnique = true, Order = 0)]
         public long UserId { get; private set; }
 
         /// <summary>
         /// 取得 使用者
         /// </summary>
         [ForeignKey("UserId")]
-        //[InverseProperty("GroupMembers")]
         public virtual iTalkUser User { get; private set; }
 
         /// <summary>
         /// 取得 群組 Id
         /// </summary>
         [Required]
-        [Index("Member", IsUnique = true, Order = 1)]
+        [Index("GroupMember_Index", IsUnique = true, Order = 1)]
         public long GroupId { get; private set; }
 
         /// <summary>
         /// 取得 群組
         /// </summary>
         [ForeignKey("GroupId")]
-        [InverseProperty("Members")]
         public virtual Group Group { get; private set; }
 
         /// <summary>

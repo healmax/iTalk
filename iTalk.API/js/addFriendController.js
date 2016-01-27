@@ -29,12 +29,9 @@
         })
         .then(function (response) {
             if (response.data.success) {
-                $scope.friends[$scope.user.found.id.toString()] = $scope.user.found;
-                $scope.users[$scope.user.found.id.toString()] = $scope.user.found;
-                //$scope.friends.push({
-                //    userName: $scope.user.found.userName,
-                //    init: false
-                //});
+                $scope.friends.push($scope.user.found);
+                $scope.users.push($scope.user.found);
+                $scope.chats[$scope.user.found.id.toString()] = [];
 
                 alert('已經將用戶' + $scope.user.found.alias + '加為好友');
                 $scope.endAddFriend();

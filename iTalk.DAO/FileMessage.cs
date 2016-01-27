@@ -16,15 +16,15 @@ namespace iTalk.DAO {
         /// 建構函數
         /// </summary>
         /// <param name="senderId">發送者 Id</param>
-        /// <param name="receiverId">接收者 Id</param>
+        /// <param name="relationId">朋友關係或群組 Id</param>
         /// <param name="date">對話日期</param>
         /// <param name="filename">檔案名稱</param>
         /// <param name="url">Url</param>
         /// <param name="mimeType">Mime Type</param>
         /// <param name="size">檔案大小</param>
         /// <param name="thumbnail">縮圖</param>
-        public FileMessage(long senderId, long receiverId, DateTime date, string filename, string url, string mimeType, long size, byte[] thumbnail)
-            : base(receiverId, senderId, date) {
+        public FileMessage(long senderId, long relationId, DateTime date, string filename, string url, string mimeType, long size, byte[] thumbnail)
+            : base(relationId, senderId, date) {
             if (string.IsNullOrEmpty(filename)) {
                 throw new ArgumentNullException("filename");
             }

@@ -11,7 +11,7 @@
     @RenderSection("style", false)
 </head>
 <body class="body-content"
-      ng-init="id = initUser(@User.Identity.Name)"
+      ng-init="initUser('@User.Identity.Name')"
       ng-controller="indexController">
     @RenderBody()
 

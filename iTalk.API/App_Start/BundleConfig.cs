@@ -35,8 +35,11 @@ namespace iTalk.API {
                      "~/Scripts/angular-ui/ui-bootstrap.js",
                      "~/Scripts/matchmedia-ng.js",
                      "~/Scripts/angular-material.js",
+
                      "~/js/signalRHubProxy.js",
+                     "~/js/customFilter.js",
                      "~/js/iTalkApp.js",
+                     "~/js/indexController.js",
                      "~/js/chatController.js",
                      "~/js/groupController.js",
                      "~/js/addFriendController.js"

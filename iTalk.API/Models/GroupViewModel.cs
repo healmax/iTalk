@@ -15,7 +15,7 @@ namespace iTalk.API.Models {
         /// 取得/設定 名稱
         /// </summary>
         [Required]
-        [MinLength(3)]
+        [MinLength(2)]
         [MaxLength(20)]
         public string Name { get; set; }
 

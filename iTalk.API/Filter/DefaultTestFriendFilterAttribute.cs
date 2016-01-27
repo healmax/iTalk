@@ -47,8 +47,7 @@ namespace iTalk.API {
 
                 foreach (long id in testUserIds) {
                     controller.DbContext.Friendships.AddRange(new[] {
-                    new Friendship(currentUserId, id, RelationshipStatus.Accepted, date, date),
-                    new Friendship(id, currentUserId, RelationshipStatus.Accepted, date, date),
+                    new Friendship(currentUserId, id, RelationshipStatus.Accepted,date, RelationshipStatus.Accepted, date, date),
                 });
                 }
 

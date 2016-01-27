@@ -1,15 +1,18 @@
-﻿iTalkApp.controller('chatController', ['$scope', '$http', function ($scope, $http) {
+﻿iTalkApp.controller('chatController', ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {
     /**
      @id friend or gropu id
     */
     $scope.sendDialog = function () {
+        $scope.$root.isLoading = true;
+        var id = $scope.current.id;
+
         var chat = {
-            targetId: $scope.current.id,
+            targetId: id,
             content: $scope.current.input,
             date: new Date()
         };
 
-        $http.post('/' + $scope.getControllerName() + '/dialog', chat)
+        $http.post('/' + $scope.getControllerName(id) + '/dialog', chat)
             .then(function (response) {
                 //$scope.chats[$scope.current.id].push({
                 //    content: chat.content,
@@ -19,6 +22,9 @@
                 $scope.current.input = '';
             }, function (response) {
                 $scope.showError(response.data);
+            })
+            .finally(function () {
+                $scope.$root.isLoading = false;
             });
     };
 }]);

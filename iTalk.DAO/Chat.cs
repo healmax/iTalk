@@ -17,31 +17,13 @@ namespace iTalk.DAO {
         /// 建構函數
         /// </summary>
         /// <param name="senderId">發送者 Id</param>
-        /// <param name="receiverId">接收者 Id</param>
+        /// <param name="relationId">朋友關係或群組 Id</param>
         /// <param name="date">對話日期</param>
-        public Chat(long senderId, long receiverId, DateTime date)
+        public Chat(long senderId, long relationId, DateTime date)
             : base(date) {
-            //if (string.IsNullOrEmpty(senderId)) {
-            //    throw new ArgumentNullException("senderId");
-            //}
-
-            //this.RelationshipId = relationshipId;
             this.SenderId = senderId;
-            this.ReceiverId = receiverId;
+            this.RelationId = relationId;
         }
-
-        ///// <summary>
-        ///// 取得 Relationship Id
-        ///// </summary>
-        //[Required]
-        //public long RelationshipId { get; private set; }
-
-        ///// <summary>
-        ///// 取得 Relationship
-        ///// </summary>
-        //[JsonIgnore]
-        //[ForeignKey("RelationshipId")]
-        //public virtual Relationship Relationship { get; private set; }
 
         /// <summary>
         /// 取得 發送者 Id
@@ -54,21 +36,18 @@ namespace iTalk.DAO {
         /// </summary>
         [JsonIgnore]
         [ForeignKey("SenderId")]
-        //[InverseProperty("SendedChats")]
         public virtual iTalkUser Sender { get; private set; }
 
         /// <summary>
-        /// 取得 接收者 Id
+        /// 取得 朋友或群組關係 Id
         /// </summary>
-        [Required]
-        public long ReceiverId { get; private set; }
+        public long RelationId { get; private set; }
 
         /// <summary>
-        /// 取得 接收者
-        /// 可能是使用或群組
+        /// 取得 朋友關係或群組
         /// </summary>
         [JsonIgnore]
-        [ForeignKey("ReceiverId")]
-        public virtual ITarget Receiver { get; private set; }
+        [ForeignKey("RelationId")]
+        public virtual Relationship Relation { get; private set; }
     }
 }

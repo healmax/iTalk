@@ -24,34 +24,36 @@ namespace iTalk.API {
         /// <param name="throwIfNotExist">指定之群組不存在時是否拋出例外</param>
         /// <param name="throwIfNoRelationship">不是群組成員時是否拋出例外</param>
         /// <returns>朋友關聯狀態</returns>
-        public static async Task<RelationCheck> ValidateGroup(this DefaultApiController controller, long groupId, bool throwIfNotExist = true, bool throwIfNoRelationship = true) {
+        public static async Task<ValidateResult<Group>> ValidateGroup(this DefaultApiController controller, long groupId, bool throwIfNotExist = true, bool throwIfNoRelationship = true) {
             iTalkDbContext dbContext = controller.Request.GetOwinContext().Get<iTalkDbContext>();
-            //Group group = await dbContext.Groups.FindAsync(groupId);
-            bool exist = await dbContext.Groups.AnyAsync(g => g.Id == groupId);
+            Group group = await dbContext.Groups.FindAsync(groupId);
+            //bool exist = await dbContext.Groups.AnyAsync(g => g.Id == groupId);
 
-            if (!exist) {
+            if (group == null) {
                 if (throwIfNotExist) {
                     throw controller.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.Group, groupId, Resources.NotExist);
                 }
                 else {
-                    return RelationCheck.NotExist;
+                    return new ValidateResult<Group>(null, RelationCheck.NotExist);
                 }
             }
 
-            //bool isMember = await dbContext.Entry(group)
-            //    .Collection(g => g.Members)
-            //    .Query()
-            //    .AnyAsync(m => m.UserId == controller.UserId);
-            bool isMember = await dbContext.GroupMembers
-                .Where(gm => gm.UserId == controller.UserId)
-                .AnyAsync(gm => gm.GroupId == groupId);                
-            
+            bool isMember = await dbContext.Entry(group)
+                .Collection(g => g.Members)
+                .Query()
+                .AnyAsync(m => m.UserId == controller.UserId);
+            //Group group = await dbContext.GroupMembers
+            //    .Where(gm => gm.UserId == controller.UserId)
+            //    .Select(gm => gm.Group)
+            //    .FirstOrDefaultAsync(g => g.Id == groupId);
+
             if (!isMember && throwIfNoRelationship) {
                 throw controller.CreateResponseException(HttpStatusCode.NotFound, "{0}{1} {2} {3}{4}",
                     Resources.You, Resources.Not, groupId, Resources.Group, Resources.Member);
             }
 
-            return isMember ? RelationCheck.In : RelationCheck.Not;
+            return isMember ? new ValidateResult<Group>(group, RelationCheck.HasRelation) :
+                new ValidateResult<Group>(null, RelationCheck.NoRelation);
         }
 
         /// <summary>
@@ -62,7 +64,7 @@ namespace iTalk.API {
         /// <param name="throwIfNotExist">指定之使用者不存在時是否拋出例外</param>
         /// <param name="throwIfNotFriend">指定之使用者不是朋友時是否拋出例外</param>
         /// <returns>朋友關聯狀態</returns>
-        public static async Task<RelationCheck> ValidateFriendship(this DefaultApiController controller, long friendId, bool throwIfNotExist = true, bool throwIfNotFriend = true) {
+        public static async Task<ValidateResult<Friendship>> ValidateFriendship(this DefaultApiController controller, long friendId, bool throwIfNotExist = true, bool throwIfNotFriend = true) {
             iTalkDbContext dbContext = controller.Request.GetOwinContext().Get<iTalkDbContext>();
             bool userExist = await dbContext.Users.AnyAsync(u => u.Id == friendId);
 
@@ -71,26 +73,26 @@ namespace iTalk.API {
                     throw controller.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.User, friendId, Resources.NotExist);
                 }
                 else {
-                    return RelationCheck.NotExist;
+                    return new ValidateResult<Friendship>(null, RelationCheck.NotExist);
                 }
             }
 
             long id = controller.UserId; ;
 
-            bool isFriend = await dbContext.Friendships
-                .AnyAsync(rs => (rs.UserId == id && rs.InviteeId == friendId) ||
+            Friendship fs = await dbContext.Friendships
+                .FirstOrDefaultAsync(rs => (rs.UserId == id && rs.InviteeId == friendId) ||
                     (rs.UserId == friendId && rs.InviteeId == id));
 
-            if (!isFriend) {
+            if (fs == null) {
                 if (throwIfNotFriend) {
                     throw controller.CreateResponseException(HttpStatusCode.NotFound, "{0} {1}", friendId, Resources.NotYourFriend);
                 }
                 else {
-                    return RelationCheck.Not;
+                    return new ValidateResult<Friendship>(null, RelationCheck.NoRelation);
                 }
             }
 
-            return RelationCheck.In;
+            return new ValidateResult<Friendship>(fs, RelationCheck.HasRelation);
         }
 
         /// <summary>
@@ -120,5 +122,31 @@ namespace iTalk.API {
 
             return errors.ToString();
         }
+    }
+
+    /// <summary>
+    /// Relation Validation Result
+    /// </summary>
+    /// <typeparam name="T">Validate Relation Type</typeparam>
+    public class ValidateResult<T> {
+        /// <summary>
+        /// 建構函數
+        /// </summary>
+        /// <param name="target">Validation Target</param>
+        /// <param name="check">RelationCheck</param>
+        public ValidateResult(T target, RelationCheck check) {
+            this.Target = target;
+            this.Check = check;
+        }
+
+        /// <summary>
+        /// 取得 Validation Targe
+        /// </summary>
+        public T Target { get; private set; }
+
+        /// <summary>
+        /// 取得 RelationCheck
+        /// </summary>
+        public RelationCheck Check { get; private set; }
     }
 }

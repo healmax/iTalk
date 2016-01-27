@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace iTalk.API.Controllers {
     /// <summary>
-    /// 對話通新通知控制器
+    /// 對話更新通知控制器
     /// </summary>
     public class NoticeController : DefaultApiController {
         /// <summary>
@@ -17,35 +17,36 @@ namespace iTalk.API.Controllers {
         /// <param name="targetId">朋友或群組 Id</param>
         /// <param name="readTime">最後讀取時間</param>
         /// <returns></returns>
-        public async Task<ExecuteResult> Post(long targetId, DateTime readTime) {
-            if (targetId > 0) {
-                // 更新與朋友的對話通知
-                await this.ValidateFriendship(targetId);
-                Friendship fs = await this.DbContext.Friendships.FirstAsync(f => f.UserId == this.UserId && f.InviteeId == targetId);
+        public async Task<ExecuteResult> Post(NoticeViewModel model) {
+            this.CheckModelState(model);
 
-                if (fs.ReadTime < readTime) {
-                    fs.ReadTime = readTime;
+            if (model.Id > 0) {
+                // 更新與朋友的對話通知
+                var result = await this.ValidateFriendship(model.Id);
+
+                if (result.Target[this.UserId] < model.ReadTime) {
+                    result.Target[this.UserId] = model.ReadTime;
                     await this.DbContext.SaveChangesAsync();
-                    this.PushNoticeToFriend(readTime, targetId.ToString());
+                    this.PushNoticeToFriend(model.ReadTime, model.Id.ToString());
                 }
             }
-            else if (targetId < 0) {
+            else if (model.Id < 0) {
                 // 更新群組的對話通知
-                await this.ValidateGroup(targetId);
+                await this.ValidateGroup(model.Id);
                 GroupMember[] members = await this.DbContext.GroupMembers
-                    .Where(m => m.GroupId == targetId)
+                    .Where(m => m.GroupId == model.Id)
                     .ToArrayAsync();
                 GroupMember me = members.First(m => m.UserId == this.UserId);
 
-                if (me.ReadTime < readTime) {
-                    me.ReadTime = readTime;
+                if (me.ReadTime < model.ReadTime) {
+                    me.ReadTime = model.ReadTime;
                     await this.DbContext.SaveChangesAsync();
 
                     var otherMemberIds = members
                         .SkipWhile(m => m.UserId == this.UserId)
                         .Select(m => m.UserId.ToString())
                         .ToArray();
-                    this.PushNoticeToGroupMembers(readTime, targetId, otherMemberIds);
+                    this.PushNoticeToGroupMembers(model.ReadTime, model.Id, otherMemberIds);
                 }
             }
             else {

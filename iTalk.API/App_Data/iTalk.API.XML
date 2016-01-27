@@ -4,81 +4,6 @@
         <name>iTalk.API</name>
     </assembly>
     <members>
-        <member name="T:iTalk.API.Areas.Admin.Models.FriendResult">
-            <summary>
-            朋友關係
-            </summary>
-        </member>
-        <member name="T:iTalk.API.Models.UserInfo">
-            <summary>
-            回傳的使用者資訊
-            </summary>
-        </member>
-        <member name="T:iTalk.API.Models.UserViewModel">
-            <summary>
-            使用者 View Model
-            </summary>
-        </member>
-        <member name="T:iTalk.API.Models.UserViewModelBase">
-            <summary>
-            使用者的基本資料
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserViewModelBase.UserName">
-            <summary>
-            取得/設定 使用者名稱
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserViewModelBase.Alias">
-            <summary>
-            取得/設定 暱稱
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserViewModelBase.PersonalSign">
-            <summary>
-            取得/設定 個性簽名
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserViewModel.Id">
-            <summary>
-            使用者 Id
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserInfo.Thumbnail">
-            <summary>
-            取得/設定 個人圖片縮圖
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserInfo.ImageUrl">
-            <summary>
-            取得/設定 個人圖片網址
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Areas.Admin.Models.FriendResult.ReadTime">
-            <summary>
-            取得/設定 朋友最後讀取對話的時間
-            </summary>
-        </member>
-        <member name="T:iTalk.API.Areas.Admin.Models.FriendNoticeResult">
-            <summary>
-            好友通知
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Areas.Admin.Models.FriendNoticeResult.FriendId">
-            <summary>
-            取得/設定 朋友 Id
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Areas.Admin.Models.FriendNoticeResult.FriendReadTime">
-            <summary>
-            取得/設定 朋友最後讀取時間
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Areas.Admin.Models.FriendNoticeResult.MyReadTime">
-            <summary>
-            取得/設定 我的最後讀取時間
-            </summary>
-        </member>
         <member name="T:iTalk.API.Areas.Admin.Models.RenderFriendListOption">
             <summary>
             Render 好友列表的選項
@@ -586,13 +511,19 @@
         </member>
         <member name="T:iTalk.API.Controllers.NoticeController">
             <summary>
-            對話通新通知控制器
+            對話更新通知控制器
             </summary>
         </member>
         <member name="T:iTalk.API.Controllers.DefaultApiController">
             <summary>
             預設控制器
             </summary>
+        </member>
+        <member name="M:iTalk.API.Controllers.DefaultApiController.CheckModelState(System.Object)">
+            <summary>
+            檢查 Model 是否有效
+            </summary>
+            <param name="model">要檢查的 Model</param>
         </member>
         <member name="P:iTalk.API.Controllers.DefaultApiController.UserId">
             <summary>
@@ -609,7 +540,7 @@
             取得 UserManager
             </summary>
         </member>
-        <member name="M:iTalk.API.Controllers.NoticeController.Post(System.Int64,System.DateTime)">
+        <member name="M:iTalk.API.Controllers.NoticeController.Post(iTalk.API.Models.NoticeViewModel)">
             <summary>
             更新讀取對話時間
             </summary>
@@ -786,6 +717,26 @@
             帳戶用 View Model
             </summary>
         </member>
+        <member name="T:iTalk.API.Models.UserViewModel">
+            <summary>
+            使用者的基本資料
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserViewModel.UserName">
+            <summary>
+            取得/設定 使用者名稱
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserViewModel.Alias">
+            <summary>
+            取得/設定 暱稱
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserViewModel.PersonalSign">
+            <summary>
+            取得/設定 個性簽名
+            </summary>
+        </member>
         <member name="P:iTalk.API.Models.AccountViewModel.Password">
             <summary>
             取得/設定 密碼
@@ -850,24 +801,20 @@
             <param name="targetId">使用者或群組 Id</param>
             <returns>對話集合</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.ChatControllerBase.Chat(iTalk.DAO.Chat)">
+        <member name="M:iTalk.API.Controllers.ChatControllerBase.Chat(System.Int64,iTalk.DAO.Chat)">
             <summary>
             傳送對話
             </summary>
             <param name="chat">對話</param>
+            <param name="targetId">朋友或群組 Id</param>
             <returns>執行結果</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.ChatControllerBase.CheckModelState(iTalk.API.Models.ChatViewModel)">
-            <summary>
-            檢查 Model 是否有效
-            </summary>
-            <param name="model">要檢查的 Model</param>
-        </member>
-        <member name="M:iTalk.API.Controllers.ChatControllerBase.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,iTalk.DAO.Chat)">
+        <member name="M:iTalk.API.Controllers.ChatControllerBase.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,System.Int64,iTalk.DAO.Chat)">
             <summary>
             推送對話到相關的客戶端
             </summary>
             <param name="hub">SignalR HubContext</param>
+            <param name="targetId">朋友或群組 Id</param>
             <param name="model">對話</param>
         </member>
         <member name="T:iTalk.API.ControllerExtensions">
@@ -911,6 +858,29 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:iTalk.API.ValidateResult`1">
+            <summary>
+            Relation Validation Result
+            </summary>
+            <typeparam name="T">Validate Relation Type</typeparam>
+        </member>
+        <member name="M:iTalk.API.ValidateResult`1.#ctor(`0,iTalk.API.Models.RelationCheck)">
+            <summary>
+            建構函數
+            </summary>
+            <param name="target">Validation Target</param>
+            <param name="check">RelationCheck</param>
+        </member>
+        <member name="P:iTalk.API.ValidateResult`1.Target">
+            <summary>
+            取得 Validation Targe
+            </summary>
+        </member>
+        <member name="P:iTalk.API.ValidateResult`1.Check">
+            <summary>
+            取得 RelationCheck
+            </summary>
+        </member>
         <member name="T:iTalk.API.Areas.Admin.Controllers.HomeController">
             <summary>
             主控制器
@@ -933,6 +903,13 @@
             </summary>
             <param name="friendId">朋友 Id</param>
         </member>
+        <member name="M:iTalk.API.Controllers.ChatController.GetChats(System.Int64)">
+            <summary>
+            取得對話
+            </summary>
+            <param name="friendId">朋友 Id</param>
+            <returns>對話集合</returns>
+        </member>
         <member name="M:iTalk.API.Controllers.ChatController.Dialog(iTalk.API.Models.DialogViewModel)">
             <summary>
             傳送對話
@@ -947,11 +924,12 @@
             <param name="fileMessage">檔案訊息</param>
             <returns>執行結果</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.ChatController.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,iTalk.DAO.Chat)">
+        <member name="M:iTalk.API.Controllers.ChatController.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,System.Int64,iTalk.DAO.Chat)">
             <summary>
             推送對話到自己與特定朋友的客戶端
             </summary>
             <param name="hub">SignalR Hub</param>
+            <param name="friendId">朋友 Id</param>
             <param name="model">對話</param>
         </member>
         <member name="T:iTalk.API.Controllers.GroupChatController">
@@ -964,6 +942,13 @@
             檢查群組
             </summary>
             <param name="groupId">群組Id</param>
+        </member>
+        <member name="M:iTalk.API.Controllers.GroupChatController.GetChats(System.Int64)">
+            <summary>
+            取得對話
+            </summary>
+            <param name="groupId">群組 Id</param>
+            <returns>對話集合</returns>
         </member>
         <member name="M:iTalk.API.Controllers.GroupChatController.Dialog(iTalk.API.Models.DialogViewModel)">
             <summary>
@@ -979,17 +964,17 @@
             <param name="fileMessage">檔案訊息</param>
             <returns>執行結果</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.GroupChatController.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,iTalk.DAO.Chat)">
+        <member name="M:iTalk.API.Controllers.GroupChatController.PushChatToClient(Microsoft.AspNet.SignalR.IHubContext,System.Int64,iTalk.DAO.Chat)">
             <summary>
             推送對話到相關的客戶端
             </summary>
             <param name="hub">SignalR HubContext</param>
-            <param name="groupId">朋友或群組Id</param>
+            <param name="groupId">群組Id</param>
             <param name="model">對話</param>
         </member>
         <member name="T:iTalk.API.Controllers.GroupController">
             <summary>
-            群組控制器(測試中...)
+            群組控制器
             </summary>
         </member>
         <member name="M:iTalk.API.Controllers.GroupController.Get">
@@ -997,6 +982,13 @@
             取得群組
             </summary>
             <returns>群組資訊</returns>
+        </member>
+        <member name="M:iTalk.API.Controllers.GroupController.Get(System.Int64)">
+            <summary>
+            取得群組成員
+            </summary>
+            <param name="groupId">群組Id</param>
+            <returns>群組成員</returns>
         </member>
         <member name="M:iTalk.API.Controllers.GroupController.Post(iTalk.API.Models.GroupViewModel)">
             <summary>
@@ -1110,7 +1102,7 @@
             要回傳的結果
             </summary>
         </member>
-        <member name="T:iTalk.API.Models.GroupResult">
+        <member name="T:iTalk.API.Models.GroupInfo">
             <summary>
             群組結果
             </summary>
@@ -1135,42 +1127,47 @@
             取得/設定 描述
             </summary>
         </member>
-        <member name="F:iTalk.API.Models.GroupResult._members">
+        <member name="F:iTalk.API.Models.GroupInfo._members">
             <summary>
             群組成員 Id 
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.GroupResult.Id">
+        <member name="P:iTalk.API.Models.GroupInfo.Id">
             <summary>
             取得/設定 Id
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.GroupResult.Thumbnail">
+        <member name="P:iTalk.API.Models.GroupInfo.Thumbnail">
             <summary>
             取得/設定 縮圖
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.GroupResult.ImageUrl">
+        <member name="P:iTalk.API.Models.GroupInfo.ImageUrl">
             <summary>
             取得/設定 圖片網址
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.GroupResult.Members">
+        <member name="P:iTalk.API.Models.GroupInfo.UnreadMessageCount">
+            <summary>
+            取得/設定 未讀取訊息數量
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.GroupInfo.LastChat">
+            <summary>
+            取得/設定 最後一則對話
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.GroupInfo.Members">
             <summary>
             取得/設定 群組成員 Id 
             </summary>
         </member>
-        <member name="T:iTalk.API.Models.GroupResult.GroupMember">
+        <member name="T:iTalk.API.Models.GroupInfo.GroupMember">
             <summary>
             群組成員
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.GroupResult.GroupMember.Id">
-            <summary>
-            取得/設定 成員 Id
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.GroupResult.GroupMember.ReadTime">
+        <member name="P:iTalk.API.Models.GroupInfo.GroupMember.ReadTime">
             <summary>
             取得/設定 最後讀取時間
             </summary>
@@ -1190,6 +1187,21 @@
             取得/設定 群組成員 Id 
             </summary>
         </member>
+        <member name="T:iTalk.API.Models.NoticeViewModel">
+            <summary>
+            對話更新通知
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.NoticeViewModel.Id">
+            <summary>
+            取得/設定 朋友或群組 Id
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.NoticeViewModel.ReadTime">
+            <summary>
+            取得/設定 最後讀取時間
+            </summary>
+        </member>
         <member name="T:iTalk.API.Models.RelationCheck">
             <summary>
             關係的狀態
@@ -1200,12 +1212,12 @@
             關係不存在
             </summary>
         </member>
-        <member name="F:iTalk.API.Models.RelationCheck.Not">
+        <member name="F:iTalk.API.Models.RelationCheck.NoRelation">
             <summary>
             不是朋友或不在群組中
             </summary>
         </member>
-        <member name="F:iTalk.API.Models.RelationCheck.In">
+        <member name="F:iTalk.API.Models.RelationCheck.HasRelation">
             <summary>
             朋友或群組中
             </summary>
@@ -1250,52 +1262,62 @@
             取得/設定 檔案內容
             </summary>
         </member>
-        <member name="T:iTalk.API.Models.UserResult">
+        <member name="T:iTalk.API.Models.FriendInfo">
+            <summary>
+            回傳的使用者資訊
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfoBase.Id">
+            <summary>
+            取得/設定  Id
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfoBase.Thumbnail">
+            <summary>
+            取得/設定 個人圖片縮圖
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfoBase.ImageUrl">
+            <summary>
+            取得/設定 個人圖片網址
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfoBase.Alias">
+            <summary>
+            取得/設定 暱稱
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.FriendInfo.MyReadTime">
+            <summary>
+            取得/設定 我的最後讀取時間
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.FriendInfo.ReadTime">
+            <summary>
+            取得/設定 朋友最後讀取對話的時間
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.FriendInfo.UnreadMessageCount">
+            <summary>
+            取得/設定 未讀取訊息數量
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.FriendInfo.LastChat">
+            <summary>
+            取得/設定 最後一則對話
+            </summary>
+        </member>
+        <member name="T:iTalk.API.Models.UserInfo">
             <summary>
             使用者 View Model
             </summary>
         </member>
-        <member name="M:iTalk.API.Models.UserResult.#ctor">
+        <member name="M:iTalk.API.Models.UserInfo.#ctor">
             <summary>
             建構函數
             </summary>
         </member>
-        <member name="M:iTalk.API.Models.UserResult.#ctor(System.Int64,System.String,System.String,System.String,System.Boolean)">
-            <summary>
-            建構函數
-            </summary>
-            <param name="id">使用者 Id</param>
-            <param name="userName">使用者名稱</param>
-            <param name="alias">暱稱</param>
-            <param name="personalSign">個性簽名</param>
-            <param name="isFriend">是否為朋友</param>
-        </member>
-        <member name="F:iTalk.API.Models.UserResult._personalSign">
-            <summary>
-            個性簽名
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserResult.Id">
-            <summary>
-            取得/設定 Id
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserResult.UserName">
-            <summary>
-            取得/設定 使用者名稱
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserResult.Alias">
-            <summary>
-            取得 暱稱
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserResult.PersonalSign">
-            <summary>
-            取得 個性簽名
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserResult.IsFriend">
+        <member name="P:iTalk.API.Models.UserInfo.IsFriend">
             <summary>
             取得/設定 是否為朋友
             </summary>

@@ -1,5 +1,4 @@
 ﻿using iTalk.API.Models;
-using iTalk.API.Properties;
 using iTalk.DAO;
 using Microsoft.AspNet.SignalR;
 using System;
@@ -57,24 +56,15 @@ namespace iTalk.API.Controllers {
         /// </summary>
         /// <param name="targetId">使用者或群組 Id</param>
         /// <returns>對話集合</returns>
-        protected IQueryable<Chat> GetChats(long targetId) {
-            if (targetId > 0) {
-                // 朋友的對話
-                return this.DbContext.Chats.Where(c =>
-                    (c.SenderId == this.UserId && c.ReceiverId == targetId) ||
-                    (c.SenderId == targetId && c.ReceiverId == this.UserId));
-            }
-
-            // 群組的對話
-            return this.DbContext.Chats.Where(c => c.ReceiverId == targetId);
-        }
+        protected abstract IQueryable<Chat> GetChats(long targetId);
 
         /// <summary>
         /// 傳送對話
         /// </summary>
         /// <param name="chat">對話</param>
+        /// <param name="targetId">朋友或群組 Id</param>
         /// <returns>執行結果</returns>
-        protected async Task<ExecuteResult> Chat(Chat chat) {
+        protected async Task<ExecuteResult> Chat(long targetId, Chat chat) {
             this.DbContext.Chats.Add(chat);
 
             try {
@@ -82,7 +72,7 @@ namespace iTalk.API.Controllers {
 
                 // 暫放 Hub
                 var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-                await this.PushChatToClient(hub, chat);
+                await this.PushChatToClient(hub, targetId, chat);
             }
             catch (Exception ex) {
                 throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
@@ -92,24 +82,11 @@ namespace iTalk.API.Controllers {
         }
 
         /// <summary>
-        /// 檢查 Model 是否有效
-        /// </summary>
-        /// <param name="model">要檢查的 Model</param>
-        protected void CheckModelState(ChatViewModel model) {
-            if (model == null) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideChatInfo);
-            }
-
-            if (!this.ModelState.IsValid) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
-            }
-        }
-
-        /// <summary>
         /// 推送對話到相關的客戶端
         /// </summary>
         /// <param name="hub">SignalR HubContext</param>
+        /// <param name="targetId">朋友或群組 Id</param>
         /// <param name="model">對話</param>
-        protected abstract Task PushChatToClient(IHubContext hub, Chat model);
+        protected abstract Task PushChatToClient(IHubContext hub, long targetId, Chat model);
     }
 }

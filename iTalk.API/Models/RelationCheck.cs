@@ -1,5 +1,4 @@
-﻿using iTalk.DAO;
-namespace iTalk.API.Models {
+﻿namespace iTalk.API.Models {
     //public class RelationValidation<TR>
     //        where TR : Relationship {
     //    public RelationValidation(TR relation, RelationCheck check) {
@@ -34,11 +33,11 @@ namespace iTalk.API.Models {
         /// <summary>
         /// 不是朋友或不在群組中
         /// </summary>
-        Not,
+        NoRelation,
 
         /// <summary>
         /// 朋友或群組中
         /// </summary>
-        In
+        HasRelation
     }
 }

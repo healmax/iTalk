@@ -8,11 +8,12 @@
         $mdDialog.show({
             controller: dialogController,
             templateUrl: 'createGroupView',
-            parent: angular.element(document.body),
+            //parent: angular.element('body > div .container'),
             targetEvent: ev,
             locals: {
                 friends: $scope.friends
             },
+            fullscreen: true
         })
         .then(function (group) {
             var data = {
@@ -26,7 +27,13 @@
             .then(function () {
                 $http.get('/group')
                     .then(function (response) {
-                        $scope.groups = response.data.result;
+                        $scope.groups.length = 0;
+                        angular.forEach(response.data.result, function (g) {
+                            if (!$scope.chats[g.id.toString()]) {
+                                $scope.chats[g.id.toString()] = [];
+                            }
+                            $scope.groups.push(g);
+                        });
                     });
             }, function (response) {
                 $scope.showError(response.data);

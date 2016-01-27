@@ -1,8 +1,10 @@
-﻿using iTalk.DAO;
+﻿using iTalk.API.Properties;
+using iTalk.DAO;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Microsoft.AspNet.Identity;
 
 namespace iTalk.API.Controllers {
     /// <summary>
@@ -28,6 +30,20 @@ namespace iTalk.API.Controllers {
         /// </summary>
         protected internal UserManager UserManager {
             get { return this.Request.GetOwinContext().GetUserManager<UserManager>(); }
+        }
+
+        /// <summary>
+        /// 檢查 Model 是否有效
+        /// </summary>
+        /// <param name="model">要檢查的 Model</param>
+        protected void CheckModelState(object model) {
+            if (model == null) {
+                throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideChatInfo);
+            }
+
+            if (!this.ModelState.IsValid) {
+                throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
+            }
         }
 
         ///// <summary>

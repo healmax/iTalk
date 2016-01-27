@@ -361,8 +361,8 @@ md-input-container {
 }
 
 .portrait-lg {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
 }
 
 .portrait-xs, .portrait-md, .portrait-lg {
@@ -398,4 +398,36 @@ md-content::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #C1C4D0;
+}
+
+.badge {
+    background-color: #0BC060;
+}
+
+.notify-toast .md-toast-content {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    display: inherit !important;
+    height: auto !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.notify-toast {
+    bottom: -50px !important;
+    right: 15px !important;
+}
+
+.bottom-progress-linear {
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+}
+
+.md-dialog-backdrop {
+    z-index: 1500 !important;
+}
+
+.md-dialog-container {
+    z-index: 2000 !important;
 }
