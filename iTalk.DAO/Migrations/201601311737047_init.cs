@@ -36,8 +36,7 @@ namespace iTalk.DAO.Migrations
                         UserName = c.String(nullable: false, maxLength: 256),
                         Alias = c.String(maxLength: 10),
                         PersonalSign = c.String(maxLength: 50),
-                        PortraitUrl = c.String(),
-                        Thumb = c.Binary(),
+                        PortraitId = c.Long(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -50,7 +49,9 @@ namespace iTalk.DAO.Migrations
                         AccessFailedCount = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .Index(t => t.UserName, unique: true, name: "UserNameIndex");
+                .ForeignKey("dbo.Portraits", t => t.PortraitId)
+                .Index(t => t.UserName, unique: true, name: "UserNameIndex")
+                .Index(t => t.PortraitId);
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -81,6 +82,20 @@ namespace iTalk.DAO.Migrations
                 .ForeignKey("dbo.Groups", t => t.GroupId)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => new { t.UserId, t.GroupId }, unique: true, name: "GroupMember_Index");
+            
+            CreateTable(
+                "dbo.Portraits",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        Content = c.Binary(nullable: false),
+                        Filename = c.String(nullable: false, maxLength: 36),
+                        Thumbnail = c.String(),
+                        Date = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Filename, unique: true);
             
             CreateTable(
                 "dbo.AspNetUserLogins",
@@ -145,36 +160,42 @@ namespace iTalk.DAO.Migrations
                         TimeStamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
                         Name = c.String(nullable: false, maxLength: 20),
                         Description = c.String(),
-                        Thumbnail = c.Binary(),
-                        ImageUrl = c.String(),
                         CreatorId = c.Long(nullable: false),
+                        PortraitId = c.Long(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatorId)
-                .Index(t => t.CreatorId);
+                .ForeignKey("dbo.Portraits", t => t.PortraitId)
+                .Index(t => t.CreatorId)
+                .Index(t => t.PortraitId);
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.Groups", "PortraitId", "dbo.Portraits");
             DropForeignKey("dbo.Groups", "CreatorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Friendships", "InviteeId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Friendships", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Chats", "SenderId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUsers", "PortraitId", "dbo.Portraits");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.GroupMembers", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.GroupMembers", "GroupId", "dbo.Groups");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropIndex("dbo.Groups", new[] { "PortraitId" });
             DropIndex("dbo.Groups", new[] { "CreatorId" });
             DropIndex("dbo.Friendships", "Friendship_Index");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.Portraits", new[] { "Filename" });
             DropIndex("dbo.GroupMembers", "GroupMember_Index");
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.AspNetUsers", new[] { "PortraitId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Chats", new[] { "SenderId" });
             DropTable("dbo.Groups");
@@ -182,6 +203,7 @@ namespace iTalk.DAO.Migrations
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.Portraits");
             DropTable("dbo.GroupMembers");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");

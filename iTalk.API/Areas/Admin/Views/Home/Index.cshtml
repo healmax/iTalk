@@ -1,152 +1,153 @@
 ﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_ToolbarLayout.cshtml";
 }
-<div class="row workarea"
-     style="height: calc(100vh - 114px);"
-     ng-if="isInit === 0"
-     ng-cloak>
-    <div class="">
-        <div id="sidebar" ng-if="!isPhone">
-            @Html.Partial("_Sidebar")
-        </div>
-        <!--聊天內容區塊-->
-        <md-content>
-            <div layout>
-                <md-button ng-if="current" ng-click="showDetail('right')" class="h4 no-padding-margin text-left-important" aria-label="詳情" flex="100">
-                    <img ng-src="{{current.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
-                    <b ng-if="current.alias" class="text">{{current.alias}}</b>
-                    <b ng-if="current.name">{{current.name}} ({{current.members.length}})</b>
-                </md-button>
+<div ng-controller="indexController">
+    <div class="row workarea"
+         style="height: calc(100vh - 114px);"
+         ng-if="isInit === 0">
+        <div class="">
+            <div id="sidebar" ng-if="!isPhone">
+                @Html.Partial("_Sidebar")
             </div>
-            <md-content id="chat-list-{{key}}" class="dialog" ng-repeat="(key, chat) in chats" ng-show="current.id == key">
-                <ul class="list-unstyled">
-                    <li ng-repeat="c in chat track by $index">
-                        <div ng-switch="$index == 0 || !isSameDay(chat[$index - 1].date, c.date)">
-                            <!--顯示日期-->
-                            <div ng-switch-when="true" class="text-center" layout-padding>
-                                <span class="bg-info" ng-bind="::c.date | date:'MM.dd(EEE)'"></span>
-                            </div>
-                            <!--顯示對話-->
-                            <div>
-                                <div layout ng-class="{'pull-right':isSender(c)}">
-                                    <div class="sender-date text-muted" ng-if="isSender(c)" layout="column" layout-align="center end">
-                                        <span class="small" ng-if="key > 0 && getTarget(key).readTime >= c.date">已讀</span>
-                                        <!--TODO:優化，不要計算兩次-->
-                                        <span class="small" ng-if="key < 0 && calcReadCount(key,c.date)">已讀 {{readCount=calcReadCount(key,c.date)}}</span>
-                                        <span class="small" ng-bind="::c.date | date:'a hh:mm':'utc +08:00'"></span>
-                                    </div>
-                                    <div ng-if="!isSender(c) && key <= 0" layout="column">
-                                        <img ng-src="{{getUser(c.senderId).thumnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
-                                        <p class="center-block" ng-bind="getUser(c.senderId).alias"></p>
-                                    </div>
-                                    <div>
-                                        <div class="chat-bubble tri-right round"
-                                             ng-class="{'right-in bg-sender':isSender(c), 'left-in bg-receiver':!isSender(c)}">
-                                            <div class="chat-content">
-                                                <p ng-bind="::c.content" style="vertical-align:central"></p>
+            <!--聊天內容區塊-->
+            <md-content>
+                <div layout>
+                    <md-button ng-if="current" ng-click="showDetail('right')" class="h4 no-padding-margin text-left-important" aria-label="詳情" flex="100">
+                        <img thumbnail="current.thumbnail" class="img-circle portrait-xs" />
+                        <b ng-if="current.alias">{{current.alias}}</b>
+                        <b ng-if="current.name">{{current.name}} ({{current.members.length}})</b>
+                    </md-button>
+                </div>
+                <md-content id="chat-list-{{key}}" class="dialog" ng-repeat="(key, chat) in chats" ng-show="current.id == key">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="c in chat track by $index">
+                            <div ng-switch="$index == 0 || !isSameDay(chat[$index - 1].date, c.date)">
+                                <!--顯示日期-->
+                                <div ng-switch-when="true" class="text-center" layout-padding>
+                                    <span class="bg-info" ng-bind="::c.date | date:'MM.dd(EEE)'"></span>
+                                </div>
+                                <!--顯示對話-->
+                                <div>
+                                    <div layout ng-class="{'pull-right':isSender(c)}">
+                                        <div class="sender-date text-muted" ng-if="isSender(c)" layout="column" layout-align="center end">
+                                            <span class="small" ng-if="key > 0 && getTarget(key).readTime >= c.date">已讀</span>
+                                            <!--TODO:優化，不要計算兩次-->
+                                            <span class="small" ng-if="key < 0 && calcReadCount(key,c.date)">已讀 {{readCount=calcReadCount(key,c.date)}}</span>
+                                            <span class="small" ng-bind="::c.date | date:'a hh:mm':'utc +08:00'"></span>
+                                        </div>
+                                        <div ng-if="!isSender(c) && key <= 0" layout="column">
+                                            <img thumbnail="getUser(c.senderId).thumbnail" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
+                                            <p class="center-block" ng-bind="getUser(c.senderId).alias"></p>
+                                        </div>
+                                        <div>
+                                            <div class="chat-bubble tri-right round"
+                                                 ng-class="{'right-in bg-sender':isSender(c), 'left-in bg-receiver':!isSender(c)}">
+                                                <div class="chat-content">
+                                                    <p ng-bind="::c.content" style="vertical-align:central"></p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="receiver-date text-muted" ng-if="!isSender(c)" layout layout-align="start center">
-                                        <span class="small" ng-bind="::c.date | date:'a hh:mm':'utc +08:00'"></span>
+                                        <div class="receiver-date text-muted" ng-if="!isSender(c)" layout layout-align="start center">
+                                            <span class="small" ng-bind="::c.date | date:'a hh:mm':'utc +08:00'"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                </ul>
+                            <div class="clearfix"></div>
+                        </li>
+                    </ul>
+                </md-content>
+                <div class="bottom-progress-linear" ng-show="$root.isLoading">
+                    <md-progress-linear md-mode="query"></md-progress-linear>
+                </div>
+                @Html.Partial("_Detail")
             </md-content>
-            <div class="bottom-progress-linear" ng-show="$root.isLoading">
-                <md-progress-linear md-mode="query"></md-progress-linear>
-            </div>
-            @Html.Partial("_Detail")
-        </md-content>
-        <!--Bottom Navbar-->
-        <nav id="bottom-sidebar" class="navbar navbar-fixed-bottom">
-            <div class="container">
-                <div class="workarea row" layout>
-                    <!--功能按鈕列-->
-                    <div class="tab" flex="none">
-                        <div class="col-xs-3">
+            <!--Bottom Navbar-->
+            <nav id="bottom-sidebar" class="navbar navbar-fixed-bottom">
+                <div class="container">
+                    <div class="workarea row" layout>
+                        <!--功能按鈕列-->
+                        <div class="tab" flex="none">
+                            <div class="col-xs-3">
+                                <md-button class="md-icon-button"
+                                           aria-label="聊天"
+                                           title="聊天"
+                                           ng-click="setTabIndex(1)"
+                                           ng-class="{ 'md-primary': isCurrentTab(1) }">
+                                    @*<span class="fa fa-comment fa-2x"></span>
+                                        <span class="badge" ng-init="totalCount=totalUnreadMessageCount()" ng-bind="totalCount"></span>*@
+                                    <span class="fa-stack">
+                                        <span class="fa fa-comment fa-stack-2x"></span>
+                                        <span class="fa-stack fa-stack-text fa-inverse" ng-bind="totalUnreadMessageCount()"></span>
+                                    </span>
+                                </md-button>
+                            </div>
+                            <div class="col-xs-3">
+                                <md-button class="md-icon-button"
+                                           aria-label="好友"
+                                           title="好友"
+                                           ng-click="setTabIndex(2)"
+                                           ng-class="{ 'md-primary': isCurrentTab(2) }">
+                                    <span class="fa fa-user fa-2x"></span>
+                                </md-button>
+                            </div>
+                            <div class="col-xs-3">
+                                <md-button class="md-icon-button"
+                                           aria-label="群組"
+                                           title="群組"
+                                           ng-click="setTabIndex(3)"
+                                           ng-class="{ 'md-primary': isCurrentTab(3) }">
+                                    <span class="fa fa-users fa-2x"></span>
+                                </md-button>
+                            </div>
+                            <div class="col-xs-3">
+                                <md-button class="md-icon-button"
+                                           aria-label="加入好友"
+                                           title="加入好友"
+                                           ng-click="setTabIndex(4)"
+                                           ng-class="{ 'md-primary': isCurrentTab(4) }">
+                                    <span class="fa fa-user-plus fa-2x"></span>
+                                </md-button>
+                            </div>
+                        </div>
+                        <!--輸入區塊-->
+                        <div layout flex="auto" ng-controller="chatController">
+                            <input class="custom-input"
+                                   ng-disabled="!current"
+                                   ng-model="current.input"
+                                   ng-keydown="$event.which === 13 && sendDialog()"
+                                   placeholder=@Resources.PleaseInputMessage
+                                   flex="auto" />
                             <md-button class="md-icon-button"
-                                       aria-label="聊天"
-                                       title="聊天"
-                                       ng-click="setTabIndex(1)"
-                                       ng-class="{ 'md-primary': isCurrentTab(1) }">
-                                @*<span class="fa fa-comment fa-2x"></span>
-                                    <span class="badge" ng-init="totalCount=totalUnreadMessageCount()" ng-bind="totalCount"></span>*@
-                                <span class="fa-stack">
-                                    <span class="fa fa-comment fa-stack-2x"></span>
-                                    <span class="fa-stack fa-stack-text fa-inverse" ng-bind="totalUnreadMessageCount()"></span>
+                                       aria-label="貼圖"
+                                       title="貼圖"
+                                       style="margin-left: -5px; margin-right: -5px">
+                                <span class="fa fa-smile-o fa-lg"></span>
+                            </md-button>
+                            <md-button class="md-icon-button"
+                                       aria-label="傳送檔案"
+                                       title="傳送檔案"
+                                       style="margin-left: -5px; margin-right: -5px">
+                                <span class="fa fa-paperclip fa-lg">
                                 </span>
                             </md-button>
                         </div>
-                        <div class="col-xs-3">
-                            <md-button class="md-icon-button"
-                                       aria-label="好友"
-                                       title="好友"
-                                       ng-click="setTabIndex(2)"
-                                       ng-class="{ 'md-primary': isCurrentTab(2) }">
-                                <span class="fa fa-user fa-2x"></span>
-                            </md-button>
-                        </div>
-                        <div class="col-xs-3">
-                            <md-button class="md-icon-button"
-                                       aria-label="群組"
-                                       title="群組"
-                                       ng-click="setTabIndex(3)"
-                                       ng-class="{ 'md-primary': isCurrentTab(3) }">
-                                <span class="fa fa-users fa-2x"></span>
-                            </md-button>
-                        </div>
-                        <div class="col-xs-3">
-                            <md-button class="md-icon-button"
-                                       aria-label="加入好友"
-                                       title="加入好友"
-                                       ng-click="setTabIndex(4)"
-                                       ng-class="{ 'md-primary': isCurrentTab(4) }">
-                                <span class="fa fa-user-plus fa-2x"></span>
-                            </md-button>
-                        </div>
-                    </div>
-                    <!--輸入區塊-->
-                    <div layout flex="auto" ng-controller="chatController">
-                        <input class="custom-input"
-                               ng-disabled="!current"
-                               ng-model="current.input"
-                               ng-keydown="$event.which === 13 && sendDialog()"
-                               placeholder=@Resources.PleaseInputMessage
-                               flex="auto" />
-                        <md-button class="md-icon-button"
-                                   aria-label="貼圖"
-                                   title="貼圖"
-                                   style="margin-left: -5px; margin-right: -5px">
-                            <span class="fa fa-smile-o fa-lg"></span>
-                        </md-button>
-                        <md-button class="md-icon-button"
-                                   aria-label="傳送檔案"
-                                   title="傳送檔案"
-                                   style="margin-left: -5px; margin-right: -5px">
-                            <span class="fa fa-paperclip fa-lg">
-                            </span>
-                        </md-button>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
+        <div id="sidebar" ng-if="isPhone">
+            @Html.Partial("_Sidebar")
+        </div>
     </div>
-    <div id="sidebar" ng-if="isPhone">
-        @Html.Partial("_Sidebar")
-    </div>
-</div>
-<!--Loading Modal-->
-<div id="loading-modal" class="modal fade" data-backdrop="static" layout layout-align="center center">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <p class="text-center">讀取中...</p>
-                <md-progress-linear mode="indeterminate"></md-progress-linear>
+    <!--Loading Modal-->
+    <div id="loading-modal" class="modal fade" data-backdrop="static" layout layout-align="center center">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="text-center">讀取中...</p>
+                    <md-progress-linear mode="indeterminate"></md-progress-linear>
+                </div>
             </div>
         </div>
     </div>
@@ -156,17 +157,17 @@
     @Styles.Render("~/Content/angular")
 }
 @section scripts{
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#loading-modal').modal();
-        })
-    </script>
-    @Scripts.Render("~/bundles/angular")
-    @Scripts.Render("~/bundles/signalR")
+    @Scripts.Render("~/bundles/angular-index")
+    <script src="~/js/imageEditorController.js"></script>
     <script type="text/ng-template" id="chatNotificationView">
         @Html.Partial("_ChatNotification")
     </script>
     <script type="text/ng-template" id="createGroupView">
         @Html.Partial("_CreateGroup")
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#loading-modal').modal();
+        })
     </script>
 }

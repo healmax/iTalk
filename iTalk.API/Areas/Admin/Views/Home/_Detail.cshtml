@@ -1,7 +1,7 @@
 ﻿<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
     <md-content layout="column">
         <div layout="column" layout-align="center center">
-            <img ng-src="{{detail.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-lg" />
+            <img thumbnail="detail.thumbnail" ng-click="open(detail.portraitUrl)" class="img-circle portrait-lg" />
             <label>{{detail.alias || detail.name}}</label>
             <label class="text-muted">{{detail.personalSign}}</label>
         </div>

@@ -8,13 +8,13 @@
             <md-list id="chat-list">
                 <md-list-item class="md-2-line"
                               aria-label="{{model.alias || model.name}}"
-                              title="{{model.alias || model.name}}"
+                              title="{{model.alias || model.name }}"
                               ng-class="{'bg-info':current.id === model.id}"
                               ng-click="setCurrent(model)"
                               ng-repeat="(key, model) in friends.concat(groups) | orderBy:sortByChatTime:true | filter:search">
                     <img ng-src="{{model.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
                     <div class="md-list-item-text">
-                        <b ng-bind="model.alias || model.name"></b>
+                        <b ng-bind="model.alias || model.name + ' (' + model.members.length + ')'"></b>
                         <p ng-bind="model.lastChat.content | overflow:15"></p>
                         <div class="md-secondary-container">
                             <p ng-bind="model.lastChat.date | displayDate"></p>

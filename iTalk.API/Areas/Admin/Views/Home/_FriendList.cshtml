@@ -12,7 +12,7 @@
         }
         <md-list-item ng-class="{true: 'md-2-line', false: 'md-1-line'}[@JsonConvert.SerializeObject(Model.ShowLastChat)]"
                       ng-repeat="(key, f) in friends | custom:search">
-            <img ng-src="{{friend.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
+            <img thumbnail="f.thumbnail" class="img-circle portrait-md" />
             @if (Model.ShowLastChat) {
                 <div class="md-list-item-text" flex>
                     <h3 ng-bind="f.alias"></h3>
@@ -26,6 +26,7 @@
                 <md-checkbox class="md-primary"
                              ng-checked="isChecked(f)"
                              ng-click="selectFriend(f)"
+                             ng-disabled="isLoading"
                              flex="none"
                              aria-label="select">
                 </md-checkbox>

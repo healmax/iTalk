@@ -1,4 +1,6 @@
-﻿using iTalk.API.Properties;
+﻿using iTalk.API.Models;
+using iTalk.API.Properties;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -12,9 +14,16 @@ namespace iTalk.API.Areas.Admin.Controllers {
         /// 首頁
         /// </summary>
         /// <returns>首頁</returns>        
-        public ActionResult Index() {
+        public async Task<ActionResult> Index() {
             this.ViewBag.Title = Resources.HomePage;
-            return this.View();
+
+            iTalkClient client = new iTalkClient();
+            var response = await client.GetAsync("account?userName=" + this.User.Identity.Name);
+            response.EnsureSuccessStatusCode();
+
+            UserInfoBase model = (await response.Content.ReadAsAsync<ExecuteResult<UserInfoBase>>()).Result;
+
+            return this.View(model);
         }
     }
 }

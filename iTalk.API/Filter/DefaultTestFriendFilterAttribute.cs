@@ -1,5 +1,4 @@
 ﻿using iTalk.API.Controllers;
-using iTalk.API.Models;
 using iTalk.DAO;
 using System;
 using System.Data.Entity;
@@ -25,30 +24,25 @@ namespace iTalk.API {
                 return;
             }
 
-            AccountViewModel account = actionExecutedContext.ActionContext.ActionArguments.Values
-                .OfType<AccountViewModel>()
-                .FirstOrDefault();
+            var controller = actionExecutedContext.ActionContext.ControllerContext.Controller as DefaultApiController;
+            string[] testUserNames = { "TestUser1", "TestUser2" };
+            var testUserIds = await controller.DbContext.Users
+                .Where(u => testUserNames.Contains(u.UserName))
+                .Select(u => u.Id)
+                .ToArrayAsync();
 
-            if (account != null) {
-                var controller = actionExecutedContext.ActionContext.ControllerContext.Controller as DefaultApiController;
-                string[] testUserNames = { "TestUser1", "TestUser2" };
-                var testUserIds = await controller.DbContext.Users
-                    .Where(u => testUserNames.Contains(u.UserName))
-                    .Select(u => u.Id)
-                    .ToArrayAsync();
+            string userName = actionExecutedContext.ActionContext.Request.Properties["UserName"] as string;
 
-                string upperUserName = account.UserName.ToUpper();
+            if (!string.IsNullOrEmpty(userName)) {
                 var currentUserId = await controller.DbContext.Users
-                    .Where(u => u.UserName.ToUpper() == upperUserName)
+                    .Where(u => u.UserName.ToUpper() == userName.ToUpper())
                     .Select(u => u.Id)
                     .FirstOrDefaultAsync();
 
                 DateTime date = DateTime.UtcNow;
 
                 foreach (long id in testUserIds) {
-                    controller.DbContext.Friendships.AddRange(new[] {
-                    new Friendship(currentUserId, id, RelationshipStatus.Accepted,date, RelationshipStatus.Accepted, date, date),
-                });
+                    controller.DbContext.Friendships.Add(new Friendship(currentUserId, id, RelationshipStatus.Accepted, date, RelationshipStatus.Accepted, date, date));
                 }
 
                 await controller.DbContext.SaveChangesAsync();

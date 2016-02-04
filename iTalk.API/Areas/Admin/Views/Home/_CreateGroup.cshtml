@@ -1,44 +1,47 @@
 ﻿@using iTalk.API.Areas.Admin.Models
 
-<md-dialog flex-gt-sm="75" flex-gt-md="50">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h3>建立群組</h3>
-            <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel()">
-                <span class="fa fa-times fa-lg"></span>
-            </md-button>
-        </div>
-    </md-toolbar>
-    <md-dialog-content>
-        <div class="md-dialog-content" layout>
-            <div>
-                @Html.Partial("_FriendList", new RenderFriendListOption(showLastChat: false))
+<md-dialog ng-disabled="isLoading" flex-gt-sm="75" flex-gt-md="50">
+    <fieldset ng-disabled="isLoading">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h3>建立群組</h3>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <span class="fa fa-times fa-lg"></span>
+                </md-button>
             </div>
-            <div ng-model="newGroup" ng-init="newGroup={members:[]}" flex>
-                <div layout-align="center center" layout="column">
-                    <img ng-src="{{newGroup.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-lg" />
-                    <form name="newgroupForm">
-                        <md-input-container md-no-float>
-                            <input name="name" minlength="2" md-maxlength="20" placeholder="請輸入群組名稱" ng-model="newGroup.name" />
-                            <div ng-messages="newgroupForm.name.$error">
-                                <div ng-message="minlength">群組名稱最少要2個字</div>
-                                <div ng-message="md-maxlength">群組名稱最多20個字</div>
-                            </div>
-                        </md-input-container>
-                    </form>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content" layout>
+                <div>
+                    @Html.Partial("_FriendList", new RenderFriendListOption(showLastChat: false))
                 </div>
-                <md-contact-chips ng-model="newGroup.members"
-                                  md-contact-name="alias"
-                                  md-contact-image="thumbnail"
-                                  md-require-match="true"
-                                  md-highlight-flags="i">
-                </md-contact-chips>
+                <div ng-model="newGroup" ng-init="newGroup={members:[]}" flex>
+                    <div layout-align="center center" layout="column">
+                        <form name="newgroupForm">
+                            @Html.Partial("_ImageEditor")
+                            <md-input-container md-no-float>
+                                <input name="name" minlength="2" md-maxlength="20" placeholder="請輸入群組名稱" ng-model="newGroup.name" />
+                                <div ng-messages="newgroupForm.name.$error">
+                                    <div ng-message="minlength">群組名稱最少要2個字</div>
+                                    <div ng-message="md-maxlength">群組名稱最多20個字</div>
+                                </div>
+                            </md-input-container>
+                        </form>
+                    </div>
+                    <md-contact-chips ng-model="newGroup.members"
+                                      md-contact-name="alias"
+                                      md-contact-image="thumbnail"
+                                      md-require-match="true"
+                                      md-highlight-flags="i">
+                    </md-contact-chips>
+                </div>
             </div>
+            <md-progress-linear ng-show="isLoading" md-mode="indeterminate"></md-progress-linear>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <md-button class="md-primary md-raised" ng-disabled="!newGroup.name" ng-click="create(newGroup)">建立</md-button>
+            <md-button ng-click="cancel()">關閉</md-button>
         </div>
-    </md-dialog-content>
-    <div class="md-actions" layout="row">
-        <md-button class="md-primary md-raised" ng-disabled="!newGroup.name" ng-click="create(newGroup)">建立</md-button>
-        <md-button ng-click="cancel()">關閉</md-button>
-    </div>
+    </fieldset>
 </md-dialog>

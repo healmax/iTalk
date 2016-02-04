@@ -3,83 +3,67 @@
     Layout = "~/Areas/Admin/Views/Shared/_ToolbarLayout.cshtml";
 }
 <h4>@Resources.CreateAccount</h4>
-<form method="post" action="/Admin/Account/Register">
-    @Html.ValidationMessage("", null, new { @class = "text-danger" })
+<form id="register-form" method="post" action="/Admin/Account/Register" enctype="multipart/form-data">
+    @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "text-danger" })
     <div class="form-group">
-        @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "text-danger" })
+        <label>@Resources.UserName</label>
         @Html.TextBoxFor(m => m.UserName, new {
        @class = "form-control",
-       placeholder = @Resources.UserName,
        data_toggle = "popover",
        data_placement = "right",
        data_content = @Resources.UserNameTooltip,
        autofocus = true
    })
+        @Html.ValidationMessage("", null, new { @class = "text-danger" })
     </div>
     <div class="form-group">
-        @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+        <label>@Resources.Password</label>
         @Html.PasswordFor(m => m.Password, new {
        @class = "form-control",
-       placeholder = @Resources.Password,
        data_toggle = "popover",
        data_placement = "right",
        data_content = @Resources.Password + @Resources.UserNameOrPasswordFormatError
    })
+        @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
     </div>
     <div class="form-group">
+        <label>@Resources.PasswordConfirm</label>
+        @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.PasswordConfirm, null, new { @class = "text-danger" })
-        @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "form-control", placeholder = @Resources.PasswordConfirm })
     </div>
     <span>@Resources.OptionalItem:</span>
     <div class="form-group">
-        @Html.ValidationMessageFor(m => m.Alias, null, new { @class = "text-danger" })
+        <label>@Resources.Alias</label>
         @Html.TextBoxFor(m => m.Alias, new {
        @class = "form-control",
-       placeholder = @Resources.Alias,
        data_toggle = "popover",
-       data_placement = "right",
        data_content = @Resources.AliasTooltip
    })
+        @Html.ValidationMessageFor(m => m.Alias, null, new { @class = "text-danger" })
     </div>
     <div class="form-group">
-        @Html.ValidationMessageFor(m => m.PersonalSign, null, new { @class = "text-danger" })
+        <label>@Resources.PersonalSign</label>
         @Html.TextBoxFor(m => m.PersonalSign, new {
        @class = "form-control",
-       placeholder = @Resources.PersonalSign,
    })
+        @Html.ValidationMessageFor(m => m.PersonalSign, null, new { @class = "text-danger" })
     </div>
+    <div class="form-group">
+        <label>個人圖片</label>
+        @Html.Partial("_ImageEditor")
+    </div>
+    <br />
     @Html.AntiForgeryToken()
     <div class="form-group">
         <button type="submit" class="btn btn-primary">@Resources.CreateAccount</button>
         @*<button id="cancel" class="btn btn-default">@Resources.Cancel</button>*@
     </div>
 </form>
-
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
+    
+    <script src="~/js/imageEditorController.js"></script>
     <script type="text/javascript">
-        $('[data-toggle="popover"]').popover({ trigger: 'focus' })
-
-        //$('form').submit(function (e) {
-        //    e.preventDefault();
-
-        //    if (!$('form').validate()) {
-        //        return;
-        //    }
-
-        //    var data = $(e.target).serialize();
-
-        //    $.post('/Account', data)
-        //        .success(function (data) {
-        //            window.location = '/Admin/Home/Index';
-        //        })
-        //        .fail(function (xhr, status, err) {
-        //            $("[data-valmsg-for='']").text(xhr.responseJSON.message);
-        //        })
-        //});
-
-        @*$("#cancel").click(function () {
-            window.location = @ViewBag.ReturnUrl ?? '/Home/Index';
-        });*@
+        $('[data-toggle="popover"]').popover({ trigger: 'focus' });
     </script>
 }

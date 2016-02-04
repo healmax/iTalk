@@ -509,6 +509,27 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:iTalk.API.Constants">
+            <summary>
+            定義 C# 與 javascript 共用的常數
+            </summary>
+        </member>
+        <member name="F:iTalk.API.Constants.DEFAULT_IMAGE">
+            <summary>
+            預設圖片 base64 字串
+            </summary>
+        </member>
+        <member name="T:iTalk.API.Controllers.ConstantsController">
+            <summary>
+            通用字串控制器
+            </summary>
+        </member>
+        <member name="M:iTalk.API.Controllers.ConstantsController.Get">
+            <summary>
+            動態生成 javascript 內容，提供可用的常數
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:iTalk.API.Controllers.NoticeController">
             <summary>
             對話更新通知控制器
@@ -524,6 +545,19 @@
             檢查 Model 是否有效
             </summary>
             <param name="model">要檢查的 Model</param>
+        </member>
+        <member name="M:iTalk.API.Controllers.DefaultApiController.CreatePortrait(System.Web.HttpPostedFile)">
+            <summary>
+            處理上傳的圖片
+            </summary>
+            <param name="file">上傳的圖片</param>
+            <param name="callback">回調處理</param>
+        </member>
+        <member name="M:iTalk.API.Controllers.DefaultApiController.CheckPortrait">
+            <summary>
+            檢查是否有上傳圖片
+            </summary>
+            <returns>上傳的圖片</returns>
         </member>
         <member name="P:iTalk.API.Controllers.DefaultApiController.UserId">
             <summary>
@@ -561,6 +595,25 @@
             </summary>
             <param name="readTime">我的最後讀取時間</param>
             <param name="memberIds">群組成員 Id 集合</param>
+        </member>
+        <member name="T:iTalk.API.Controllers.PortraitController">
+            <summary>
+            圖片控制器
+            </summary>
+        </member>
+        <member name="M:iTalk.API.Controllers.PortraitController.Get(System.String)">
+            <summary>
+            取得圖片
+            </summary>
+            <param name="filename">檔名</param>
+            <returns>圖片</returns>
+        </member>
+        <member name="M:iTalk.API.Controllers.PortraitController.GenerateUrl(System.String)">
+            <summary>
+            產生圖片網址
+            </summary>
+            <param name="filename">檔案名稱</param>
+            <returns>圖片網址</returns>
         </member>
         <member name="T:iTalk.API.DefaultTestFriendFilterAttribute">
             <summary>
@@ -656,11 +709,6 @@
             帳戶控制器
             </summary>
         </member>
-        <member name="F:iTalk.API.Areas.Admin.Controllers.AccountController._client">
-            <summary>
-            Http Client
-            </summary>
-        </member>
         <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Index">
             <summary>
             列出所有使用者
@@ -694,18 +742,13 @@
             </summary>
             <returns>註冊頁面</returns>
         </member>
-        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Register(iTalk.API.Areas.Admin.Models.RegisterViewModel,System.String)">
+        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Register(System.Web.Mvc.FormCollection,System.String)">
             <summary>
             註冊
             </summary>
             <param name="model">註冊資料</param>
             <param name="returnUrl">Return Url</param>
             <returns>註冊結果</returns>
-        </member>
-        <member name="P:iTalk.API.Areas.Admin.Controllers.AccountController.Client">
-            <summary>
-            Http Client
-            </summary>
         </member>
         <member name="T:iTalk.API.Areas.Admin.Models.RegisterViewModel">
             <summary>
@@ -765,7 +808,7 @@
             </summary>
             <returns>更新結果</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.AccountController.Post(iTalk.API.Models.AccountViewModel)">
+        <member name="M:iTalk.API.Controllers.AccountController.Post">
             <summary>
             註冊
             </summary>
@@ -990,10 +1033,13 @@
             <param name="groupId">群組Id</param>
             <returns>群組成員</returns>
         </member>
-        <member name="M:iTalk.API.Controllers.GroupController.Post(iTalk.API.Models.GroupViewModel)">
+        <member name="M:iTalk.API.Controllers.GroupController.Post">
             <summary>
             建立群組
             </summary>
+            <parameter name="name">群組名稱 (string)</parameter>
+            <parameter name="members">群組成員 Id 集合 (long[])</parameter>
+            <parameter name="portrait">個人圖片，非必要 (file)</parameter>
             <returns>執行結果</returns>
         </member>
         <member name="M:iTalk.API.Controllers.GroupController.Delete(System.Int64)">
@@ -1039,6 +1085,31 @@
             </summary>
             <param name="request">請求</param>
             <returns>User Id</returns>
+        </member>
+        <member name="T:iTalk.API.iTalkClient">
+            <summary>
+            提供呼叫 iTalk Rest API 的基底位址與驗證
+            </summary>
+        </member>
+        <member name="F:iTalk.API.iTalkClient._handler">
+            <summary>
+            HttpClientHandler
+            </summary>
+        </member>
+        <member name="F:iTalk.API.iTalkClient.baseAddress">
+            <summary>
+            Base Address
+            </summary>
+        </member>
+        <member name="M:iTalk.API.iTalkClient.#cctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:iTalk.API.iTalkClient.#ctor">
+            <summary>
+            建構函數
+            </summary>
         </member>
         <member name="T:iTalk.API.Models.AddFriendViewModel">
             <summary>
@@ -1127,6 +1198,11 @@
             取得/設定 描述
             </summary>
         </member>
+        <member name="F:iTalk.API.Models.GroupInfo._thumbnail">
+            <summary>
+            縮圖
+            </summary>
+        </member>
         <member name="F:iTalk.API.Models.GroupInfo._members">
             <summary>
             群組成員 Id 
@@ -1142,7 +1218,7 @@
             取得/設定 縮圖
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.GroupInfo.ImageUrl">
+        <member name="P:iTalk.API.Models.GroupInfo.PortraitUrl">
             <summary>
             取得/設定 圖片網址
             </summary>
@@ -1165,6 +1241,11 @@
         <member name="T:iTalk.API.Models.GroupInfo.GroupMember">
             <summary>
             群組成員
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.GroupInfo.GroupMember.Id">
+            <summary>
+            取得/設定 主鍵
             </summary>
         </member>
         <member name="P:iTalk.API.Models.GroupInfo.GroupMember.ReadTime">
@@ -1267,6 +1348,11 @@
             回傳的使用者資訊
             </summary>
         </member>
+        <member name="F:iTalk.API.Models.UserInfoBase._thumbnail">
+            <summary>
+            個人圖片縮圖
+            </summary>
+        </member>
         <member name="P:iTalk.API.Models.UserInfoBase.Id">
             <summary>
             取得/設定  Id
@@ -1277,7 +1363,7 @@
             取得/設定 個人圖片縮圖
             </summary>
         </member>
-        <member name="P:iTalk.API.Models.UserInfoBase.ImageUrl">
+        <member name="P:iTalk.API.Models.UserInfoBase.PortraitUrl">
             <summary>
             取得/設定 個人圖片網址
             </summary>

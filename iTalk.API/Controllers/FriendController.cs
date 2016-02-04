@@ -26,13 +26,17 @@ namespace iTalk.API.Controllers {
                     ReadTime = rs.UserId == this.UserId ? rs.InviteeReadTime : rs.UserReadTime,
                     Alias = rs.InviteeId == this.UserId ? rs.User.Alias : rs.Invitee.Alias,
                     Id = rs.InviteeId == this.UserId ? rs.UserId : rs.InviteeId,
-                    ImageUrl = rs.InviteeId == this.UserId ? rs.User.PortraitUrl : rs.Invitee.PortraitUrl,
+                    PortraitUrl = rs.InviteeId == this.UserId ? rs.User.Portrait.Filename : rs.Invitee.Portrait.Filename,
                     PersonalSign = rs.InviteeId == this.UserId ? rs.User.PersonalSign : rs.Invitee.PersonalSign,
-                    Thumbnail = rs.InviteeId == this.UserId ? rs.User.Thumb : rs.Invitee.Thumb,
+                    Thumbnail = rs.InviteeId == this.UserId ? rs.User.Portrait.Thumbnail : rs.Invitee.Portrait.Thumbnail,
                     UserName = rs.InviteeId == this.UserId ? rs.User.UserName : rs.Invitee.UserName
                 })
                 .OrderBy(fi => fi.UserName)
                 .ToArrayAsync();
+
+            foreach (FriendInfo f in friends) {
+                f.PortraitUrl = PortraitController.GenerateUrl(f.PortraitUrl);
+            }
 
             return new ExecuteResult<FriendInfo[]>(friends);
         }

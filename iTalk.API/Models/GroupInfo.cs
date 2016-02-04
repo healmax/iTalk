@@ -13,14 +13,30 @@ namespace iTalk.API.Models {
         public long Id { get; set; }
 
         /// <summary>
+        /// 縮圖
+        /// </summary>
+        string _thumbnail;
+
+        /// <summary>
         /// 取得/設定 縮圖
         /// </summary>
-        public byte[] Thumbnail { get; set; }
+        public string Thumbnail {
+            get {
+                if (string.IsNullOrEmpty(this._thumbnail)) {
+                    this._thumbnail = this.PortraitUrl;
+                }
+
+                return this._thumbnail;
+            }
+            set {
+                this._thumbnail = value;
+            }
+        }
 
         /// <summary>
         /// 取得/設定 圖片網址
         /// </summary>
-        public string ImageUrl { get; set; }
+        public string PortraitUrl { get; set; }
 
         /// <summary>
         /// 取得/設定 未讀取訊息數量
@@ -57,6 +73,9 @@ namespace iTalk.API.Models {
         /// 群組成員
         /// </summary>
         public class GroupMember {
+            /// <summary>
+            /// 取得/設定 主鍵
+            /// </summary>
             public long Id { get; set; }
 
             /// <summary>

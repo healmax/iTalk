@@ -14,6 +14,8 @@ namespace iTalk.DAO {
             : base("iTalk") {
 #if DEBUG
             this.Database.Log = log => Debug.Write(log);
+            // Debug migration code
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<iTalkDbContext, Configuration>());
 #endif
         }
 
@@ -51,6 +53,11 @@ namespace iTalk.DAO {
         /// 取得 群組成員
         /// </summary>
         public virtual DbSet<GroupMember> GroupMembers { get; set; }
+
+        /// <summary>
+        /// 取得 圖片
+        /// </summary>
+        public virtual DbSet<Portrait> Portraits { get; set; }
 
         /// <summary>
         /// 自訂 table relationship

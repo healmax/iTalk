@@ -6,14 +6,28 @@
         public long Id { get; set; }
 
         /// <summary>
+        /// 個人圖片縮圖
+        /// </summary>
+        string _thumbnail;
+
+        /// <summary>
         /// 取得/設定 個人圖片縮圖
         /// </summary>
-        public byte[] Thumbnail { get; set; }
+        public string Thumbnail {
+            get {
+                if (string.IsNullOrEmpty(this._thumbnail)) {
+                    this._thumbnail = this.PortraitUrl;
+                }
+
+                return this._thumbnail;
+            }
+            set { this._thumbnail = value; }
+        }
 
         /// <summary>
         /// 取得/設定 個人圖片網址
         /// </summary>
-        public string ImageUrl { get; set; }
+        public string PortraitUrl { get; set; }
 
         /// <summary>
         /// 取得/設定 暱稱

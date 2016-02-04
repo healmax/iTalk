@@ -29,6 +29,11 @@ namespace iTalk.API.Models {
     /// 群組 View Model
     /// </summary>
     public class GroupViewModel : GroupViewModelBase {
+        ///// <summary>
+        ///// 取得/設定 縮圖
+        ///// </summary>
+        //public HttpPostedFileBase Image { get; set; }
+
         /// <summary>
         /// 群組成員 Id 
         /// </summary>

@@ -7,7 +7,7 @@ namespace iTalk.DAO {
     /// <summary>
     /// 使用者
     /// </summary>
-    public class iTalkUser : IdentityUser<long, iTalkUserLogin, iTalkUserRole, iTalkUserClaim> {
+    public class iTalkUser : IdentityUser<long, iTalkUserLogin, iTalkUserRole, iTalkUserClaim>, IPortrait {
         /// <summary>
         /// 重寫 UserName
         /// </summary>
@@ -30,16 +30,6 @@ namespace iTalk.DAO {
         /// </summary>
         [MaxLength(50)]
         public string PersonalSign { get; set; }
-
-        /// <summary>
-        /// 取得/設定 個人圖片
-        /// </summary>
-        public string PortraitUrl { get; set; }
-
-        /// <summary>
-        /// 取得/設定 個人圖片縮圖
-        /// </summary>
-        public byte[] Thumb { get; set; }
 
         /// <summary>
         /// 取得 發送的對話集合
@@ -75,5 +65,16 @@ namespace iTalk.DAO {
         /// 取得 加入的群組
         /// </summary>
         public virtual ICollection<GroupMember> GroupMembers { get; private set; }
+
+        /// <summary>
+        /// 取得 圖片 Id
+        /// </summary>
+        public long? PortraitId { get; set; }
+
+        /// <summary>
+        /// 取得 圖片
+        /// </summary>
+        [ForeignKey("PortraitId")]
+        public virtual Portrait Portrait { get; set; }
     }
 }

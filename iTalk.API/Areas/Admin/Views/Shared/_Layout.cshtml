@@ -10,13 +10,13 @@
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("style", false)
 </head>
-<body class="body-content"
-      ng-init="initUser('@User.Identity.Name')"
-      ng-controller="indexController">
+<body class="body-content">
     @RenderBody()
 
+    <script type="text/javascript" src="/Constants"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
 
     @RenderSection("scripts", false)
     @RenderSection("desktop", false)

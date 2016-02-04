@@ -4,7 +4,6 @@ using iTalk.API.Properties;
 using iTalk.DAO;
 using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,25 +16,6 @@ namespace iTalk.API.Areas.Admin.Controllers {
     /// 帳戶控制器
     /// </summary>
     public class AccountController : Controller {
-        /// <summary>
-        /// Http Client
-        /// </summary>
-        HttpClient _client;
-
-        /// <summary>
-        /// Http Client
-        /// </summary>
-        HttpClient Client {
-            get {
-                if (this._client == null) {
-                    this._client = new HttpClient();
-                    this._client.BaseAddress = new Uri(string.Format("http://{0}", this.Request.Url.Authority));
-                }
-
-                return this._client;
-            }
-        }
-
         /// <summary>
         /// 列出所有使用者
         /// </summary>
@@ -71,9 +51,9 @@ namespace iTalk.API.Areas.Admin.Controllers {
         public async Task<ActionResult> Login(AccountViewModel model, string returnUrl = "/Admin/Home/Index") {
             if (this.ModelState.IsValid) {
                 string data = string.Format("grant_type=password&username={0}&password={1}", model.UserName, model.Password);
-                var response = await this.Client.PostAsync("/Token", new StringContent(data));
+                var response = await new iTalkClient().PostAsync("/Token", new StringContent(data));
 
-                if (response.StatusCode == HttpStatusCode.OK) {                   
+                if (response.StatusCode == HttpStatusCode.OK) {
                     string authCookie = response.Headers.GetValues("Set-Cookie").First();
                     string[] parts = authCookie.Split(';')[0].Split('=');
                     this.Response.AppendCookie(new HttpCookie(parts[0], parts[1]));
@@ -122,9 +102,36 @@ namespace iTalk.API.Areas.Admin.Controllers {
         /// <returns>註冊結果</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, string returnUrl = "/Account/Home/Index") {
+        public async Task<ActionResult> Register(FormCollection form, string returnUrl = "/Account/Home/Index") {
+            RegisterViewModel model = new RegisterViewModel();
+            model.Alias = form["Alias"];
+            model.Password = form["Password"];
+            model.PersonalSign = form["PersonalSign"];
+            model.UserName = form["UserName"];
+            this.UpdateModel<RegisterViewModel>(model);
+
             if (this.ModelState.IsValid) {
-                var response = await this.Client.PostAsJsonAsync("Account", model);
+                HttpResponseMessage response;
+                HttpPostedFileBase portrait = this.Request.Files["portrait"];
+
+                if (portrait == null || portrait.ContentLength == 0) {
+                    response = await new iTalkClient().PostAsJsonAsync("Account", model);
+                }
+                else {
+                    MultipartFormDataContent content = new MultipartFormDataContent();
+                    content.Add(new StringContent(model.Alias), "Alias");
+                    content.Add(new StringContent(model.Password), "Password");
+
+                    if (!string.IsNullOrEmpty(model.PersonalSign)) {
+                        content.Add(new StringContent(model.PersonalSign), "PersonalSign");
+                    }
+
+                    content.Add(new StringContent(model.UserName), "UserName");
+                    content.Add(new StreamContent(portrait.InputStream), "portrait", portrait.FileName);
+                    response = await new iTalkClient().PostAsync("Account", content);
+                    response.EnsureSuccessStatusCode();
+                }
+
                 var result = await response.Content.ReadAsAsync<ExecuteResult>();
 
                 if (result.Success) {

@@ -1,5 +1,5 @@
 ﻿iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', '$mdToast', 'Hub', 'matchmedia', function ($scope, $http, $mdSidenav, $mdToast, Hub, matchmedia) {
-    $scope.isInit = 3;
+    $scope.isInit = 2;
 
     matchmedia.onPhone(function (mediaQueryList) {
         $scope.isPhone = mediaQueryList.matches;
@@ -30,15 +30,6 @@
 
     // 目前對話的朋友或群組
     $scope.current = null;
-
-    $scope.initUser = function (username) {
-        $http.get('/account?userName=' + username)
-            .then(function (response) {
-                $scope.me = response.data.result;
-            }).finally(function () {
-                loadingComplete();
-            })
-    }
 
     $http.get('/friend')
         .then(function (response) {
@@ -74,7 +65,7 @@
             });
             loadingComplete();
         }, function (response) {
-            showError(response.data);
+            $scope.showError(response.data);
             loadingComplete();
         });
 

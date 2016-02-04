@@ -7,7 +7,7 @@ namespace iTalk.DAO {
     /// <summary>
     /// 群組
     /// </summary>
-    public class Group : Relationship {
+    public class Group : Relationship, IPortrait {
         /// <summary>
         /// 建構函數 For EF
         /// </summary>
@@ -47,16 +47,6 @@ namespace iTalk.DAO {
         public string Description { get; set; }
 
         /// <summary>
-        /// 取得/設定 縮圖
-        /// </summary>
-        public byte[] Thumbnail { get; set; }
-
-        /// <summary>
-        /// 取得/設定 圖片網址
-        /// </summary>
-        public string ImageUrl { get; set; }
-
-        /// <summary>
         /// 取得 建立者 Id
         /// </summary>
         [Required]
@@ -72,5 +62,16 @@ namespace iTalk.DAO {
         /// 取得 成員集合
         /// </summary>
         public virtual ICollection<GroupMember> Members { get; private set; }
+
+        /// <summary>
+        /// 取得 圖片 Id
+        /// </summary>
+        public long? PortraitId { get; set; }
+
+        /// <summary>
+        /// 取得 圖片
+        /// </summary>
+        [ForeignKey("PortraitId")]
+        public virtual Portrait Portrait { get; set; }
     }
 }

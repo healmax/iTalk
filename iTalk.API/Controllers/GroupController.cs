@@ -2,10 +2,12 @@
 using iTalk.API.Properties;
 using iTalk.DAO;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace iTalk.API.Controllers {
     /// <summary>
@@ -23,9 +25,9 @@ namespace iTalk.API.Controllers {
                 .Select(g => new GroupInfo {
                     Description = g.Description,
                     Id = g.Id,
-                    ImageUrl = g.ImageUrl,
+                    PortraitUrl = g.Portrait.Filename,
                     Name = g.Name,
-                    Thumbnail = g.Thumbnail,
+                    Thumbnail = g.Portrait.Thumbnail,
                     LastChat = g.Chats.OrderByDescending(c => c.Date).FirstOrDefault(),
                     UnreadMessageCount = g.Chats.Count(c => c.SenderId != this.UserId && c.Date > g.Members.FirstOrDefault(m => m.UserId == this.UserId).ReadTime),
                     Members = g.Members.Select(gm => new GroupInfo.GroupMember {
@@ -35,6 +37,10 @@ namespace iTalk.API.Controllers {
                 })
                 .OrderBy(g => g.Name)
                 .ToArrayAsync();
+
+            foreach (GroupInfo g in groups) {
+                g.PortraitUrl = PortraitController.GenerateUrl(g.PortraitUrl);
+            }
 
             return new ExecuteResult<GroupInfo[]>(groups);
         }
@@ -52,12 +58,16 @@ namespace iTalk.API.Controllers {
                 .Select(gm => new UserInfoBase {
                     Alias = gm.User.Alias,
                     Id = gm.UserId,
-                    ImageUrl = gm.User.PortraitUrl,
+                    PortraitUrl = gm.User.Portrait.Filename,
                     PersonalSign = gm.User.PersonalSign,
-                    Thumbnail = gm.User.Thumb,
+                    Thumbnail = gm.User.Portrait.Thumbnail,
                     UserName = gm.User.UserName
                 })
                 .ToArrayAsync();
+
+            foreach (var user in members) {
+                user.PortraitUrl = PortraitController.GenerateUrl(user.PortraitUrl);
+            }
 
             return new ExecuteResult<UserInfoBase[]>(members);
         }
@@ -65,41 +75,71 @@ namespace iTalk.API.Controllers {
         /// <summary>
         /// 建立群組
         /// </summary>
+        /// <parameter name="name">群組名稱 (string)</parameter>
+        /// <parameter name="members">群組成員 Id 集合 (long[])</parameter>
+        /// <parameter name="portrait">個人圖片，非必要 (file)</parameter>
         /// <returns>執行結果</returns>
-        public async Task<ExecuteResult> Post(GroupViewModel model) {
-            if (model == null) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideNessaryInfo);
+        public async Task<ExecuteResult> Post(/*, HttpPostedFileBase image = null*/) {
+            #region 參數檢查
+            //this.CheckModelState(model);
+
+            string name = HttpContext.Current.Request.Form["name"];
+
+            if (string.IsNullOrEmpty(name)) {
+                throw this.CreateResponseException(HttpStatusCode.BadRequest, "未指定群組名稱");
             }
 
-            if (!this.ModelState.IsValid) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
+            List<long> memberIds = new List<long>();
+            string raw = HttpContext.Current.Request.Form["members"];
+
+            if (!string.IsNullOrEmpty(raw)) {
+                try {
+                    memberIds = raw
+                        .Split(',')
+                        .Select(str => long.Parse(str.Trim()))
+                        .Distinct()
+                        .SkipWhile(id => id == this.UserId)
+                        .ToList();
+                }
+                catch (Exception) {
+                    throw this.CreateResponseException(HttpStatusCode.BadRequest, "不合法的群組成員 Id");
+                }
             }
 
-            var memberIds = model.Members
-                .Distinct()
-                .SkipWhile(id => id == this.UserId)
-                .ToList();
+            HttpPostedFile file = CheckPortrait();
+
+            #endregion
 
             // 檢查不存在或不是朋友的使用者
             long[] invalidUsers = null;
-            await Task.Run(() => invalidUsers = memberIds
+            await Task.Run(() => {
+                invalidUsers = memberIds
                 .Except(this.DbContext.Friendships
                     .Where(fs => fs.UserId == this.UserId || fs.InviteeId == this.UserId)
                     .Select(u => u.UserId == this.UserId ? u.InviteeId : u.UserId))
-                .ToArray());
+                .ToArray();
 
-            if (invalidUsers.Length != 0) {
-                throw this.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.User, string.Join(",", invalidUsers), Resources.NotExist);
-            }
+                if (invalidUsers.Length != 0) {
+                    throw this.CreateResponseException(HttpStatusCode.NotFound, "{0} {1} {2}", Resources.User, string.Join(",", invalidUsers), Resources.NotExist);
+                }
 
-            DateTime createTime = DateTime.UtcNow;
-            Group group = this.DbContext.Groups.Add(new Group(model.Name, this.UserId, createTime) {
-                Description = model.Description,
-                // TODO : 圖片
+                memberIds.Add(this.UserId);
             });
 
-            memberIds.Add(this.UserId);
+            DateTime createTime = DateTime.UtcNow;
+            Group group = this.DbContext.Groups.Add(new Group(name, this.UserId, createTime));
 
+            if (file != null) {
+                try {
+                    Portrait portrait = this.CreatePortrait(file);
+                    this.DbContext.Portraits.Add(portrait);
+                    group.Portrait = portrait;
+                }
+                catch (Exception) {
+                    throw this.CreateResponseException(HttpStatusCode.BadRequest, "只能上傳圖片");
+                }
+            }
+            
             foreach (long id in memberIds) {
                 this.DbContext.GroupMembers.Add(new GroupMember(id, group, RelationshipStatus.Pending, createTime, createTime));
             }

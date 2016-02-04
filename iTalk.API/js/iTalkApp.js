@@ -1,5 +1,5 @@
-﻿var iTalkApp = angular.module('iTalkApp', ['SignalR', 'matchmedia-ng', 'ui.bootstrap', 'ngMaterial', 'ngMessages', 'customFilter'])
-    .run(function ($rootScope) {
+﻿var iTalkApp = angular.module('iTalkApp', ['SignalR', 'matchmedia-ng', 'ngMaterial', 'ngMessages', 'customFilter'])
+    .run(function ($rootScope, $window) {
         /**
         * @id friend or group id
         * return web api controll name
@@ -42,6 +42,17 @@
                     md[0].scrollTop = md[0].scrollHeight;
                 }
             }, 0);
+        }
+
+        $rootScope.open = function (url) {
+            if (url) {
+                if (angular.isString(url)) {
+                }
+                else {
+                    url = angular.element(url).css('background-image');
+                }
+                $window.open(url);
+            }
         }
 
         Array.prototype.find = function (callback) {

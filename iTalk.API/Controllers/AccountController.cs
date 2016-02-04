@@ -4,8 +4,10 @@ using iTalk.DAO;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace iTalk.API.Controllers {
@@ -21,9 +23,19 @@ namespace iTalk.API.Controllers {
         public async Task<ExecuteResult<UserInfo>> Get(string userName) {
             if (string.IsNullOrEmpty(userName)) {
                 throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NotProvideUserName);
-            }            
+            }
 
-            iTalkUser target = await this.UserManager.FindByNameAsync(userName);
+            //iTalkUser target = await this.UserManager.FindByNameAsync(userName);
+            UserInfo target = await this.DbContext.Users
+               .Where(u => u.UserName.ToUpper() == userName.ToUpper())
+               .Select(u => new UserInfo {
+                   Alias = u.Alias,
+                   Id = u.Id,
+                   PortraitUrl = u.Portrait.Filename,
+                   PersonalSign = u.PersonalSign,
+                   Thumbnail = u.Portrait.Thumbnail,
+                   UserName = u.UserName
+               }).FirstOrDefaultAsync();
 
             if (target == null) {
                 throw this.CreateResponseException(HttpStatusCode.NotFound, Resources.UserNotExist);
@@ -31,16 +43,10 @@ namespace iTalk.API.Controllers {
 
             bool isFriend = await this.DbContext.Friendships
                 .AnyAsync(rs => rs.UserId == this.UserId && rs.InviteeId == target.Id);
+            target.IsFriend = isFriend;
+            target.PortraitUrl = PortraitController.GenerateUrl(target.PortraitUrl);
 
-            return new ExecuteResult<UserInfo>(new UserInfo {
-                Alias = target.Alias,
-                Id = target.Id,
-                ImageUrl = target.PortraitUrl,
-                IsFriend = isFriend,
-                PersonalSign = target.PersonalSign,
-                Thumbnail = target.Thumb,
-                UserName = target.UserName
-            });
+            return new ExecuteResult<UserInfo>(target);
         }
 
         /// <summary>
@@ -73,20 +79,28 @@ namespace iTalk.API.Controllers {
         /// <returns>註冊結果</returns>
         [AllowAnonymous]
         [DefaultTestFriendFilter]
-        public async Task<ExecuteResult> Post(AccountViewModel model) {
-            if (model == null) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, Resources.NeedUserNameAndPassword);
-            }
+        public async Task<ExecuteResult> Post() {
+            AccountViewModel model = new AccountViewModel();
+            model.Alias = HttpContext.Current.Request.Form["Alias"];
+            model.Password = HttpContext.Current.Request.Form["Password"];
+            model.PersonalSign = HttpContext.Current.Request.Form["PersonalSign"];
+            model.UserName = HttpContext.Current.Request.Form["UserName"];
 
-            if (!this.ModelState.IsValid) {
-                throw this.CreateResponseException(HttpStatusCode.Forbidden, this.GetError());
-            }
+            this.CheckModelState(model);
 
             iTalkUser user = new iTalkUser() {
                 UserName = model.UserName,
                 Alias = model.Alias,
                 PersonalSign = model.PersonalSign
             };
+
+            HttpPostedFile file = this.CheckPortrait();
+
+            if (file != null) {
+                Portrait portrait = this.CreatePortrait(file);
+                user.Portrait = portrait;
+            }
+
             IdentityResult result;
 
             try {
@@ -99,6 +113,9 @@ namespace iTalk.API.Controllers {
             if (!result.Succeeded) {
                 throw this.CreateResponseException(HttpStatusCode.BadRequest, string.Join(",", result.Errors));
             }
+
+            // for ActionFilterAttribute
+            this.Request.Properties.Add("UserName", model.UserName);
 
             return new ExecuteResult(true);
         }

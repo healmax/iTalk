@@ -29,7 +29,7 @@ namespace iTalk.DAO {
         public long Id { get; private set; }
 
         /// <summary>
-        /// 取得 對話時間
+        /// 取得 建立時間
         /// </summary>
         [Required]
         public DateTime Date { get; private set; }
