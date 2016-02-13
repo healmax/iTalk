@@ -1,6 +1,6 @@
 ﻿<div class="image-container portrait-lg" layout ng-controller="imageEditorController">
     <div class="fileUpload portrait-edit-link">
         <span class="fa fa-camera">&nbsp;編輯</span>
-        <input type="file" name="portrait" accept="image/*" onchange="angular.element(this).scope().previewImage()" />
+        <input type="file" name="portrait" accept="image/*" onchange="angular.element(this).scope().previewImage(event)" />
     </div>
 </div>

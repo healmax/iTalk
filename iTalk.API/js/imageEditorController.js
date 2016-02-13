@@ -3,7 +3,7 @@
 
     $scope.currentImage = null;
 
-    $scope.previewImage = function () {
+    $scope.previewImage = function (event) {
         var container = angular.element('.image-container');
         $scope.currentImage = defaultImage;
         var image = event.target.files[0];
