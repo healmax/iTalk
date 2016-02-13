@@ -25,7 +25,7 @@
                         </li>
                         <li>
                             <a href="javascript:document.getElementById('logOffForm').submit()" onclick="logout()">
-                                @Resources.Logout [@User.Identity.Name]
+                                @Resources.Logout [{{me.alias}}]
                                 @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logOffForm" })) {
                                     @Html.AntiForgeryToken()
                                 }
