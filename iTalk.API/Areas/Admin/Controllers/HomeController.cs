@@ -17,13 +17,13 @@ namespace iTalk.API.Areas.Admin.Controllers {
         public async Task<ActionResult> Index() {
             this.ViewBag.Title = Resources.HomePage;
 
-            iTalkClient client = new iTalkClient();
-            var response = await client.GetAsync("account?userName=" + this.User.Identity.Name);
-            response.EnsureSuccessStatusCode();
+            //iTalkClient client = new iTalkClient();
+            //var response = await client.GetAsync("account?userName=" + this.User.Identity.Name);
+            //response.EnsureSuccessStatusCode();
 
-            UserInfoBase model = (await response.Content.ReadAsAsync<ExecuteResult<UserInfoBase>>()).Result;
+            //UserInfoBase model = (await response.Content.ReadAsAsync<ExecuteResult<UserInfoBase>>()).Result;
 
-            return this.View(model);
+            return this.View();
         }
     }
 }

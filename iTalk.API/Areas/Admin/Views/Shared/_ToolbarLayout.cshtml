@@ -1,43 +1,39 @@
-﻿@using Newtonsoft.Json
-@model iTalk.API.Models.UserInfoBase
-@{
+﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<div ng-controller="mainController" ng-cloak ng-init="me=init(@JsonConvert.SerializeObject(Model))">
+<div ng-controller="mainController" ng-cloak>
     <nav id="toolbar" class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                @*<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>*@
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="/Admin/Home/Index" class="navbar-brand dropdown-toggle" data-toggle="dropdown">
-                            <b>@Resources.iTalk</b>
-                            @if (User.Identity.IsAuthenticated) {
-                                <span class="caret"></span>
-                            }
-                        </a>
-                        @if (User.Identity.IsAuthenticated) {
-                            <ul class="dropdown-menu dropdown-menu">
-                                <li><a href="javascript:;" data-toggle="modal" data-target="#setting-modal">基本設定</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li>
-                                    <a href="javascript:document.getElementById('logOffForm').submit()" onclick="logout()">
-                                        @Resources.Logout
-                                        @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logOffForm" })) {
-                                            @Html.AntiForgeryToken()
-                                        }
-                                    </a>
-                                </li>
-                            </ul>
-                        }
-                    </li>
-                </ul>
+                @if (User.Identity.IsAuthenticated) {
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+                        <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                    </button>
+                    <a href="/Admin/Home/Index" class="navbar-brand">
+                        <b>@Resources.iTalk</b>
+                    </a>
+                }
             </div>
+            @if (User.Identity.IsAuthenticated) {
+                <div class="collapse navbar-collapse" ng-init="initUser(@this.User.Identity.Name)">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="javascript:;" data-toggle="modal" data-target="#setting-modal">基本設定</a>
+                        </li>
+                        <li>
+                            <a href="javascript:document.getElementById('logOffForm').submit()" onclick="logout()">
+                                @Resources.Logout [@User.Identity.Name]
+                                @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logOffForm" })) {
+                                    @Html.AntiForgeryToken()
+                                }
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            }
             @*@Html.ActionLink("所有使用者", "Index", "Account", new { area = "admin" }, new { @class = "navbar-brand" })*@
         </div>
     </nav>
