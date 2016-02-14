@@ -278,7 +278,9 @@
     }
 
     $scope.sortByChatTime = function (target) {
-        return target.lastChat ? target.lastChat.date : '';
+        // 排序方式: 先比有無未訊息，再比日期
+        var number = target.unreadMessageCount > 0 ? 2 : 1;
+        return target.lastChat ? new Date(target.lastChat.date) * number : 0;
     }
 
     function pushChat(target, chat) {
