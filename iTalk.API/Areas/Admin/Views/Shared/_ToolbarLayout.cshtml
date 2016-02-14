@@ -18,7 +18,7 @@
                 }
             </div>
             @if (User.Identity.IsAuthenticated) {
-                <div class="collapse navbar-collapse" ng-init="initUser(@this.User.Identity.Name)">
+                <div class="collapse navbar-collapse" ng-init="initUser('@this.User.Identity.Name')">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="javascript:;" data-toggle="modal" data-target="#setting-modal">基本設定</a>

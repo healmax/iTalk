@@ -263,14 +263,15 @@
 
     $scope.notifications = [];
 
-    $scope.showNotify = function () {
+    $scope.showNotify = function (target, chat, group) {
         $mdToast.show({
             controller: 'notifyController',
             templateUrl: 'chatNotificationView',
             hideDelay: 5000,
             position: 'bottom right',
-            preserveScope: true,
-            scope: $scope
+            locals: { 'user': target, 'chat': chat, 'group': group },
+            //preserveScope: true,
+            //scope: $scope
         }).then(function () {
             $scope.notifications.shift();
         });
@@ -280,7 +281,7 @@
         return target.lastChat ? target.lastChat.date : '';
     }
 
-    function pushChat(chat, target) {
+    function pushChat(target, chat) {
         target.lastChat = chat;
 
         if (chat.senderId !== $scope.me.id) {
@@ -295,7 +296,13 @@
                 // 不在對話中
                 target.unreadMessageCount++;
                 $scope.notifications.push(chat);
-                $scope.showNotify();
+
+                if (target.id < 0) {
+                    $scope.showNotify($scope.getUser(chat.senderId), chat, target);
+                }
+                else {
+                    $scope.showNotify(target, chat);
+                }
             }
         }
         else {
@@ -312,10 +319,10 @@
     var hub = new Hub("chatHub", {
         listeners: {
             'receiveChat': function (friendId, chat) {
-                pushChat(chat, $scope.getTarget(friendId));
+                pushChat($scope.getTarget(friendId), chat);
             },
             'receiveGroupChat': function (groupId, chat) {
-                pushChat(chat, $scope.getTarget(groupId));
+                pushChat($scope.getTarget(groupId), chat);
             },
             'updateFriendReadTime': function (friendId, readTime) {
                 $scope.getTarget(friendId).readTime = readTime;
@@ -345,7 +352,11 @@
         logging: false
     });
 }])
-.controller('notifyController', function ($scope, $mdToast) {
+.controller('notifyController', function ($scope, $mdToast, user, chat, group) {
+    $scope.user = user;
+    $scope.chat = chat;
+    $scope.group = group;
+
     $scope.closeNotification = function () {
         $mdToast.hide();
     };

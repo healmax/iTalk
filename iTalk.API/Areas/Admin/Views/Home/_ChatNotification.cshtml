@@ -16,14 +16,27 @@
         </div>
     </div>*@
 <md-toast class="notify-toast">
-    <button type="button" class="close pull-right" aria-label="Close" ng-click="closeNotification()">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <md-list-item class="md-2-line">
-        <img thumbnail="getUser(notifications[0].senderId).thumbnail" class="portrait-md" />
-        <div class="md-list-item-text">
-            <h3 ng-bind="getUser(notifications[0].senderId).alias"></h3>
-            <span class="text-muted" ng-bind="notifications[0].content"></span>
+    <div layout>
+        <img thumbnail="user.thumbnail" class="" />
+        <div flex="100" layout-margin>
+            <h4 ng-if="!group" ng-bind="user.alias"></h4>
+            <h4 ng-if="group">{{user.alias}} [{{group.name}}]</h4>
+            <span class="text-muted" ng-bind="chat.content"></span>
         </div>
-    </md-list-item>
+        <div>
+            <button type="button" class="close pull-right" aria-label="Close" ng-click="closeNotification()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    @*<button type="button" class="close pull-right" aria-label="Close" ng-click="closeNotification()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <md-list-item class="md-2-line">
+            <img thumbnail="getUser(notifications[0].senderId).thumbnail" class="portrait-md" />
+            <div class="md-list-item-text">
+                <h3 ng-bind="getUser(notifications[0].senderId).alias"></h3>
+                <span class="text-muted" ng-bind="notifications[0].content"></span>
+            </div>
+        </md-list-item>*@
 </md-toast>
