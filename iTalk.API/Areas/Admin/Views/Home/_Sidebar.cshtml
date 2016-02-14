@@ -95,7 +95,7 @@
                    class="custom-input"
                    ng-keydown="$event.which === 13 && searchUser()" />
         </div>
-        <div>
+        <md-content>
             <md-list-item class="text-muted">@Resources.UserName @User.Identity.Name</md-list-item>
             <div class="text-center">
                 <div ng-if="user.status === 1">
@@ -122,6 +122,6 @@
                     <button class="btn btn-success" ng-click="endAddFriend()">@Resources.Confirm</button>
                 </div>
             </div>
-        </div>
+        </md-content>
     </div>
 </div>

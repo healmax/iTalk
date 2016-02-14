@@ -62,8 +62,7 @@ namespace iTalk.API.Controllers {
         /// <param name="readTime">我的最後讀取時間</param>
         /// <param name="friendId">朋友 Id</param>
         void PushNoticeToFriend(DateTime readTime, string friendId) {
-            var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            hub.Clients.User(friendId).updateFriendReadTime(this.UserId, readTime);
+            this.HubContext.Clients.User(friendId).updateFriendReadTime(this.UserId, readTime);
         }
 
         /// <summary>
@@ -72,8 +71,7 @@ namespace iTalk.API.Controllers {
         /// <param name="readTime">我的最後讀取時間</param>
         /// <param name="memberIds">群組成員 Id 集合</param>
         void PushNoticeToGroupMembers(DateTime readTime, long groupId, params string[] memberIds) {
-            var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            hub.Clients.Users(memberIds).updateGroupMemberReadTime(groupId, this.UserId, readTime);
+            this.HubContext.Clients.Users(memberIds).updateGroupMemberReadTime(groupId, this.UserId, readTime);
         }
     }
 }

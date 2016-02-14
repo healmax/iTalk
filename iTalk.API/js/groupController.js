@@ -43,21 +43,21 @@
                 transformRequest: angular.identity,
                 headers: { 'Content-Type': undefined }
             }).then(function () {
-                $http.get('/group')
-                    .then(function (response) {
-                        $scope.groups.length = 0;
-                        angular.forEach(response.data.result, function (g) {
-                            if (!$scope.chats[g.id.toString()]) {
-                                $scope.chats[g.id.toString()] = [];
-                            }
-                            $scope.groups.push(g);
-                        });
-                        $mdDialog.hide(group);
-                        $scope.isLoading = false;
-                    }, function (response) {
-                        $scope.showError(response.data);
-                        $scope.isLoading = false;
-                    });
+                //$http.get('/group')
+                //    .then(function (response) {
+                //        $scope.groups.length = 0;
+                //        angular.forEach(response.data.result, function (g) {
+                //            if (!$scope.chats[g.id.toString()]) {
+                //                $scope.chats[g.id.toString()] = [];
+                //            }
+                //            $scope.groups.push(g);
+                //        });
+                $mdDialog.hide(group);
+                $scope.isLoading = false;
+                //}, function (response) {
+                //    $scope.showError(response.data);
+                //    $scope.isLoading = false;
+                //});
             }, function (response) {
                 $scope.showError(response.data);
                 $scope.isLoading = false;

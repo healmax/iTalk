@@ -337,6 +337,27 @@
                     }
                 }
                 $scope.$apply();
+            },
+            'updateRelationship': function (target) {
+                var list;
+
+                if (target.id < 0) {
+                    list = $scope.groups;
+                }
+                else {
+                    list = $scope.friends;
+                }
+
+                var index = list.indexOf(target);
+                if (index === -1) {
+                    list.push(target);
+                    $scope.chats[target.id.toString()] = [];
+                }
+                else {
+                    list[index] = target;
+                }
+
+                $scope.$apply();
             }
         },
         //methods: ['send'],

@@ -70,9 +70,7 @@ namespace iTalk.API.Controllers {
             try {
                 await this.DbContext.SaveChangesAsync();
 
-                // 暫放 Hub
-                var hub = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-                await this.PushChatToClient(hub, targetId, chat);
+                await this.PushChatToClient(this.HubContext, targetId, chat);
             }
             catch (Exception ex) {
                 throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);

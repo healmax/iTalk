@@ -63,10 +63,12 @@ namespace iTalk.API.Controllers {
                 case RelationCheck.NoRelation:
                     // TODO : 目前先自動建立雙向關係
                     DateTime date = DateTime.UtcNow;
-                    this.DbContext.Friendships.Add(new Friendship(this.UserId, model.Id, RelationshipStatus.Accepted, date, RelationshipStatus.Accepted, date, date));
+                    var fs = new Friendship(this.UserId, model.Id, RelationshipStatus.Accepted, date, RelationshipStatus.Accepted, date, date);
+                    this.DbContext.Friendships.Add(fs);
 
                     try {
                         await this.DbContext.SaveChangesAsync();
+                        await PushFriendshipToClient(fs);
                     }
                     catch (Exception ex) {
                         throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
@@ -75,6 +77,32 @@ namespace iTalk.API.Controllers {
             }
 
             return new ExecuteResult(true);
+        }
+
+        /// <summary>
+        /// 推送朋友關係
+        /// </summary>
+        /// <param name="fs">朋友關係</param>
+        async Task PushFriendshipToClient(Friendship fs) {
+            var fss = await this.DbContext.Users
+                .Where(u => u.Id == fs.UserId || u.Id == fs.InviteeId)
+                .Select(u => new FriendInfo {
+                    Alias = u.Alias,
+                    Id = u.Id,
+                    MyReadTime = fs.UserId == u.Id ? fs.UserReadTime : fs.InviteeReadTime,
+                    PersonalSign = u.PersonalSign,
+                    PortraitUrl = u.Portrait.Filename,
+                    ReadTime = fs.UserId == u.Id ? fs.InviteeReadTime : fs.UserReadTime,
+                    Thumbnail = u.Portrait.Thumbnail,
+                    UnreadMessageCount = 0,
+                    UserName = u.UserName
+                }).ToArrayAsync();
+
+            foreach (var f in fss) {
+                f.PortraitUrl = PortraitController.GenerateUrl(f.PortraitUrl);
+                string id = f.Id == fs.UserId ? fs.InviteeId.ToString() : fs.UserId.ToString();
+                this.HubContext.Clients.User(id).updateRelationship(f);
+            }
         }
     }
 }

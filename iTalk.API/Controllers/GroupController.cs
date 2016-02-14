@@ -139,13 +139,14 @@ namespace iTalk.API.Controllers {
                     throw this.CreateResponseException(HttpStatusCode.BadRequest, "只能上傳圖片");
                 }
             }
-            
+
             foreach (long id in memberIds) {
                 this.DbContext.GroupMembers.Add(new GroupMember(id, group, RelationshipStatus.Pending, createTime, createTime));
             }
 
             try {
                 await this.DbContext.SaveChangesAsync();
+                PushGroupToClient(group);
             }
             catch (Exception ex) {
                 throw this.CreateResponseException(HttpStatusCode.InternalServerError, ex.Message);
@@ -202,6 +203,27 @@ namespace iTalk.API.Controllers {
             }
 
             return new ExecuteResult();
+        }
+
+        /// <summary>
+        /// 推送新群組到每個群組成員
+        /// </summary>
+        /// <param name="group">群組</param>
+        void PushGroupToClient(Group group) {
+            var memberIds = group.Members.Select(m => m.UserId.ToString()).ToList();
+            GroupInfo groupInfo = new GroupInfo() {
+                Id = group.Id,
+                Members = group.Members.Select(m => new GroupInfo.GroupMember() { Id = m.UserId, ReadTime = m.ReadTime }),
+                Name = group.Name,
+                UnreadMessageCount = 0
+            };
+
+            if (group.Portrait != null){
+                groupInfo.PortraitUrl = PortraitController.GenerateUrl(group.Portrait.Filename);
+                groupInfo.Thumbnail = group.Portrait.Thumbnail;
+            }
+
+            this.HubContext.Clients.Users(memberIds).updateRelationship(groupInfo);
         }
 
         /// <summary>

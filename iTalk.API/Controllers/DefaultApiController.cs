@@ -3,6 +3,7 @@ using iTalk.API.Properties;
 using iTalk.DAO;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Drawing;
 using System.IO;
@@ -106,6 +107,14 @@ namespace iTalk.API.Controllers {
             }
 
             return file;
+        }
+
+        /// <summary>
+        /// 取得 Chat Hub Context
+        /// </summary>
+        /// <returns>Chat Hub Context</returns>
+        protected IHubContext HubContext {
+            get { return GlobalHost.ConnectionManager.GetHubContext<ChatHub>(); }
         }
 
         #endregion

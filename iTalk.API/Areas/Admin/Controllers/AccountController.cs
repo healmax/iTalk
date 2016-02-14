@@ -114,23 +114,26 @@ namespace iTalk.API.Areas.Admin.Controllers {
                 HttpResponseMessage response;
                 HttpPostedFileBase portrait = this.Request.Files["portrait"];
 
-                if (portrait == null || portrait.ContentLength == 0) {
-                    response = await new iTalkClient().PostAsJsonAsync("Account", model);
-                }
-                else {
-                    MultipartFormDataContent content = new MultipartFormDataContent();
+                MultipartFormDataContent content = new MultipartFormDataContent();
+
+                if (!string.IsNullOrEmpty(model.Alias)) {
                     content.Add(new StringContent(model.Alias), "Alias");
-                    content.Add(new StringContent(model.Password), "Password");
-
-                    if (!string.IsNullOrEmpty(model.PersonalSign)) {
-                        content.Add(new StringContent(model.PersonalSign), "PersonalSign");
-                    }
-
-                    content.Add(new StringContent(model.UserName), "UserName");
-                    content.Add(new StreamContent(portrait.InputStream), "portrait", portrait.FileName);
-                    response = await new iTalkClient().PostAsync("Account", content);
-                    response.EnsureSuccessStatusCode();
                 }
+
+                content.Add(new StringContent(model.Password), "Password");
+
+                if (!string.IsNullOrEmpty(model.PersonalSign)) {
+                    content.Add(new StringContent(model.PersonalSign), "PersonalSign");
+                }
+
+                content.Add(new StringContent(model.UserName), "UserName");
+
+                if (portrait != null && portrait.ContentLength != 0) {
+                    content.Add(new StreamContent(portrait.InputStream), "portrait", portrait.FileName);
+                }
+
+                response = await new iTalkClient().PostAsync("Account", content);
+                response.EnsureSuccessStatusCode();
 
                 var result = await response.Content.ReadAsAsync<ExecuteResult>();
 
