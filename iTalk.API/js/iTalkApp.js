@@ -1,4 +1,7 @@
 ﻿var iTalkApp = angular.module('iTalkApp', ['SignalR', 'matchmedia-ng', 'ngMaterial', 'ngMessages', 'customFilter'])
+    .config(function ($locationProvider) {
+        //$locationProvider.html5Mode({ enabled: true, requireBase: false });
+    })
     .run(function ($rootScope, $window) {
         /**
         * @id friend or group id

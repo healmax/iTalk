@@ -73,38 +73,16 @@
         $scope.isInit--;
 
         if (!$scope.isInit) {
-            //if (!$scope.friendAndGroups) {
-            //    $scope.friendAndGroups = [];
-            //    function create() {
-            //        if ($scope.friends && $scope.groups) {
-            //            $scope.friendAndGroups.length = 0;
-            //            angular.forEach($scope.friends, function (f) {
-            //                $scope.friendAndGroups.push(f);
-            //            });
-            //            angular.forEach($scope.groups, function (g) {
-            //                $scope.friendAndGroups.push(g);
-            //            });
-            //            $scope.friendAndGroups.sort(function (a, b) {
-            //                if (a.lastChat) {
-            //                    return b.lastChat ? new Date(a.lastChat.date) - new Date(b.lastChat.date) : 1;
-            //                }
-            //                else {
-            //                    return b.lastChat ? -1 : 0;
-            //                }
-
-            //            }).reverse();
-            //        }
-            //    }
-
-            //    $scope.$watchCollection('friends', function (newVal, oldVal) {
-            //        create();
-            //    });
-            //    $scope.$watchCollection('groups', function (newVal, oldVal) {
-            //        create();
-            //    });
-            //}
-
             angular.element('#loading-modal').modal('hide');
+
+            var hash = parseInt($scope.getHash());
+
+            if (hash) {
+                var target = $scope.getTarget(hash);
+                if (target) {
+                    $scope.setCurrent(target);
+                }
+            }
         }
     }
 
@@ -118,10 +96,6 @@
         return $scope.tabIndex === index;
     };
 
-    $scope.isSender = function (chat) {
-        return chat.senderId === $scope.me.id;
-    };
-
     $scope.setCurrent = function (target) {
         if ($scope.current !== target) {
             $scope.$root.isLoading = true;
@@ -130,6 +104,7 @@
             $http.get('/' + $scope.getControllerName(target.id) + '?targetId=' + target.id)
                 .then(function (response) {
                     angular.merge($scope.chats[target.id.toString()], response.data.result);
+                    $scope.setHash(target.id);
                 }, function (response) {
                     $scope.showError(response.data);
                 }).finally(function () {
