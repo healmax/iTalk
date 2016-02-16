@@ -47,8 +47,8 @@ Demo
 
 為了打造跨裝置的 iTalk 網頁版，考慮即時通訊軟體的特性，前端採用了 Single Page Application 的概念開發。  
 主要是透過 Ajax 以及 AngularJS 的 2-way binding，加上 SignalR 從後端即時推送新資料。  
-使用 Bootstrap 與 AngularJS, Angular Material 將操作 DOM 物件的部分降到最低，加快開發速度。
-jQuery Mobile 提供行動版網頁更好的使用者體驗
+使用 Bootstrap 與 AngularJS, Angular Material 將操作 DOM 物件的部分降到最低，加快開發速度。  
+jQuery Mobile 提供行動版網頁更好的使用者體驗。
 
 ### 後端
 * [ASP.NET MVC] (http://www.asp.net/mvc)  
