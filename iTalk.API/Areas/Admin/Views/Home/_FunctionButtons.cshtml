@@ -1,0 +1,43 @@
+﻿<div class="tab" flex="none">
+    <div class="col-xs-3">
+        <md-button class="md-icon-button"
+                   aria-label="聊天"
+                   title="聊天"
+                   ng-click="setTabIndex(1)"
+                   ng-class="{ 'md-primary': isCurrentTab(1) }">
+            @*<span class="fa fa-comment fa-2x"></span>
+                <span class="badge" ng-init="totalCount=totalUnreadMessageCount()" ng-bind="totalCount"></span>*@
+            <span class="fa-stack">
+                <span class="fa fa-comment fa-stack-2x"></span>
+                <span class="fa-stack fa-stack-text fa-inverse" ng-bind="totalUnreadMessageCount()"></span>
+            </span>
+        </md-button>
+    </div>
+    <div class="col-xs-3">
+        <md-button class="md-icon-button"
+                   aria-label="好友"
+                   title="好友"
+                   ng-click="setTabIndex(2)"
+                   ng-class="{ 'md-primary': isCurrentTab(2) }">
+            <span class="fa fa-user fa-2x"></span>
+        </md-button>
+    </div>
+    <div class="col-xs-3">
+        <md-button class="md-icon-button"
+                   aria-label="群組"
+                   title="群組"
+                   ng-click="setTabIndex(3)"
+                   ng-class="{ 'md-primary': isCurrentTab(3) }">
+            <span class="fa fa-users fa-2x"></span>
+        </md-button>
+    </div>
+    <div class="col-xs-3">
+        <md-button class="md-icon-button"
+                   aria-label="加入好友"
+                   title="加入好友"
+                   ng-click="setTabIndex(4)"
+                   ng-class="{ 'md-primary': isCurrentTab(4) }">
+            <span class="fa fa-user-plus fa-2x"></span>
+        </md-button>
+    </div>
+</div>

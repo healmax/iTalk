@@ -1,4 +1,4 @@
-﻿iTalkApp.controller('mainController', ['$scope', '$http', '$mdSidenav', '$location', function ($scope, $http, $mdSidenav, $location) {
+﻿iTalkApp.controller('mainController', ['$scope', '$http', '$mdDialog', '$location', function ($scope, $http, $mdDialog, $location) {
     $scope.me = null;
 
     //$scope.init = function (data) {
@@ -9,10 +9,35 @@
         $http.get('/account?userName=' + username)
             .then(function (response) {
                 $scope.me = response.data.result;
+            }, function (response) {
+                $scope.showError(response.data, "初始化使用者失敗");
             })
         //.finally(function () {
         //    loadingComplete();
         //})
+    }
+
+    $scope.showBasicSettingDialog = function (ev) {
+        $mdDialog.show({
+            controller: dialogController,
+            templateUrl: 'basicSetting',
+            //parent: angular.element('body > div .container'),
+            targetEvent: ev,
+            //locals: {
+            //    me: $scope.me
+            //},
+            scope: $scope,
+            preserveScope: true,
+            fullscreen: true
+        })
+    }
+
+    function dialogController($scope, $mdDialog) {
+        //$scope.me = me;
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
     }
 
     //$scope.setPath = function (path) {

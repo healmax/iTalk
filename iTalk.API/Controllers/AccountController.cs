@@ -42,7 +42,8 @@ namespace iTalk.API.Controllers {
             }
 
             bool isFriend = await this.DbContext.Friendships
-                .AnyAsync(rs => rs.UserId == this.UserId && rs.InviteeId == target.Id);
+                .AnyAsync(rs => (rs.UserId == this.UserId && rs.InviteeId == target.Id) ||
+                    (rs.UserId == target.Id && rs.InviteeId == this.UserId));
             target.IsFriend = isFriend;
             target.PortraitUrl = PortraitController.GenerateUrl(target.PortraitUrl);
 

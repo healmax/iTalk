@@ -1261,6 +1261,13 @@
     <Content Include="Areas\Admin\Views\Home\_Detail.cshtml" />
     <Content Include="Areas\Admin\Views\Home\_ChatNotification.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ImageEditor.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\_IndexCore.Mobile.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\_IndexCore.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\_FunctionButtons.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\_InputArea.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\_BottomNavbar.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\_ChatArea.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_BasicSetting.cshtml" />
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />

@@ -1,0 +1,9 @@
+﻿<div>
+    <div id="sidebar">
+        @Html.Partial("_Sidebar")
+    </div>
+    <!--聊天內容區塊-->
+    @Html.Partial("_ChatArea")
+</div>
+<!--Bottom Navbar-->
+@Html.Partial("_BottomNavbar", new string[]{ "_FunctionButtons", "_InputArea" })

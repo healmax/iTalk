@@ -1,0 +1,12 @@
+﻿<div ng-if="!isTalking">
+    <div id="sidebar">
+        @Html.Partial("_Sidebar")
+    </div>
+    <!--Bottom Navbar-->
+    @Html.Partial("_BottomNavbar", new string[] { "_FunctionButtons" })
+    <!--聊天內容區塊-->
+</div>
+<div ng-if="isTalking">
+    @Html.Partial("_ChatArea")
+    @Html.Partial("_BottomNavbar", new string[] { "_InputArea" })
+</div>

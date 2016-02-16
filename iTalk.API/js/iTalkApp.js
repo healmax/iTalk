@@ -65,4 +65,9 @@
                 }
             }
         }
+
+        $rootScope.isMobile = function () {
+            // TODO : 暫時先這樣判斷
+            return $.mobile;
+        }
     })

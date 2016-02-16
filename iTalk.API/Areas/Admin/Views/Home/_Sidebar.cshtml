@@ -2,7 +2,7 @@
     <div id="chat-tab" class="tab" ng-switch-when="1">
         <div class="layout-padding" layout>
             <span class="fa fa-search"></span>
-            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search" />
+            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search" data-role="none" />
         </div>
         <md-content class="below-search-box">
             <md-list id="chat-list">
@@ -31,7 +31,7 @@
     <div id="friend-tab" class="tab" ng-switch-when="2">
         <div class="layout-padding" layout>
             <span class="fa fa-search"></span>
-            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search.alias" />
+            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search.alias" data-role="none" />
         </div>
         <md-content class="below-search-box">
             <md-list id="friend-list">
@@ -56,7 +56,7 @@
     <div id="group-tab" class="tab" ng-switch-when="3" ng-controller="groupController">
         <div class="layout-padding" layout>
             <span class="fa fa-search"></span>
-            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search.name" />
+            <input type="text" placeholder="@Resources.SearchByName" class="custom-input" ng-model="search.name" data-role="none" />
         </div>
         <md-content class="below-search-box">
             <md-list id="group-list">
@@ -93,7 +93,8 @@
                    placeholder="@Resources.SearchByName"
                    ng-model="user.input"
                    class="custom-input"
-                   ng-keydown="$event.which === 13 && searchUser()" />
+                   ng-keydown="$event.which === 13 && searchUser()"
+                   data-role="none" />
         </div>
         <md-content>
             <md-list-item class="text-muted">@Resources.UserName @User.Identity.Name</md-list-item>
@@ -106,15 +107,13 @@
                         <span ng-bind="user.found.alias"></span> @Resources.AlreadyYourFriend
                     </span>
                     <p ng-if="user.found.userName === '@User.Identity.Name'">@Resources.Yourself</p>
-                    <div class="form-inline">
-                        <div class="input-group">
-                            <button class="btn btn-default" ng-click="endAddFriend()">@Resources.Cancel</button>&nbsp;
-                            <button class="btn btn-success"
-                                    ng-disabled="user.found.isFriend || user.found.userName === '@User.Identity.Name'"
-                                    ng-click="addFriend()">
-                                @Resources.Add
-                            </button>
-                        </div>
+                    <div class="form-inline" layout-padding>
+                        <button class="btn btn-default" ng-click="endAddFriend()">@Resources.Cancel</button>&nbsp;
+                        <button class="btn btn-success"
+                                ng-disabled="user.found.isFriend || user.found.userName === '@User.Identity.Name'"
+                                ng-click="addFriend()">
+                            @Resources.Add
+                        </button>
                     </div>
                 </div>
                 <div ng-if="user.status === 0">

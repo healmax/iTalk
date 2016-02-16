@@ -1,0 +1,10 @@
+﻿@model string[]
+<nav id="bottom-sidebar" class="navbar navbar-fixed-bottom" data-role="footer">
+    <div class="container">
+        <div class="row workarea" layout>
+            @foreach (string partialViewName in Model) {
+                @Html.Partial(partialViewName);
+            }
+        </div>
+    </div>
+</nav>

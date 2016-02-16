@@ -10,9 +10,9 @@
             templateUrl: 'createGroupView',
             //parent: angular.element('body > div .container'),
             targetEvent: ev,
-            locals: {
-                friends: $scope.friends
-            },
+            //locals: {
+            //    friends: $scope.friends
+            //},
             fullscreen: true,
             scope: $scope,
             preserveScope: true
@@ -22,8 +22,8 @@
         });
     }
 
-    function dialogController($scope, $mdDialog, friends) {
-        $scope.friends = friends;
+    function dialogController($scope, $mdDialog) {
+        //$scope.friends = friends;
 
         $scope.cancel = function () {
             $mdDialog.cancel();

@@ -1,5 +1,5 @@
 ﻿.view-switcher {
-    padding: 0.5em; 
+    padding: 0.5em;
     font-weight: normal;
 }
 
@@ -26,4 +26,21 @@ input[type="password"].input-validation-error {
 
 .validation-summary-valid {
     display: none;
+}
+
+.ui-content {
+    padding-top: 50px !important;
+}
+
+.tab {
+    width: 100% !important;
+}
+
+#sidebar {
+    float: none !important;
+}
+
+.notify-toast {
+    bottom: auto !important;
+    right: 0 !important;
 }

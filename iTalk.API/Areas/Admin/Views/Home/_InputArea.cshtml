@@ -1,0 +1,24 @@
+﻿<div layout flex="auto" ng-controller="chatController">
+    <input class="custom-input"
+           ng-disabled="!current"
+           ng-model="current.input"
+           ng-keydown="$event.which === 13 && sendDialog()"
+           placeholder=@Resources.PleaseInputMessage
+           flex="auto"
+           data-role="none" />
+    <md-button class="md-icon-button"
+               aria-label="貼圖"
+               title="貼圖"
+               style="margin-left: -5px; margin-right: -5px"
+               ng-disabled="true">
+        <span class="fa fa-smile-o fa-lg"></span>
+    </md-button>
+    <md-button class="md-icon-button"
+               aria-label="傳送檔案"
+               title="傳送檔案"
+               style="margin-left: -5px; margin-right: -5px"
+               ng-disabled="true">
+        <span class="fa fa-paperclip fa-lg">
+        </span>
+    </md-button>
+</div>

@@ -73,16 +73,22 @@
         $scope.isInit--;
 
         if (!$scope.isInit) {
-            angular.element('#loading-modal').modal('hide');
+            function callback() {
+                if ($scope.me) {
+                    angular.element('#loading-modal').modal('hide');
 
-            var hash = parseInt($scope.getHash());
+                    var hash = parseInt($scope.getHash());
 
-            if (hash) {
-                var target = $scope.getTarget(hash);
-                if (target) {
-                    $scope.setCurrent(target);
+                    if (hash) {
+                        var target = $scope.getTarget(hash);
+                        if (target) {
+                            $scope.setCurrent(target);
+                        }
+                    }
+                    remove();
                 }
             }
+            var remove = $scope.$watch('me', callback);
         }
     }
 
@@ -96,8 +102,12 @@
         return $scope.tabIndex === index;
     };
 
+    $scope.isSender = function (chat) {
+        return chat.senderId === $scope.me.id;
+    };
+
     $scope.setCurrent = function (target) {
-        if ($scope.current !== target) {
+        if ($scope.current !== target || !$scope.isTalking) {
             $scope.$root.isLoading = true;
             $scope.current = target;
 
@@ -110,8 +120,12 @@
                 }).finally(function () {
                     updateNotice(target);
                     $scope.$root.isLoading = false;
+                    $scope.isTalking = true;
                     //$scope.scrollChatListToBottom(target.id);
                 })
+        }
+        else {
+            $scope.isTalking = true;
         }
     }
 
@@ -243,7 +257,7 @@
             controller: 'notifyController',
             templateUrl: 'chatNotificationView',
             hideDelay: 5000,
-            position: 'bottom right',
+            position: $scope.isMobile() ? 'top left' : 'bottom right',
             locals: { 'user': target, 'chat': chat, 'group': group },
             //preserveScope: true,
             //scope: $scope
@@ -253,9 +267,12 @@
     }
 
     $scope.sortByChatTime = function (target) {
-        // 排序方式: 先比有無未訊息，再比日期
-        var number = target.unreadMessageCount > 0 ? 2 : 1;
-        return target.lastChat ? new Date(target.lastChat.date) * number : 0;
+        return target.lastChat ? target.lastChat.date : '';
+    }
+
+    $scope.backToMain = function () {
+        $scope.setHash('');
+        $scope.isTalking = false;
     }
 
     function pushChat(target, chat) {
@@ -263,7 +280,7 @@
 
         if (chat.senderId !== $scope.me.id) {
             // server push 他人的對話
-            if ($scope.current && $scope.current.id === target.id) {
+            if ($scope.current && $scope.current.id === target.id && $scope.isTalking) {
                 // 正在對話中...
                 $scope.chats[target.id.toString()].push(chat);
                 updateNotice(target, chat);
@@ -292,6 +309,7 @@
 
         $scope.$apply();
     }
+
     // SignalR
     var hub = new Hub("chatHub", {
         listeners: {
@@ -357,5 +375,5 @@
 
     $scope.closeNotification = function () {
         $mdToast.hide();
-    };
-});;
+    }
+})

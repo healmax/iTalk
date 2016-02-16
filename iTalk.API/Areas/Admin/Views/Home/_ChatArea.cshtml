@@ -1,0 +1,59 @@
+﻿<md-content>
+    <div layout data-role="header">
+        <md-button ng-if="current" ng-click="showDetail('right')" class="h4 no-padding-margin text-left-important" aria-label="詳情" flex="100">
+            <img thumbnail="current.thumbnail" class="img-circle portrait-xs" />
+            <b ng-if="current.alias">{{current.alias}}</b>
+            <b ng-if="current.name">{{current.name}} ({{current.members.length}})</b>
+        </md-button>
+        <md-button class="md-icon-button"
+                   aria-label="回主選單"
+                   title="回主選單"
+                   ng-click="backToMain()"
+                   ng-if="isMobile()">
+            <span class="fa fa-level-up fa-3x"></span>
+        </md-button>
+    </div>
+    <md-content id="chat-list-{{key}}" class="dialog" ng-repeat="(key, chat) in chats" ng-show="current.id == key">
+        <ul class="list-unstyled">
+            <li ng-repeat="c in chat track by $index">
+                <div ng-switch="$index == 0 || !isSameDay(chat[$index - 1].date, c.date)">
+                    <!--顯示日期-->
+                    <div ng-switch-when="true" class="text-center" layout-padding>
+                        <span class="bg-info" ng-bind="::c.date | date:'MM.dd(EEE)'"></span>
+                    </div>
+                    <!--顯示對話-->
+                    <div>
+                        <div layout ng-class="{'pull-right':isSender(c)}">
+                            <div class="sender-date text-muted" ng-if="isSender(c)" layout="column" layout-align="center end">
+                                <span class="small" ng-if="key > 0 && getTarget(key).readTime >= c.date">已讀</span>
+                                <!--TODO:優化，不要計算兩次-->
+                                <span class="small" ng-if="key < 0 && calcReadCount(key,c.date)">已讀 {{readCount=calcReadCount(key,c.date)}}</span>
+                                <span class="small" ng-bind="::c.date | date:'a hh:mm':'utc +08:00'"></span>
+                            </div>
+                            <div ng-if="!isSender(c) && key <= 0" layout="column">
+                                <img thumbnail="getUser(c.senderId).thumbnail" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
+                                <p class="center-block" ng-bind="getUser(c.senderId).alias"></p>
+                            </div>
+                            <div>
+                                <div class="chat-bubble tri-right round"
+                                     ng-class="{'right-in bg-sender':isSender(c), 'left-in bg-receiver':!isSender(c)}">
+                                    <div class="chat-content">
+                                        <p ng-bind="::c.content" style="vertical-align:central"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="receiver-date text-muted" ng-if="!isSender(c)" layout layout-align="start center">
+                                <span class="small" ng-bind="::c.date | date:'a hh:mm':'utc +08:00'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+    </md-content>
+    <div class="bottom-progress-linear" ng-show="$root.isLoading">
+        <md-progress-linear md-mode="query"></md-progress-linear>
+    </div>
+    @Html.Partial("_Detail")
+</md-content>
