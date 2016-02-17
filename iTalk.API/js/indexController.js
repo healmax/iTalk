@@ -93,10 +93,12 @@
         $scope.isInit--;
 
         if (!$scope.isInit) {
-            function callback() {
-                if ($scope.me) {
-                    angular.element('#loading-modal').modal('hide');
-
+            function hideLoadingModal() {
+                angular.element('#loading-modal').modal('hide');
+            }
+            function initUserCallback(newValue) {
+                if (newValue) {
+                    hideLoadingModal();
                     var hash = parseInt($scope.getHash());
 
                     if (hash) {
@@ -105,10 +107,19 @@
                             $scope.setCurrent(target);
                         }
                     }
-                    remove();
+                    removeUserWatch();
+                    removeErrorWatch();
                 }
             }
-            var remove = $scope.$watch('me', callback);
+            function errorCallback(newValue) {
+                if (newValue) {
+                    hideLoadingModal();
+                    removeUserWatch();
+                    removeErrorWatch();
+                }
+            }
+            var removeUserWatch = $scope.$watch('me', initUserCallback);
+            var removeErrorWatch = $scope.$watch('errors', errorCallback);
         }
     }
 

@@ -19,6 +19,8 @@
             return new Date(date).toLocaleDateString();
         }
 
+        $rootScope.errors;
+
         $rootScope.showError = function (result, title) {
             var errorText = result.statusCode + ' : ' + result.message;
             if (title) {
@@ -26,6 +28,12 @@
             }
 
             alert(errorText);
+
+            if (!$rootScope.errors) {
+                $rootScope.errors = [];
+            }
+
+            $rootScope.errors.push(errorText);
         }
 
         $rootScope.count = function (dict) {
