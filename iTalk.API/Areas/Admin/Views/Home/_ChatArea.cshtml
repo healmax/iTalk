@@ -30,9 +30,9 @@
                                 <span class="small" ng-if="key < 0 && calcReadCount(key,c.date)">已讀 {{readCount=calcReadCount(key,c.date)}}</span>
                                 <span class="small" ng-bind="::c.date | date:'a hh:mm':'utc +08:00'"></span>
                             </div>
-                            <div ng-if="!isSender(c) && key <= 0" layout="column">
-                                <img thumbnail="getUser(c.senderId).thumbnail" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
-                                <p class="center-block" ng-bind="getUser(c.senderId).alias"></p>
+                            <div ng-if="!isSender(c) && key < 0" layout="column">
+                                <img thumbnail="users[c.senderId].thumbnail" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
+                                <p class="center-block" ng-bind="users[c.senderId].alias"></p>
                             </div>
                             <div>
                                 <div class="chat-bubble tri-right round"

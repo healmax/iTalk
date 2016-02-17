@@ -28,6 +28,6 @@
         /// <summary>
         /// 取得/設定 是否為朋友
         /// </summary>
-        public bool IsFriend { get; set; }
+        public virtual bool IsFriend { get; set; }
     }
 }

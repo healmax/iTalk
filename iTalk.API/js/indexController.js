@@ -5,7 +5,7 @@
         $scope.isPhone = mediaQueryList.matches;
     });
 
-    $scope.users = [];
+    $scope.users = {};
     $scope.friends = [];
     $scope.groups = [];
     $scope.chats = {};
@@ -21,12 +21,12 @@
             });
     }
 
-    $scope.getUser = function (userId) {
-        var id = parseInt(userId);
-        return $scope.users.find(function (u) {
-            return u.id === id;
-        })
-    }
+    //$scope.getUser = function (userId) {
+    //    var id = parseInt(userId);
+    //    return $scope.users.find(function (u) {
+    //        return u.id === id;
+    //    })
+    //}
 
     // 目前對話的朋友或群組
     $scope.current = null;
@@ -35,7 +35,7 @@
         .then(function (response) {
             $scope.friends = response.data.result;
             angular.forEach(response.data.result, function (f, i) {
-                $scope.chats[f.id.toString()] = [];
+                $scope.chats[f.id] = [];
             });
             loadingComplete();
         }, function (response) {
@@ -47,18 +47,10 @@
         .then(function (response) {
             $scope.groups = response.data.result;
             angular.forEach(response.data.result, function (g, i) {
-                $scope.chats[g.id.toString()] = [];
+                $scope.chats[g.id] = [];
                 $http.get('/group?groupId=' + g.id)
                     .then(function (response) {
-                        angular.forEach(response.data.result, function (user) {
-                            var exist = $scope.getUser(user.id);
-                            if (!exist) {
-                                $scope.users.push(user);
-                            }
-                            else {
-                                $scope.copyObject(exist, user);
-                            }
-                        })
+                        updateUsers(response.data.result);
                     }, function (response) {
                         $scope.showError(response.data);
                     })
@@ -68,6 +60,34 @@
             $scope.showError(response.data);
             loadingComplete();
         });
+
+
+    // 更新朋友或群組
+    function updateTarget(source, dest) {
+        for (var name in source) {
+            if (angular.isArray(dest)) {
+                for (var i = 0; i < dest; i++) {
+                    angular.merge(source[i] = dest[i]);
+                }
+            }
+            else {
+                dest[name] = source[name];
+            }
+        }
+    }
+
+    // 使用 members array 更新 $scope.users
+    function updateUsers(members) {
+        angular.forEach(members, function (m) {
+            var exist = $scope.users[m.id];
+            if (!exist) {
+                $scope.users[m.id] = m;
+            }
+            else {
+                updateTarget(exist, m);
+            }
+        })
+    }
 
     function loadingComplete() {
         $scope.isInit--;
@@ -113,7 +133,8 @@
 
             $http.get('/' + $scope.getControllerName(target.id) + '?targetId=' + target.id)
                 .then(function (response) {
-                    angular.merge($scope.chats[target.id.toString()], response.data.result);
+                    // todo: 只抓未下載的
+                    angular.merge($scope.chats[target.id], response.data.result);
                     $scope.setHash(target.id);
                 }, function (response) {
                     $scope.showError(response.data);
@@ -131,7 +152,7 @@
 
     function updateNotice(target, lastChat) {
         if (!lastChat) {
-            var chats = $scope.chats[target.id.toString()];
+            var chats = $scope.chats[target.id];
             for (var i = chats.length - 1; i >= 0; i--) {
                 if (chats[i].senderId !== $scope.me.id) {
                     lastChat = chats[i];
@@ -174,7 +195,7 @@
     $scope.showDetail = function (navId, id) {
         if ($.isNumeric(id)) {
             if (id > 0) {
-                $scope.detail = $scope.getUser(id);
+                $scope.detail = $scope.users[id];
             }
             else {
                 $scope.detail = $scope.getTarget(id);
@@ -231,7 +252,7 @@
     //}
 
     $scope.updateUnreadMessageCount = function (target) {
-        var chats = $scope.chats[target.id.toString()];
+        var chats = $scope.chats[target.id];
         if ($scope.current && $scope.current.id === target.id) {
             var count = 0;
             angular.forEach(chats, function (c) {
@@ -282,7 +303,7 @@
             // server push 他人的對話
             if ($scope.current && $scope.current.id === target.id && $scope.isTalking) {
                 // 正在對話中...
-                $scope.chats[target.id.toString()].push(chat);
+                $scope.chats[target.id].push(chat);
                 updateNotice(target, chat);
                 $scope.scrollChatListToBottom(target.id);
             }
@@ -292,7 +313,7 @@
                 $scope.notifications.push(chat);
 
                 if (target.id < 0) {
-                    $scope.showNotify($scope.getUser(chat.senderId), chat, target);
+                    $scope.showNotify($scope.users[chat.senderId], chat, target);
                 }
                 else {
                     $scope.showNotify(target, chat);
@@ -302,7 +323,7 @@
         else {
             // server push 自己的對話
             if ($scope.current && $scope.current.id === target.id) {
-                $scope.chats[target.id.toString()].push(chat);
+                $scope.chats[target.id].push(chat);
                 $scope.scrollChatListToBottom(target.id);
             }
         }
@@ -333,25 +354,19 @@
                 }
                 $scope.$apply();
             },
-            'updateRelationship': function (target) {
-                var list;
-
-                if (target.id < 0) {
-                    list = $scope.groups;
+            'updateRelationship': function (newObject) {
+                var list = newObject.id < 0 ? $scope.groups : $scope.friends;
+                var exist = $scope.getTarget(newObject.id);
+                if (exist) {
+                    updateTarget(exist, newObject);
                 }
                 else {
-                    list = $scope.friends;
+                    list.push(newObject);
+                    $scope.chats[newObject.id] = [];
                 }
-
-                var index = list.indexOf(target);
-                if (index === -1) {
-                    list.push(target);
-                    $scope.chats[target.id.toString()] = [];
+                if (newObject.id < 0) {
+                    updateUsers(newObject.members);
                 }
-                else {
-                    list[index] = target;
-                }
-
                 $scope.$apply();
             }
         },

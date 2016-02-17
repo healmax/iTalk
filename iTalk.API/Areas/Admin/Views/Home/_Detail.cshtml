@@ -21,8 +21,8 @@
                     <md-tab label="群組成員({{detail.members.length}})">
                         <md-list>
                             <md-list-item ng-repeat="m in detail.members">
-                                <img ng-src="{{getUser(m.id).thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
-                                <p>{{getUser(m.id).alias}}</p>
+                                <img ng-src="{{users[m.id].thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
+                                <p>{{users[m.id].alias}}</p>
                                 <a ng-if="m.id !== me.id">
                                     <span class="fa fa-times"></span>
                                 </a>

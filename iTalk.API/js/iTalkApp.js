@@ -32,11 +32,11 @@
             return Object.keys(dict).length;
         }
 
-        $rootScope.copyObject = function (source, dest) {
-            for (var name in source) {
-                dest[name] = source[name];
-            }
-        }
+        //$rootScope.copyObject = function (source, dest) {
+        //    for (var name in source) {
+        //        dest[name] = source[name];
+        //    }
+        //}
 
         $rootScope.scrollChatListToBottom = function (targetId, scrollOnlyNotAtTop) {
             setTimeout(function () {

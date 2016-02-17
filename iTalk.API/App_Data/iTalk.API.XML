@@ -1366,6 +1366,11 @@
             回傳的使用者資訊
             </summary>
         </member>
+        <member name="T:iTalk.API.Models.UserInfo">
+            <summary>
+            使用者 View Model
+            </summary>
+        </member>
         <member name="F:iTalk.API.Models.UserInfoBase._thumbnail">
             <summary>
             個人圖片縮圖
@@ -1391,6 +1396,16 @@
             取得/設定 暱稱
             </summary>
         </member>
+        <member name="M:iTalk.API.Models.UserInfo.#ctor">
+            <summary>
+            建構函數
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfo.IsFriend">
+            <summary>
+            取得/設定 是否為朋友
+            </summary>
+        </member>
         <member name="P:iTalk.API.Models.FriendInfo.MyReadTime">
             <summary>
             取得/設定 我的最後讀取時間
@@ -1411,19 +1426,9 @@
             取得/設定 最後一則對話
             </summary>
         </member>
-        <member name="T:iTalk.API.Models.UserInfo">
+        <member name="P:iTalk.API.Models.FriendInfo.IsFriend">
             <summary>
-            使用者 View Model
-            </summary>
-        </member>
-        <member name="M:iTalk.API.Models.UserInfo.#ctor">
-            <summary>
-            建構函數
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserInfo.IsFriend">
-            <summary>
-            取得/設定 是否為朋友
+            這裡一定是好友
             </summary>
         </member>
         <member name="T:iTalk.API.Properties.Resources">

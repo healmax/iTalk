@@ -5,7 +5,7 @@ namespace iTalk.API.Models {
     /// <summary>
     /// 回傳的使用者資訊
     /// </summary>
-    public class FriendInfo : UserInfoBase {
+    public class FriendInfo : UserInfo {
         /// <summary>
         /// 取得/設定 我的最後讀取時間
         /// </summary>
@@ -25,6 +25,14 @@ namespace iTalk.API.Models {
         /// 取得/設定 最後一則對話
         /// </summary>
         public Chat LastChat { get; set; }
+
+        /// <summary>
+        /// 這裡一定是好友
+        /// </summary>
+        public override bool IsFriend {
+            get { return true; }
+            set { }
+        }
 
         ///// <summary>
         ///// 隱含轉換
