@@ -2,6 +2,7 @@
     padding-top: 50px;
     /*padding-bottom: 150px;*/
     background-color: #D3DAE2 !important;
+    overflow: hidden;
 }
 
 .block {
@@ -59,8 +60,8 @@
     }
 
     .content-height {
-    height: calc(100vh - 114px);
-}
+        height: calc(100vh - 114px);
+    }
 }
 
 /*.below-navbar {
@@ -363,6 +364,11 @@ md-input-container {
 }
 
 .portrait-xs {
+    width: 20px;
+    height: 20px;
+}
+
+.portrait-sm {
     width: 35px;
     height: 35px;
 }
@@ -377,7 +383,7 @@ md-input-container {
     height: 90px;
 }
 
-img.portrait-xs, img.portrait-md, img.portrait-lg {
+img.portrait-sm, img.portrait-md, img.portrait-lg {
     margin: 10px;
 }
 

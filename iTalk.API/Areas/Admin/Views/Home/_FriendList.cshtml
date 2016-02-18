@@ -8,7 +8,7 @@
     </md-input-container>
     <md-list>
         @if (Model.ShowFriendCount) {
-            <md-subheader class="md-no-sticky">@Resources.Friend {{friends.length}}</md-subheader>
+            <md-subheader class="md-no-sticky" ng-bind="'@Resources.Friend' friends.length"></md-subheader>
         }
         <md-list-item ng-class="{true: 'md-2-line', false: 'md-1-line'}[@JsonConvert.SerializeObject(Model.ShowLastChat)]"
                       ng-repeat="(key, f) in friends | custom:search">

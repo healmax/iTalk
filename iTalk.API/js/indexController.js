@@ -1,9 +1,22 @@
 ﻿iTalkApp.controller('indexController', ['$scope', '$http', '$mdSidenav', '$mdToast', 'Hub', 'matchmedia', function ($scope, $http, $mdSidenav, $mdToast, Hub, matchmedia) {
     $scope.isInit = 2;
 
-    matchmedia.onPhone(function (mediaQueryList) {
-        $scope.isPhone = mediaQueryList.matches;
-    });
+    //matchmedia.onPhone(function (mediaQueryList) {
+    //    $scope.isPhone = mediaQueryList.matches;
+    //});
+
+    function hideLoadingModal() {
+        angular.element('#loading-modal').modal('hide');
+    }
+
+    function errorCallback(newValue) {
+        if (newValue) {
+            hideLoadingModal();
+            removeErrorWatch();
+        }
+    }
+    var removeErrorWatch = $scope.$watch('errors', errorCallback);
+
 
     $scope.users = {};
     $scope.friends = [];
@@ -92,10 +105,7 @@
     function loadingComplete() {
         $scope.isInit--;
 
-        if (!$scope.isInit) {
-            function hideLoadingModal() {
-                angular.element('#loading-modal').modal('hide');
-            }
+        if ($scope.isInit === 0) {
             function initUserCallback(newValue) {
                 if (newValue) {
                     hideLoadingModal();
@@ -111,15 +121,7 @@
                     removeErrorWatch();
                 }
             }
-            function errorCallback(newValue) {
-                if (newValue) {
-                    hideLoadingModal();
-                    removeUserWatch();
-                    removeErrorWatch();
-                }
-            }
             var removeUserWatch = $scope.$watch('me', initUserCallback);
-            var removeErrorWatch = $scope.$watch('errors', errorCallback);
         }
     }
 

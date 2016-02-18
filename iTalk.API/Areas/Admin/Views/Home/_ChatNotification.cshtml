@@ -19,8 +19,10 @@
     <div layout>
         <img thumbnail="user.thumbnail" class="" />
         <div flex="100" layout-margin>
-            <h4 ng-if="!group" ng-bind="user.alias"></h4>
-            <h4 ng-if="group">{{user.alias}} [{{group.name}}]</h4>
+            <h4>
+                <span ng-bind="user.alias"></span>
+                <span ng-if="group" ng-bind="'[' + group.name + ']'"></span>
+            </h4>
             <span class="text-muted" ng-bind="chat.content"></span>
         </div>
         <div>

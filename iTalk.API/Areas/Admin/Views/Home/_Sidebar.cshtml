@@ -12,7 +12,7 @@
                               ng-class="{'bg-info':current.id === model.id}"
                               ng-click="setCurrent(model)"
                               ng-repeat="(key, model) in friends.concat(groups) | orderBy:sortByChatTime:true | filter:search">
-                    <img ng-src="{{model.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
+                    <img thumbnail="model.thumbnail" class="img-circle portrait-md" />
                     <div class="md-list-item-text">
                         <b ng-bind="model.alias || model.name + ' (' + model.members.length + ')'"></b>
                         <p ng-bind="model.lastChat.content | overflow:15"></p>
@@ -36,7 +36,7 @@
         <md-content class="below-search-box">
             <md-list id="friend-list">
                 <md-list-item>
-                    <small class="text-muted">@Resources.Friend {{count(friends)}}</small>
+                    <small class="text-muted" ng-bind="'@Resources.Friend ' + friends.length"></small>
                 </md-list-item>
                 <md-list-item class="md-2-line"
                               aria-label="{{friend.alias}}"
@@ -44,7 +44,7 @@
                               ng-class="{'bg-info':current.id === friend.id}"
                               ng-click="setCurrent(friend)"
                               ng-repeat="(key, friend) in friends | custom:search">
-                    <img ng-src="{{friend.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
+                    <img thumbnail="friend.thumbnail" class="img-circle portrait-md" />
                     <div class="md-list-item-text">
                         <b ng-bind="friend.alias"></b>
                         <p ng-bind="friend.personalSign"></p>
@@ -61,7 +61,7 @@
         <md-content class="below-search-box">
             <md-list id="group-list">
                 <md-list-item>
-                    <small class="text-muted">@Resources.Group {{count(groups)}}</small>
+                    <small class="text-muted" ng-bind="'@Resources.Group ' + groups.length"></small>
                     <md-button class="md-icon-button md-secondary" ng-click="showCreateGroupDialog($event)" title="建立群組" aria-label="createGroup">
                         <span class="fa fa-plus"></span>
                     </md-button>
@@ -72,10 +72,10 @@
                               ng-class="{'bg-info':current.id === group.id}"
                               ng-click="setCurrent(group)"
                               ng-repeat="(key, group) in groups | custom:search">
-                    <img ng-src="{{group.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-md" />
+                    <img thumbnail="group.thumbnail" class="img-circle portrait-md" />
                     <div class="md-list-item-text">
                         <b ng-bind="group.name"></b>
-                        <p>{{group.members.length}} 個成員</p>
+                        <p ng-bind="group.members.length + ' 個成員'"></p>
                     </div>
                 </md-list-item>
             </md-list>
@@ -100,7 +100,7 @@
             <md-list-item class="text-muted">@Resources.UserName @User.Identity.Name</md-list-item>
             <div class="text-center">
                 <div ng-if="user.status === 1">
-                    <img ng-src="{{user.found.thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-lg" />
+                    <img thumbnail="user.found.thumbnail" class="img-circle portrait-lg" />
                     <p><strong ng-bind="user.found.alias"></strong></p>
                     <p ng-bind="user.found.description"></p>
                     <span ng-if="user.found.isFriend">

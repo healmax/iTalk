@@ -13,9 +13,9 @@
             <div layout>
                 <img thumbnail="me.thumbnail" class="img-circle portrait-lg" />
                 <div layout="column" layout-margin>
-                        <p><b>@Resources.Name : </b>{{me.alias}}</p>
-                        <p><b>@Resources.PersonalSign : </b>{{me.personalSign || '尚未設定'}}</p>
-                        <p><b>ID : </b>{{me.userName}}</p>
+                    <p>@Resources.Name : <label ng-bind="me.alias"></label>
+                    <p>@Resources.PersonalSign : <label ng-bind="me.personalSign || '尚未設定'"></label></p>
+                    <p>ID : <label ng-bind="me.userName"></label></p>
                 </div>
             </div>
             <div class="form-group">

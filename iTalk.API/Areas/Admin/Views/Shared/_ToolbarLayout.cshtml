@@ -19,13 +19,16 @@
             @if (User.Identity.IsAuthenticated) {
                 <div class="collapse navbar-collapse" ng-init="initUser('@this.User.Identity.Name')">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="javascript:;" ng-click="showBasicSettingDialog($event)">基本設定</a>
-                        </li>
                         @Html.Partial("_ViewSwitcher")
                         <li>
+                            <a href="javascript:;" title="基本設定" ng-click="showBasicSettingDialog($event)" ng-show="me">
+                                <img thumbnail="me.thumbnail" class="img-circle portrait-xs" />
+                                <span ng-bind="me.alias"></span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="javascript:document.getElementById('logOffForm').submit()" onclick="logout()">
-                                @Resources.Logout [{{me.alias}}]
+                                @Resources.Logout
                                 @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logOffForm" })) {
                                     @Html.AntiForgeryToken()
                                 }

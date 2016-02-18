@@ -2,8 +2,8 @@
     <md-content layout="column">
         <div layout="column" layout-align="center center">
             <img thumbnail="detail.thumbnail" ng-click="open(detail.portraitUrl)" class="img-circle portrait-lg" />
-            <label>{{detail.alias || detail.name}}</label>
-            <label class="text-muted">{{detail.personalSign}}</label>
+            <label ng-bind="detail.alias || detail.name"></label>
+            <label class="text-muted" ng-bind="detail.personalSign"></label>
         </div>
         <md-list>
             <md-list-item>
@@ -21,8 +21,8 @@
                     <md-tab label="群組成員({{detail.members.length}})">
                         <md-list>
                             <md-list-item ng-repeat="m in detail.members">
-                                <img ng-src="{{users[m.id].thumbnail}}" src="~/Img/portrait.png" class="img-circle portrait-xs" />
-                                <p>{{users[m.id].alias}}</p>
+                                <img thumbnail="users[m.id].thumbnail" class="img-circle portrait-sm" />
+                                <p ng-bind="users[m.id].alias"></p>
                                 <a ng-if="m.id !== me.id">
                                     <span class="fa fa-times"></span>
                                 </a>

@@ -36,9 +36,9 @@
             $rootScope.errors.push(errorText);
         }
 
-        $rootScope.count = function (dict) {
-            return Object.keys(dict).length;
-        }
+        //$rootScope.count = function (dict) {
+        //    return Object.keys(dict).length;
+        //}
 
         //$rootScope.copyObject = function (source, dest) {
         //    for (var name in source) {

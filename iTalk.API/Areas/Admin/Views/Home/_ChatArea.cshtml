@@ -1,9 +1,9 @@
 ﻿<md-content>
     <div layout data-role="header">
         <md-button ng-if="current" ng-click="showDetail('right')" class="h4 no-padding-margin text-left-important" aria-label="詳情" flex="100">
-            <img thumbnail="current.thumbnail" class="img-circle portrait-xs" />
-            <b ng-if="current.alias">{{current.alias}}</b>
-            <b ng-if="current.name">{{current.name}} ({{current.members.length}})</b>
+            <img thumbnail="current.thumbnail" class="img-circle portrait-sm" />
+            <b ng-if="current.alias" ng-bind="current.alias"></b>
+            <b ng-if="current.name" ng-bind="current.name + ' (' + current.members.length + ')'"></b>
         </md-button>
         <md-button class="md-icon-button"
                    aria-label="回主選單"
@@ -27,11 +27,11 @@
                             <div class="sender-date text-muted" ng-if="isSender(c)" layout="column" layout-align="center end">
                                 <span class="small" ng-if="key > 0 && getTarget(key).readTime >= c.date">已讀</span>
                                 <!--TODO:優化，不要計算兩次-->
-                                <span class="small" ng-if="key < 0 && calcReadCount(key,c.date)">已讀 {{readCount=calcReadCount(key,c.date)}}</span>
+                                <span class="small" ng-if="key < 0 && calcReadCount(key,c.date)" ng-bind="'已讀 ' + calcReadCount(key,c.date)"></span>
                                 <span class="small" ng-bind="::c.date | date:'a hh:mm':'utc +08:00'"></span>
                             </div>
                             <div ng-if="!isSender(c) && key < 0" layout="column">
-                                <img thumbnail="users[c.senderId].thumbnail" class="img-circle portrait-xs" ng-click="showDetail('right', c.senderId)" />
+                                <img thumbnail="users[c.senderId].thumbnail" class="img-circle portrait-sm" ng-click="showDetail('right', c.senderId)" />
                                 <p class="center-block" ng-bind="users[c.senderId].alias"></p>
                             </div>
                             <div>
