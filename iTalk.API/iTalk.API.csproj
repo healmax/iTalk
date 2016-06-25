@@ -53,8 +53,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="ImageResizer">
-      <HintPath>..\packages\ImageResizer.4.0.4\lib\net45\ImageResizer.dll</HintPath>
+    <Reference Include="ImageResizer, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageResizer.4.0.5\lib\net45\ImageResizer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="iTalk.DAO">
       <HintPath>..\Export\iTalk.DAO.dll</HintPath>
@@ -75,11 +76,13 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.OData.Core">
-      <HintPath>..\packages\Microsoft.OData.Core.6.14.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Core.dll</HintPath>
+    <Reference Include="Microsoft.OData.Core, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.OData.Core.6.15.0\lib\portable-net45+win+wpa81\Microsoft.OData.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.OData.Edm">
-      <HintPath>..\packages\Microsoft.OData.Edm.6.14.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Edm.dll</HintPath>
+    <Reference Include="Microsoft.OData.Edm, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.OData.Edm.6.15.0\lib\portable-net45+win+wpa81\Microsoft.OData.Edm.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -96,16 +99,17 @@
     <Reference Include="Microsoft.Owin.Security.OAuth">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Spatial">
-      <HintPath>..\packages\Microsoft.Spatial.6.14.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.Spatial.dll</HintPath>
+    <Reference Include="Microsoft.Spatial, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Spatial.6.15.0\lib\portable-net45+win+wpa81\Microsoft.Spatial.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -143,8 +147,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.OData">
-      <HintPath>..\packages\Microsoft.AspNet.OData.5.8.0\lib\net45\System.Web.OData.dll</HintPath>
+    <Reference Include="System.Web.OData, Version=5.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.OData.5.9.0\lib\net45\System.Web.OData.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
@@ -176,11 +181,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
-    <Reference Include="Wurfl">
-      <HintPath>..\packages\WURFL_Official_API.1.6.3.0\lib\Wurfl.dll</HintPath>
+    <Reference Include="Wurfl, Version=1.7.1.1, Culture=neutral, PublicKeyToken=816aeec277aa13b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\WURFL_Official_API.1.7.1.1\lib\Wurfl.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Wurfl.Aspnet.Extensions">
-      <HintPath>..\packages\WURFL_Official_API.1.6.3.0\lib\Wurfl.Aspnet.Extensions.dll</HintPath>
+    <Reference Include="Wurfl.Aspnet.Extensions, Version=1.7.1.1, Culture=neutral, PublicKeyToken=816aeec277aa13b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\WURFL_Official_API.1.7.1.1\lib\Wurfl.Aspnet.Extensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -420,12 +427,6 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Img\portrait.png" />
     <Content Include="js\addFriendController.js" />
     <Content Include="js\chatController.js" />
@@ -452,6 +453,8 @@
     <Content Include="Scripts\angular-messages.js" />
     <Content Include="Scripts\angular-messages.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-parse-ext.js" />
+    <Content Include="Scripts\angular-parse-ext.min.js" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular-route.js" />
@@ -461,21 +464,21 @@
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Areas\Admin\Views\Home\_Sidebar.cshtml" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Areas\Admin\Views\Shared\_ToolbarLayout.cshtml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Areas\Admin\Views\Shared\_ToolbarLayout.cshtml" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-et.js" />
@@ -1220,10 +1223,6 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
-    <Content Include="WURFL AGPL License.txt" />
-    <Content Include="Introspector\Introspector.pdf" />
-    <Content Include="Introspector\Introspector.ashx" />
-    <Content Include="App_Data\wurfl-latest.zip" />
     <Content Include="Areas\Admin\Views\Account\Register.cshtml" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
@@ -1245,18 +1244,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Scripts\errors.json" />
-    <Content Include="Scripts\angular-touch.min.js.map" />
-    <Content Include="Scripts\angular-sanitize.min.js.map" />
-    <Content Include="Scripts\angular-route.min.js.map" />
-    <Content Include="Scripts\angular-resource.min.js.map" />
-    <Content Include="Scripts\angular-messages.min.js.map" />
-    <Content Include="Scripts\angular-message-format.min.js.map" />
-    <Content Include="Scripts\angular-loader.min.js.map" />
-    <Content Include="Scripts\angular-cookies.min.js.map" />
-    <Content Include="Scripts\angular-aria.min.js.map" />
-    <Content Include="Scripts\angular-animate.min.js.map" />
-    <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Areas\Admin\Views\Home\_CreateGroup.cshtml" />
     <Content Include="Areas\Admin\Views\Home\_FriendList.cshtml" />
     <Content Include="Areas\Admin\Views\Home\_Detail.cshtml" />
@@ -1269,18 +1256,44 @@
     <Content Include="Areas\Admin\Views\Home\_BottomNavbar.cshtml" />
     <Content Include="Areas\Admin\Views\Home\_ChatArea.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_BasicSetting.cshtml" />
-    <None Include="Scripts\jquery-1.11.3.intellisense.js" />
-    <Content Include="Scripts\jquery-1.11.3.js" />
-    <Content Include="Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Scripts\errors.json" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-touch.min.js.map" />
+    <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Scripts\angular-parse-ext.min.js.map" />
+    <Content Include="Scripts\angular-messages.min.js.map" />
+    <Content Include="Scripts\angular-message-format.min.js.map" />
+    <Content Include="Scripts\angular-loader.min.js.map" />
+    <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="Scripts\angular-aria.min.js.map" />
+    <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <Content Include="WURFL AGPL License.txt" />
+    <Content Include="Introspector\Introspector.pdf" />
+    <Content Include="Introspector\Introspector.ashx" />
+    <Content Include="App_Readme\WURFL.chm" />
+    <Content Include="App_Readme\wurfl-latest.zip" />
+    <Content Include="App_Readme\WURFL Quick Guide_v1_5.pdf" />
+    <Content Include="App_Data\wurfl-latest.zip" />
     <Content Include="Scripts\jquery.mobile-1.4.5.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.js" />
     <Content Include="Scripts\jquery.mobile-1.4.5.min.map" />
-    <Content Include="Scripts\jquery-1.11.3.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

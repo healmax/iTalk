@@ -32,6 +32,73 @@
             取得/設定 是否顯示最後一筆的對話
             </summary>
         </member>
+        <member name="T:iTalk.API.Areas.Admin.Models.RegisterViewModel">
+            <summary>
+            註冊 View Model
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Areas.Admin.Models.RegisterViewModel.PasswordConfirm">
+            <summary>
+            取得/設定 密碼確認
+            </summary>
+        </member>
+        <member name="T:iTalk.API.Areas.Admin.Controllers.AccountController">
+            <summary>
+            帳戶控制器
+            </summary>
+        </member>
+        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Index">
+            <summary>
+            列出所有使用者
+            </summary>
+            <returns>使用者列表頁面</returns>
+        </member>
+        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Login(System.String)">
+            <summary>
+            登入
+            </summary>
+            <param name="returnUrl">Return URL</param>
+            <returns>登入頁面</returns>
+        </member>
+        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Login(iTalk.API.Models.AccountViewModel,System.String)">
+            <summary>
+            登入
+            </summary>
+            <param name="model">帳戶 View Model</param>
+            <param name="returnUrl">Return URL</param>
+            <returns>登入結果</returns>
+        </member>
+        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Logout">
+            <summary>
+            登出
+            </summary>
+            <returns>登入頁面</returns>
+        </member>
+        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Register(System.String)">
+            <summary>
+            註冊
+            </summary>
+            <returns>註冊頁面</returns>
+        </member>
+        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Register(System.Web.Mvc.FormCollection,System.String)">
+            <summary>
+            註冊
+            </summary>
+            <param name="model">註冊資料</param>
+            <param name="returnUrl">Return Url</param>
+            <returns>註冊結果</returns>
+        </member>
+        <member name="T:iTalk.API.Areas.Admin.Controllers.HomeController">
+            <summary>
+            主控制器
+            </summary>
+        </member>
+        <member name="M:iTalk.API.Areas.Admin.Controllers.HomeController.Index">
+            <summary>
+            首頁
+            </summary>
+            <returns>首頁</returns>        
+        </member>
         <member name="M:iTalk.API.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
             <summary>
             Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
@@ -282,6 +349,31 @@
             Initializes a new instance of the <see cref="T:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator"/> class.
             </summary>
         </member>
+        <member name="P:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:iTalk.API.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
         <member name="M:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
             <summary>
             Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
@@ -354,31 +446,6 @@
             <param name="type">The type.</param>
             <param name="mediaType">Type of the media.</param>
             <returns></returns>
-        </member>
-        <member name="P:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
-            <summary>
-            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
-            <summary>
-            Gets the objects that are used directly as samples for certain actions.
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
-            <summary>
-            Gets the objects that are serialized as samples by the supported formatters.
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
-            <summary>
-            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
-            stopping when the factory successfully returns a non-<see langref="null"/> object.
-            </summary>
-            <remarks>
-            Collection includes just <see cref="M:iTalk.API.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
-            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
-            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
         </member>
         <member name="T:iTalk.API.Areas.HelpPage.HelpPageSampleKey">
             <summary>
@@ -535,51 +602,6 @@
             對話更新通知控制器
             </summary>
         </member>
-        <member name="T:iTalk.API.Controllers.DefaultApiController">
-            <summary>
-            預設控制器
-            </summary>
-        </member>
-        <member name="M:iTalk.API.Controllers.DefaultApiController.CheckModelState(System.Object)">
-            <summary>
-            檢查 Model 是否有效
-            </summary>
-            <param name="model">要檢查的 Model</param>
-        </member>
-        <member name="M:iTalk.API.Controllers.DefaultApiController.CreatePortrait(System.Web.HttpPostedFile)">
-            <summary>
-            處理上傳的圖片
-            </summary>
-            <param name="file">上傳的圖片</param>
-            <param name="callback">回調處理</param>
-        </member>
-        <member name="M:iTalk.API.Controllers.DefaultApiController.CheckPortrait">
-            <summary>
-            檢查是否有上傳圖片
-            </summary>
-            <returns>上傳的圖片</returns>
-        </member>
-        <member name="P:iTalk.API.Controllers.DefaultApiController.UserId">
-            <summary>
-            取得使用者 Id
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Controllers.DefaultApiController.DbContext">
-            <summary>
-            取得 iTalkDbContext
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Controllers.DefaultApiController.UserManager">
-            <summary>
-            取得 UserManager
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Controllers.DefaultApiController.HubContext">
-            <summary>
-            取得 Chat Hub Context
-            </summary>
-            <returns>Chat Hub Context</returns>
-        </member>
         <member name="M:iTalk.API.Controllers.NoticeController.Post(iTalk.API.Models.NoticeViewModel)">
             <summary>
             更新讀取對話時間
@@ -620,181 +642,6 @@
             </summary>
             <param name="filename">檔案名稱</param>
             <returns>圖片網址</returns>
-        </member>
-        <member name="T:iTalk.API.DefaultTestFriendFilterAttribute">
-            <summary>
-            新增使用者時，自動將測試用者者加為好友
-            </summary>
-        </member>
-        <member name="M:iTalk.API.DefaultTestFriendFilterAttribute.OnActionExecutedAsync(System.Web.Http.Filters.HttpActionExecutedContext,System.Threading.CancellationToken)">
-            <summary>
-            Action 執行後
-            </summary>
-            <param name="actionExecutedContext">HttpActionExecutedContext</param>
-            <param name="cancellationToken">CancellationToken</param>
-        </member>
-        <member name="T:iTalk.API.SignalRContractResolver">
-            <summary>
-            SignalR Contract Resolver
-            序列化時將 Json 屬性名稱首字改為小寫
-            </summary>
-        </member>
-        <member name="M:iTalk.API.SignalRContractResolver.#ctor">
-            <summary>
-            建構函數
-            </summary>
-        </member>
-        <member name="M:iTalk.API.SignalRContractResolver.ResolveContract(System.Type)">
-            <summary>
-            自己的型別用小寫序列化...
-            </summary>
-            <param name="type">要序列化的型別</param>
-            <returns>JsonContract</returns>
-        </member>
-        <member name="T:iTalk.API.Startup">
-            <summary>
-            啟動程序
-            </summary>
-            <summary>
-            啟動程序
-            </summary>
-        </member>
-        <member name="M:iTalk.API.Startup.ConfigureAuth(Owin.IAppBuilder)">
-            <summary>
-            設置同時使用 Cookie 和 Bearer Toekn 驗證
-            </summary>
-            <param name="app">IAppBuilder</param>
-        </member>
-        <member name="M:iTalk.API.Startup.Configuration(Owin.IAppBuilder)">
-            <summary>
-            設置...
-            </summary>
-            <param name="app">IAppBuilder</param>
-        </member>
-        <member name="P:iTalk.API.Startup.OAuthOptions">
-            <summary>
-            OAuth 驗證選項
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Startup.PublicClientId">
-            <summary>
-            不明
-            </summary>
-        </member>
-        <member name="T:iTalk.API.UserManager">
-            <summary>
-            User Manager
-            </summary>
-        </member>
-        <member name="M:iTalk.API.UserManager.#ctor">
-            <summary>
-            建構函數
-            </summary>
-        </member>
-        <member name="M:iTalk.API.UserManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{iTalk.API.UserManager},Microsoft.Owin.IOwinContext)">
-            <summary>
-            建立User Manager委派，定義了帳密的格式與Token Provider
-            </summary>
-            <param name="options">IdentityFactoryOptions</param>
-            <param name="context">IOwinContext</param>
-            <returns></returns>
-        </member>
-        <member name="T:iTalk.API.WebApiConfig">
-            <summary>
-            Web API 設置
-            </summary>
-        </member>
-        <member name="M:iTalk.API.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
-            <summary>
-            註冊 Web API 設置
-            </summary>
-            <param name="config"></param>
-        </member>
-        <member name="T:iTalk.API.Areas.Admin.Controllers.AccountController">
-            <summary>
-            帳戶控制器
-            </summary>
-        </member>
-        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Index">
-            <summary>
-            列出所有使用者
-            </summary>
-            <returns>使用者列表頁面</returns>
-        </member>
-        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Login(System.String)">
-            <summary>
-            登入
-            </summary>
-            <param name="returnUrl">Return URL</param>
-            <returns>登入頁面</returns>
-        </member>
-        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Login(iTalk.API.Models.AccountViewModel,System.String)">
-            <summary>
-            登入
-            </summary>
-            <param name="model">帳戶 View Model</param>
-            <param name="returnUrl">Return URL</param>
-            <returns>登入結果</returns>
-        </member>
-        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Logout">
-            <summary>
-            登出
-            </summary>
-            <returns>登入頁面</returns>
-        </member>
-        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Register(System.String)">
-            <summary>
-            註冊
-            </summary>
-            <returns>註冊頁面</returns>
-        </member>
-        <member name="M:iTalk.API.Areas.Admin.Controllers.AccountController.Register(System.Web.Mvc.FormCollection,System.String)">
-            <summary>
-            註冊
-            </summary>
-            <param name="model">註冊資料</param>
-            <param name="returnUrl">Return Url</param>
-            <returns>註冊結果</returns>
-        </member>
-        <member name="T:iTalk.API.Areas.Admin.Models.RegisterViewModel">
-            <summary>
-            註冊 View Model
-            </summary>
-        </member>
-        <member name="T:iTalk.API.Models.AccountViewModel">
-            <summary>
-            帳戶用 View Model
-            </summary>
-        </member>
-        <member name="T:iTalk.API.Models.UserViewModel">
-            <summary>
-            使用者的基本資料
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserViewModel.UserName">
-            <summary>
-            取得/設定 使用者名稱
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserViewModel.Alias">
-            <summary>
-            取得/設定 暱稱
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserViewModel.PersonalSign">
-            <summary>
-            取得/設定 個性簽名
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.AccountViewModel.Password">
-            <summary>
-            取得/設定 密碼
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Areas.Admin.Models.RegisterViewModel.PasswordConfirm">
-            <summary>
-            取得/設定 密碼確認
-            </summary>
         </member>
         <member name="T:iTalk.API.Controllers.AccountController">
             <summary>
@@ -866,80 +713,50 @@
             <param name="targetId">朋友或群組 Id</param>
             <param name="model">對話</param>
         </member>
-        <member name="T:iTalk.API.ControllerExtensions">
+        <member name="T:iTalk.API.Controllers.DefaultApiController">
             <summary>
-            控制器擴充方法
+            預設控制器
             </summary>
         </member>
-        <member name="M:iTalk.API.ControllerExtensions.ValidateGroup(iTalk.API.Controllers.DefaultApiController,System.Int64,System.Boolean,System.Boolean)">
+        <member name="P:iTalk.API.Controllers.DefaultApiController.UserId">
             <summary>
-            檢查群組關係
-            </summary>
-            <param name="controller">控制器</param>
-            <param name="groupId">群組 Id</param>
-            <param name="throwIfNotExist">指定之群組不存在時是否拋出例外</param>
-            <param name="throwIfNoRelationship">不是群組成員時是否拋出例外</param>
-            <returns>朋友關聯狀態</returns>
-        </member>
-        <member name="M:iTalk.API.ControllerExtensions.ValidateFriendship(iTalk.API.Controllers.DefaultApiController,System.Int64,System.Boolean,System.Boolean)">
-            <summary>
-            檢查朋友關係
-            </summary>
-            <param name="controller">控制器</param>
-            <param name="friendId">朋友 Id</param>
-            <param name="throwIfNotExist">指定之使用者不存在時是否拋出例外</param>
-            <param name="throwIfNotFriend">指定之使用者不是朋友時是否拋出例外</param>
-            <returns>朋友關聯狀態</returns>
-        </member>
-        <member name="M:iTalk.API.ControllerExtensions.CreateResponseException(iTalk.API.Controllers.DefaultApiController,System.Net.HttpStatusCode,System.String,System.Object[])">
-            <summary>
-            建立回應例外
-            </summary>
-            <param name="controller">控制器</param>
-            <param name="code">Http狀態碼</param>
-            <param name="format">訊息內容</param>
-            <param name="args">參數</param>
-            <returns>回應例外</returns>
-        </member>
-        <member name="M:iTalk.API.ControllerExtensions.GetError(iTalk.API.Controllers.DefaultApiController)">
-            <summary>
-            取得 Model 上的錯誤訊息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:iTalk.API.ValidateResult`1">
-            <summary>
-            Relation Validation Result
-            </summary>
-            <typeparam name="T">Validate Relation Type</typeparam>
-        </member>
-        <member name="M:iTalk.API.ValidateResult`1.#ctor(`0,iTalk.API.Models.RelationCheck)">
-            <summary>
-            建構函數
-            </summary>
-            <param name="target">Validation Target</param>
-            <param name="check">RelationCheck</param>
-        </member>
-        <member name="P:iTalk.API.ValidateResult`1.Target">
-            <summary>
-            取得 Validation Targe
+            取得使用者 Id
             </summary>
         </member>
-        <member name="P:iTalk.API.ValidateResult`1.Check">
+        <member name="P:iTalk.API.Controllers.DefaultApiController.DbContext">
             <summary>
-            取得 RelationCheck
+            取得 iTalkDbContext
             </summary>
         </member>
-        <member name="T:iTalk.API.Areas.Admin.Controllers.HomeController">
+        <member name="P:iTalk.API.Controllers.DefaultApiController.UserManager">
             <summary>
-            主控制器
+            取得 UserManager
             </summary>
         </member>
-        <member name="M:iTalk.API.Areas.Admin.Controllers.HomeController.Index">
+        <member name="M:iTalk.API.Controllers.DefaultApiController.CheckModelState(System.Object)">
             <summary>
-            首頁
+            檢查 Model 是否有效
             </summary>
-            <returns>首頁</returns>        
+            <param name="model">要檢查的 Model</param>
+        </member>
+        <member name="M:iTalk.API.Controllers.DefaultApiController.CreatePortrait(System.Web.HttpPostedFile)">
+            <summary>
+            處理上傳的圖片
+            </summary>
+            <param name="file">上傳的圖片</param>
+            <param name="callback">回調處理</param>
+        </member>
+        <member name="M:iTalk.API.Controllers.DefaultApiController.CheckPortrait">
+            <summary>
+            檢查是否有上傳圖片
+            </summary>
+            <returns>上傳的圖片</returns>
+        </member>
+        <member name="P:iTalk.API.Controllers.DefaultApiController.HubContext">
+            <summary>
+            取得 Chat Hub Context
+            </summary>
+            <returns>Chat Hub Context</returns>
         </member>
         <member name="T:iTalk.API.Controllers.ChatController">
             <summary>
@@ -1092,6 +909,159 @@
             </summary>
             <param name="fs">朋友關係</param>
         </member>
+        <member name="T:iTalk.API.DefaultTestFriendFilterAttribute">
+            <summary>
+            新增使用者時，自動將測試用者者加為好友
+            </summary>
+        </member>
+        <member name="M:iTalk.API.DefaultTestFriendFilterAttribute.OnActionExecutedAsync(System.Web.Http.Filters.HttpActionExecutedContext,System.Threading.CancellationToken)">
+            <summary>
+            Action 執行後
+            </summary>
+            <param name="actionExecutedContext">HttpActionExecutedContext</param>
+            <param name="cancellationToken">CancellationToken</param>
+        </member>
+        <member name="T:iTalk.API.SignalRContractResolver">
+            <summary>
+            SignalR Contract Resolver
+            序列化時將 Json 屬性名稱首字改為小寫
+            </summary>
+        </member>
+        <member name="M:iTalk.API.SignalRContractResolver.#ctor">
+            <summary>
+            建構函數
+            </summary>
+        </member>
+        <member name="M:iTalk.API.SignalRContractResolver.ResolveContract(System.Type)">
+            <summary>
+            自己的型別用小寫序列化...
+            </summary>
+            <param name="type">要序列化的型別</param>
+            <returns>JsonContract</returns>
+        </member>
+        <member name="T:iTalk.API.Startup">
+            <summary>
+            啟動程序
+            </summary>
+            <summary>
+            啟動程序
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Startup.OAuthOptions">
+            <summary>
+            OAuth 驗證選項
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Startup.PublicClientId">
+            <summary>
+            不明
+            </summary>
+        </member>
+        <member name="M:iTalk.API.Startup.ConfigureAuth(Owin.IAppBuilder)">
+            <summary>
+            設置同時使用 Cookie 和 Bearer Toekn 驗證
+            </summary>
+            <param name="app">IAppBuilder</param>
+        </member>
+        <member name="M:iTalk.API.Startup.Configuration(Owin.IAppBuilder)">
+            <summary>
+            設置...
+            </summary>
+            <param name="app">IAppBuilder</param>
+        </member>
+        <member name="T:iTalk.API.UserManager">
+            <summary>
+            User Manager
+            </summary>
+        </member>
+        <member name="M:iTalk.API.UserManager.#ctor">
+            <summary>
+            建構函數
+            </summary>
+        </member>
+        <member name="M:iTalk.API.UserManager.Create(Microsoft.AspNet.Identity.Owin.IdentityFactoryOptions{iTalk.API.UserManager},Microsoft.Owin.IOwinContext)">
+            <summary>
+            建立User Manager委派，定義了帳密的格式與Token Provider
+            </summary>
+            <param name="options">IdentityFactoryOptions</param>
+            <param name="context">IOwinContext</param>
+            <returns></returns>
+        </member>
+        <member name="T:iTalk.API.WebApiConfig">
+            <summary>
+            Web API 設置
+            </summary>
+        </member>
+        <member name="M:iTalk.API.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            註冊 Web API 設置
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="T:iTalk.API.ControllerExtensions">
+            <summary>
+            控制器擴充方法
+            </summary>
+        </member>
+        <member name="M:iTalk.API.ControllerExtensions.ValidateGroup(iTalk.API.Controllers.DefaultApiController,System.Int64,System.Boolean,System.Boolean)">
+            <summary>
+            檢查群組關係
+            </summary>
+            <param name="controller">控制器</param>
+            <param name="groupId">群組 Id</param>
+            <param name="throwIfNotExist">指定之群組不存在時是否拋出例外</param>
+            <param name="throwIfNoRelationship">不是群組成員時是否拋出例外</param>
+            <returns>朋友關聯狀態</returns>
+        </member>
+        <member name="M:iTalk.API.ControllerExtensions.ValidateFriendship(iTalk.API.Controllers.DefaultApiController,System.Int64,System.Boolean,System.Boolean)">
+            <summary>
+            檢查朋友關係
+            </summary>
+            <param name="controller">控制器</param>
+            <param name="friendId">朋友 Id</param>
+            <param name="throwIfNotExist">指定之使用者不存在時是否拋出例外</param>
+            <param name="throwIfNotFriend">指定之使用者不是朋友時是否拋出例外</param>
+            <returns>朋友關聯狀態</returns>
+        </member>
+        <member name="M:iTalk.API.ControllerExtensions.CreateResponseException(iTalk.API.Controllers.DefaultApiController,System.Net.HttpStatusCode,System.String,System.Object[])">
+            <summary>
+            建立回應例外
+            </summary>
+            <param name="controller">控制器</param>
+            <param name="code">Http狀態碼</param>
+            <param name="format">訊息內容</param>
+            <param name="args">參數</param>
+            <returns>回應例外</returns>
+        </member>
+        <member name="M:iTalk.API.ControllerExtensions.GetError(iTalk.API.Controllers.DefaultApiController)">
+            <summary>
+            取得 Model 上的錯誤訊息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:iTalk.API.ValidateResult`1">
+            <summary>
+            Relation Validation Result
+            </summary>
+            <typeparam name="T">Validate Relation Type</typeparam>
+        </member>
+        <member name="M:iTalk.API.ValidateResult`1.#ctor(`0,iTalk.API.Models.RelationCheck)">
+            <summary>
+            建構函數
+            </summary>
+            <param name="target">Validation Target</param>
+            <param name="check">RelationCheck</param>
+        </member>
+        <member name="P:iTalk.API.ValidateResult`1.Target">
+            <summary>
+            取得 Validation Targe
+            </summary>
+        </member>
+        <member name="P:iTalk.API.ValidateResult`1.Check">
+            <summary>
+            取得 RelationCheck
+            </summary>
+        </member>
         <member name="T:iTalk.API.UserIdProvider">
             <summary>
             自訂 SignalR Hub User Id Provider
@@ -1191,44 +1161,29 @@
             要回傳的結果
             </summary>
         </member>
+        <member name="T:iTalk.API.Models.AccountViewModel">
+            <summary>
+            帳戶用 View Model
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.AccountViewModel.Password">
+            <summary>
+            取得/設定 密碼
+            </summary>
+        </member>
         <member name="T:iTalk.API.Models.GroupInfo">
             <summary>
             群組結果
             </summary>
         </member>
-        <member name="T:iTalk.API.Models.GroupViewModelBase">
+        <member name="P:iTalk.API.Models.GroupInfo.Id">
             <summary>
-            建立群組 View Model
-            </summary>
-        </member>
-        <member name="M:iTalk.API.Models.GroupViewModelBase.#ctor">
-            <summary>
-            建構函數
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.GroupViewModelBase.Name">
-            <summary>
-            取得/設定 名稱
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.GroupViewModelBase.Description">
-            <summary>
-            取得/設定 描述
+            取得/設定 Id
             </summary>
         </member>
         <member name="F:iTalk.API.Models.GroupInfo._thumbnail">
             <summary>
             縮圖
-            </summary>
-        </member>
-        <member name="F:iTalk.API.Models.GroupInfo._members">
-            <summary>
-            群組成員 Id 
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.GroupInfo.Id">
-            <summary>
-            取得/設定 Id
             </summary>
         </member>
         <member name="P:iTalk.API.Models.GroupInfo.Thumbnail">
@@ -1251,6 +1206,11 @@
             取得/設定 最後一則對話
             </summary>
         </member>
+        <member name="F:iTalk.API.Models.GroupInfo._members">
+            <summary>
+            群組成員 Id 
+            </summary>
+        </member>
         <member name="P:iTalk.API.Models.GroupInfo.Members">
             <summary>
             取得/設定 群組成員 Id 
@@ -1269,6 +1229,26 @@
         <member name="P:iTalk.API.Models.GroupInfo.GroupMember.ReadTime">
             <summary>
             取得/設定 最後讀取時間
+            </summary>
+        </member>
+        <member name="T:iTalk.API.Models.GroupViewModelBase">
+            <summary>
+            建立群組 View Model
+            </summary>
+        </member>
+        <member name="M:iTalk.API.Models.GroupViewModelBase.#ctor">
+            <summary>
+            建構函數
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.GroupViewModelBase.Name">
+            <summary>
+            取得/設定 名稱
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.GroupViewModelBase.Description">
+            <summary>
+            取得/設定 描述
             </summary>
         </member>
         <member name="T:iTalk.API.Models.GroupViewModel">
@@ -1366,46 +1346,6 @@
             回傳的使用者資訊
             </summary>
         </member>
-        <member name="T:iTalk.API.Models.UserInfo">
-            <summary>
-            使用者 View Model
-            </summary>
-        </member>
-        <member name="F:iTalk.API.Models.UserInfoBase._thumbnail">
-            <summary>
-            個人圖片縮圖
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserInfoBase.Id">
-            <summary>
-            取得/設定  Id
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserInfoBase.Thumbnail">
-            <summary>
-            取得/設定 個人圖片縮圖
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserInfoBase.PortraitUrl">
-            <summary>
-            取得/設定 個人圖片網址
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserInfoBase.Alias">
-            <summary>
-            取得/設定 暱稱
-            </summary>
-        </member>
-        <member name="M:iTalk.API.Models.UserInfo.#ctor">
-            <summary>
-            建構函數
-            </summary>
-        </member>
-        <member name="P:iTalk.API.Models.UserInfo.IsFriend">
-            <summary>
-            取得/設定 是否為朋友
-            </summary>
-        </member>
         <member name="P:iTalk.API.Models.FriendInfo.MyReadTime">
             <summary>
             取得/設定 我的最後讀取時間
@@ -1429,6 +1369,66 @@
         <member name="P:iTalk.API.Models.FriendInfo.IsFriend">
             <summary>
             這裡一定是好友
+            </summary>
+        </member>
+        <member name="T:iTalk.API.Models.UserInfo">
+            <summary>
+            使用者 View Model
+            </summary>
+        </member>
+        <member name="M:iTalk.API.Models.UserInfo.#ctor">
+            <summary>
+            建構函數
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfo.IsFriend">
+            <summary>
+            取得/設定 是否為朋友
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfoBase.Id">
+            <summary>
+            取得/設定  Id
+            </summary>
+        </member>
+        <member name="F:iTalk.API.Models.UserInfoBase._thumbnail">
+            <summary>
+            個人圖片縮圖
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfoBase.Thumbnail">
+            <summary>
+            取得/設定 個人圖片縮圖
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfoBase.PortraitUrl">
+            <summary>
+            取得/設定 個人圖片網址
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserInfoBase.Alias">
+            <summary>
+            取得/設定 暱稱
+            </summary>
+        </member>
+        <member name="T:iTalk.API.Models.UserViewModel">
+            <summary>
+            使用者的基本資料
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserViewModel.UserName">
+            <summary>
+            取得/設定 使用者名稱
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserViewModel.Alias">
+            <summary>
+            取得/設定 暱稱
+            </summary>
+        </member>
+        <member name="P:iTalk.API.Models.UserViewModel.PersonalSign">
+            <summary>
+            取得/設定 個性簽名
             </summary>
         </member>
         <member name="T:iTalk.API.Properties.Resources">
@@ -1657,6 +1657,11 @@
               查詢類似 搜尋群組名稱 的當地語系化字串。
             </summary>
         </member>
+        <member name="P:iTalk.API.Properties.Resources.UnkwonError">
+            <summary>
+              查詢類似 未知的錯誤 的當地語系化字串。
+            </summary>
+        </member>
         <member name="P:iTalk.API.Properties.Resources.User">
             <summary>
               查詢類似 使用者 的當地語系化字串。
@@ -1708,6 +1713,24 @@
             建構函數
             </summary>
             <param name="publicClientId">Client Id</param>
+        </member>
+        <member name="T:iTalk.API.Providers.GlobalExceptionMiddleware">
+            <summary>
+            An Owin Middleware Handle Exceptions
+            </summary>
+        </member>
+        <member name="M:iTalk.API.Providers.GlobalExceptionMiddleware.#ctor(Microsoft.Owin.OwinMiddleware)">
+            <summary>
+            初始化
+            </summary>
+            <param name="next">next middleware</param>
+        </member>
+        <member name="M:iTalk.API.Providers.GlobalExceptionMiddleware.Invoke(Microsoft.Owin.IOwinContext)">
+            <summary>
+            Catch Middleware Exceptions, Return Custom Response
+            </summary>
+            <param name="context">OwinContext</param>
+            <returns>Task</returns>
         </member>
     </members>
 </doc>
