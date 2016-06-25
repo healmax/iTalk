@@ -4,6 +4,7 @@ using iTalk.API.Properties;
 using iTalk.DAO;
 using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -61,8 +62,13 @@ namespace iTalk.API.Areas.Admin.Controllers {
                 }
 
                 var json = await response.Content.ReadAsStringAsync();
-                dynamic result = JValue.Parse(json);
-                this.ModelState.AddModelError(string.Empty, (string)result.error_description);
+                try {
+                    dynamic result = JValue.Parse(json);
+                    this.ModelState.AddModelError(string.Empty, (string)result.error_description);
+                }
+                catch (Exception) {
+                    this.ModelState.AddModelError(string.Empty, json);
+                }
             }
 
             this.ViewBag.ReturnUrl = returnUrl;

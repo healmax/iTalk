@@ -1,0 +1,17 @@
+﻿<!--檔案上傳暫存區-->
+<md-bottom-sheet>
+    <h4>檔案上傳列表</h4>
+    <md-content>
+        <div layout="row" layout-wrap layout-padding>
+            <div title="{{file.name}} + '.' + {{file.extension}}"
+                 ng-repeat="file in files" flex>
+                <img style="background-image:{{file.thumbnail}};background-size:contain" class="portrait-md" />
+                <div class="md-3-line">
+                    <b ng-bind="(file.name | overflow:10) + '.' + file.extension"></b>
+                    <p ng-bind="(file.size / 1024 | number:0) + ' KB'"></p>
+                    <md-progress-linear md-mode="determinate" value="50" style="width:100%"></md-progress-linear>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</md-bottom-sheet>

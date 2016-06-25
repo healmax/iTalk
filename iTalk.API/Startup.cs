@@ -15,6 +15,7 @@ namespace iTalk.API {
         /// </summary>
         /// <param name="app">IAppBuilder</param>
         public void Configuration(IAppBuilder app) {
+            app.Use<Providers.GlobalExceptionMiddleware>();
             this.ConfigureAuth(app);
 
             // SignalR 序列化設定...

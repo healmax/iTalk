@@ -267,4 +267,7 @@
   <data name="SearchGroupName" xml:space="preserve">
     <value>搜尋群組名稱</value>
   </data>
+  <data name="UnkwonError" xml:space="preserve">
+    <value>未知的錯誤</value>
+  </data>
 </root>

@@ -37,3 +37,8 @@ proguard/
 /iTalk.Client
 /iTalk.API/obj/Debug
 /iTalk.API/transports.log.txt
+/iTalk.DAO/obj
+/Export
+/.vs/config
+/iTalk.Client.sln
+/iTalk.API/connectionStrings.config
