@@ -1,8 +1,9 @@
 ﻿var iTalkApp = angular.module('iTalkApp', ['SignalR', 'matchmedia-ng', 'ngMaterial', 'ngMessages', 'customFilter'])
-    .config(function ($locationProvider) {
+    .config(['$compileProvider', function ($compileProvider) {
+        $compileProvider.debugInfoEnabled(false);
         //$locationProvider.html5Mode({ enabled: true, requireBase: false });
-    })
-    .run(function ($rootScope, $window) {
+    }])
+    .run(['$rootScope', '$window', function ($rootScope, $window) {
         /**
         * @id friend or group id
         * return web api controll name
@@ -78,4 +79,4 @@
             // TODO : 暫時先這樣判斷
             return $.mobile;
         }
-    })
+    }])
