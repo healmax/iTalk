@@ -1,4 +1,4 @@
-﻿var iTalkApp = angular.module('iTalkApp', ['SignalR', 'matchmedia-ng', 'ngMaterial', 'ngMessages', 'customFilter'])
+﻿angular.module('iTalkApp', ['matchmedia-ng', 'ngMaterial', 'ngMessages', 'iTalkFilters', 'iTalkDirectives', 'iTalkServices'])
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
         //$locationProvider.html5Mode({ enabled: true, requireBase: false });
@@ -79,4 +79,8 @@
             // TODO : 暫時先這樣判斷
             return $.mobile;
         }
-    }])
+    }]);
+
+angular.module('iTalkFilters', []);
+angular.module('iTalkDirectives', []);
+angular.module('iTalkServices', []);

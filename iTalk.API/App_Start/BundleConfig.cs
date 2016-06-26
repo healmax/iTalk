@@ -32,16 +32,14 @@ namespace iTalk.API {
                     "~/Scripts/matchmedia-ng.js",
                     "~/Scripts/angular-material.js",
                     "~/Scripts/jquery.signalR-{version}.js",
-                    "~/signalr/hubs",
-                    "~/js/signalRHubProxy.js",
-                    "~/js/customFilter.js",
-                    "~/js/iTalkApp.js"));
+                    "~/signalr/hubs"));
 
-            bundles.Add(new ScriptBundle("~/bundles/angular-index").Include(
-                    "~/js/indexController.js",
-                    "~/js/chatController.js",
-                    "~/js/groupController.js",
-                    "~/js/addFriendController.js"));
+            bundles.Add(new ScriptBundle("~/bundles/angular-index")
+                .IncludeDirectory("~/js", "*.js", false)
+                .IncludeDirectory("~/js/controllers", "*.js", true)
+                .IncludeDirectory("~/js/directives", "*.js", true)
+                .IncludeDirectory("~/js/filters", "*.js", true)
+                .IncludeDirectory("~/js/services", "*.js", true));
 
             bundles.Add(new StyleBundle("~/Content/angular").Include(
                     "~/Content/angular-material.css",

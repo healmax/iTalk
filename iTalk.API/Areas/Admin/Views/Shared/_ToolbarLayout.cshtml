@@ -48,11 +48,13 @@
     }
 </div>
 @section style{
-    @Styles.Render("~/Content/angular")
+    @if (User.Identity.IsAuthenticated) {
+        @Styles.Render("~/Content/angular")
+    }
     @RenderSection("style", false)
 }
 @section scripts{
-    <script src="~/js/mainController.js"></script>
+    @Scripts.Render("~/bundles/angular-index")
     @if (User.Identity.IsAuthenticated) {
         <script type="text/ng-template" id="basicSetting">
             @Html.Partial("_BasicSetting")

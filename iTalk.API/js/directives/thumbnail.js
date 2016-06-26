@@ -1,89 +1,21 @@
-﻿/* 自訂 filter 支持 dictionary (non-array) object 的搜尋 */
-angular.module('customFilter', [])
-    .filter('custom', function () {
-        return function (input, search) {
-            if (!input) return input;
-            if (!search) return input;
+﻿angular.module('iTalkDirectives')
+   .directive('thumbnail', function ($window) {
+       return {
+           replace: true,
+           restrict: 'A',
+           link: function (scope, element, attr) {
+               scope.$watch(attr.thumbnail, function (value) {
+                   if (value) {
+                       element.attr('src', value);
+                   }
+                   else {
+                       element.attr('src', constants.DEFAULT_IMAGE);
+                   }
+               });
+           }
+       }
+   })
 
-            var propertyNames = Object.keys(search);
-            var expected;
-            if (angular.isArray(propertyNames) && propertyNames.length > 0) {
-                expected = ('' + search[propertyNames[0]]).toLowerCase();
-            }
-            else {
-                expected = ('' + search).toLowerCase();
-            }
-            var result = {};
-            angular.forEach(input, function (value, key) {
-                var actual;
-                if (angular.isArray(propertyNames) && propertyNames.length > 0) {
-                    actual = ('' + value[propertyNames[0]]).toLowerCase();
-                }
-                else {
-                    var actual = ('' + value).toLowerCase();
-                }
-                if (actual.indexOf(expected) !== -1) {
-                    result[key] = value;
-                }
-            });
-            return result;
-        }
-    })
-    .filter('overflow', function ($filter) {
-        return function (input, limit, suffix, begin) {
-            if (input) {
-                var result = $filter('limitTo')(input, limit, begin);
-                if (result.length < input.length) {
-                    suffix = suffix ? suffix : '...';
-                    return result + suffix;
-                }
-            }
-            return input;
-        }
-    })
-    .filter('displayDate', function ($filter) {
-        return function (input) {
-            if (input) {
-                var date = new Date(input);
-                var now = new Date();
-                if (date.toDateString() == new Date().toDateString()) {
-                    return $filter('date')(date, 'a hh:mm', 'utc +08:00');
-                }
-                else if (date == new Date().setDate(now.getDate() - 1)) {
-                    return '昨天';
-                }
-                else if (date == new Date().setDate(now.getDate() - 2)) {
-                    return '前天';
-                }
-                else {
-                    return $filter('date')(date, 'yy.MM.dd', 'utc +08:00');
-                }
-            }
-            return input;
-        }
-    })
-    .directive('thumbnail', function ($window) {
-        //return function (scope, element, attrs) {
-        //    if (!attrs.thumbnail) {
-        //        element.attr('src', constants.DEFAULT_IMAGE);
-        //    }
-        //}
-
-        return {
-            replace: true,
-            restrict: 'A',
-            link: function (scope, element, attr) {
-                scope.$watch(attr.thumbnail, function (value) {
-                    if (value) {
-                        element.attr('src', value);
-                    }
-                    else {
-                        element.attr('src', constants.DEFAULT_IMAGE);
-                    }
-                });
-            }
-        }
-    })
 ///**
 // * Angular Image Fallback
 // * (c) 2014 Daniel Cohen. http://dcb.co.il
