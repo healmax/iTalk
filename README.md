@@ -8,7 +8,7 @@ Demo
 * 網站與 API 使用 Amazon EC2  
 * 資料庫使用 Amazon RDS  
 
-[開始 DEMO](http://italk-api.elasticbeanstalk.com/Admin/Home/Index)  
+~~開始 DEMO~~
 
 功能
 -
@@ -41,10 +41,10 @@ Demo
 * [AngularJS](https://angularjs.org/)  
 * [Angular Material](https://material.angularjs.org/latest/)  
 * [Bootstrap](http://getbootstrap.com/)  
-* [ASP.NET SignalR] (http://www.asp.net/signalr)  
+* [ASP.NET SignalR](http://www.asp.net/signalr)  
 
 ### 後端
-* [ASP.NET MVC] (http://www.asp.net/mvc)  
+* [ASP.NET MVC](http://www.asp.net/mvc)  
 * [ASP.NET Web API](http://www.asp.net/web-api)  
 * [ASP.NET Identity](http://www.asp.net/identity)  
 * [Entity Framework](https://msdn.microsoft.com/zh-tw/data/ef.aspx) Code First  
